@@ -4,7 +4,7 @@
   "description": "this is backend for metacall chatgpt ",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "npx nodemon",
     "start:prod": "cd ../lambda-deployer-frontend && npm install && npm run build && cp -r build ../lambda-deployer && rm -r build  && cd ../lambda-deployer && npm install && npx tsc && node dist/index.js",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"

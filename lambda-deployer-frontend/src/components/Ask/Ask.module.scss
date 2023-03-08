@@ -1,0 +1,38 @@
+.ask{
+    display: block;
+    width: 100%;
+    margin:10px 0;
+    // $bgcolor: rgb(111, 163, 47);
+    $bgcolor: rgb(164, 239, 164);
+    opacity: 1;
+    animation: fade 0.4s ease-in-out 1;
+    .ask__content{
+        position: relative;
+        margin-right: 10px;
+        margin-left: auto;
+        background-color: $bgcolor;
+        border-radius: 7px;
+        max-width: 60%;
+        min-height: 50px;
+        padding: 20px;
+        color: black;
+        &::after{
+            content: "";
+            display: block;
+            position: absolute;
+            height: 10px;
+            width: 10px;
+            rotate: -45deg;
+            background-color: $bgcolor;
+            right:-5px;
+        }
+    }
+}
+@keyframes fade {
+    0%{
+        background-color: gray;
+    }
+    100%{
+        background-color: transparent;
+    }
+}

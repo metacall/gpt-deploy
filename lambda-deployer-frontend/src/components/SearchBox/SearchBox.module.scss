@@ -1,0 +1,23 @@
+.SearchBox{
+    display: flex;
+    width:50%;
+    border: 2px solid lightgray;
+    border-radius: 2px;
+    overflow: hidden;
+    input{
+        color: #999;
+        outline: none;
+        padding: 5px;
+        margin: 0 5px;
+        width: 100%;
+        border: 0;
+        &::placeholder{
+            margin: auto;
+            color:lightgray;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    }
+    &:focus-within{
+        border-color: rgb(157, 0, 255);
+    }
+}

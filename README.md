@@ -1,0 +1,1 @@
+Metacall lambda deploy allows to intelligently deploy lambda function and provides playground for metacall 

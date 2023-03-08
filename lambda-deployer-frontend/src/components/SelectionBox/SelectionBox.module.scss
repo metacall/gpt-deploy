@@ -1,0 +1,148 @@
+.selectionBox {
+    position: fixed;
+    bottom: 5px;
+    right: 20px;
+    width: 250px;
+    max-width: 400px;
+    max-height: calc(100vh - 120px);
+    min-height: 200px;
+    min-width: 250px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 2;
+    padding-bottom: 5px;
+    overflow: hidden;
+    &.minimized {
+      height: 40px;
+      max-height: 40px;
+      min-height: 0;
+      text-overflow: ellipsis;
+      padding-bottom: 0;
+      .selections {
+        display: none;
+      }
+      .resizeHandle {
+        display: none;
+      }
+    }
+  
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f3f3f3;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      user-select: none;
+      cursor: move;
+      .options {
+        background-color: #3f3f3f;
+        border-radius: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
+        color: whitesmoke;
+        cursor: pointer;
+        .menuItem{
+            padding:3px;
+            &:hover{
+              color:lightgray;
+            }
+        }
+      }
+      .title {
+        margin: 0;
+        font-size: 13px;
+        font-weight: bold;
+      }
+  
+      .minimizeButton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        color: black;
+        font-size: 16px;
+        cursor: pointer;
+  
+        &:hover {
+          color: gray;
+        }
+  
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  
+    .selections {
+      height: 100%;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding: 10px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  
+    .selectionList {
+      height: 100%;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 5px;
+      user-select: none;
+    }
+  
+    .selectionItem {
+      padding: 5px 1em;
+      display: flex;
+      cursor: pointer;
+      border-bottom: 2px solid lightgray;
+      &:hover {
+        background-color: #f3f3f3;
+      }
+      .removeMenu{
+        margin-left: auto;
+        transition: opacity 0.3s ease;
+        background-color: #3f3f3f;
+        box-sizing: border-box;
+        border-radius: 5px;
+        padding: 2px 5px;
+        display: flex;
+        opacity: 0;
+        color: whitesmoke;
+        &:hover{
+          opacity: 1;
+        }
+      }
+      .selectionName {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  
+    .resizeHandle {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      background-color: transparent;
+      opacity: 0;
+      cursor: nwse-resize;
+  
+      &::after {
+        content: "";
+        display: block;
+        width: 10px;
+        height: 10px;
+        margin: 5px;
+        background-color: #f3f3f3;
+        border-radius: 50%;
+        cursor: nwse-resize;
+      }
+    }
+  }
+  

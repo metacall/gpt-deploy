@@ -1,0 +1,21 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: arial;
+
+}
+*::selection{
+  background: cyan;
+  color: #000;
+}
+
+body {
+  overflow-y: hidden;
+  position: relative;
+
+}
+#loader{
+  position: absolute; 
+  width: 100%;
+}

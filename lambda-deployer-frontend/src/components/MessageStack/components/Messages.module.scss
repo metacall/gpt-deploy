@@ -1,0 +1,50 @@
+.Messages{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    z-index: 1000;
+    ul{
+        display: flex;
+        flex-flow: column;
+        padding: 30px;
+        justify-content: flex-end;
+        position: relative;
+        .messageBox{
+            margin:3px;
+            min-width: 20vw;
+            font-size: larger;
+            font-weight: 700;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color:white;
+            text-align: right;
+            margin-left: auto;
+
+            animation: showMessage 1s linear forwards;
+            &:first-of-type{
+                margin-top: auto;
+            }
+            position: relative;
+            left:100%;
+            opacity: 0;
+            .message{
+                display: inline-block;
+                background-color: green;
+                padding:10px;
+                margin: 2px 0;
+                box-shadow: -10px 0 0 0px rgb(82, 82, 108) ;
+            }
+            .success{
+                background-color: rgb(58, 176, 58);
+            }
+            .error{
+                background-color: rgb(222, 18, 18);
+            }
+            @keyframes showMessage {
+                100%{
+                    left:0%;
+                    opacity: 100%;
+                }
+            }
+        }
+    }
+}

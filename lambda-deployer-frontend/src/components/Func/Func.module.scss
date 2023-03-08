@@ -1,0 +1,28 @@
+.Func{
+    padding: 30px 10px;
+    width: 60%;
+    background-color: powderblue;
+    margin: 5px;
+    border-radius: 5px;
+    position: relative;
+    & > .executeWrapper {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        
+        & > .execute , &>.retry{
+            padding: 5px;
+            box-shadow: 5px 5px 5px black;
+            width:6em;
+            background-color: cyan;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            margin: 1px;
+        }
+
+        &:active{
+            box-shadow: 2px 2px 5px black;    
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "chat-with-function-typescript",
+  "version": "1.0.0",
+  "description": "this is backend for metacall chatgpt ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "start:prod": "cd ../lambda-deployer-frontend && npm install && npm run build && cp -r build ../lambda-deployer && rm -r build  && cd ../lambda-deployer && npm install && npx tsc && node dist/index.js",
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "durgesh077",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "@types/ignore-walk": "^4.0.0",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/multer": "^1.4.7",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ignore-walk": "^6.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^3.2.1"
+  }
+}

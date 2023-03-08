@@ -1,0 +1,18 @@
+.operator {
+    background-color: transparent !important;
+}
+.keyword{
+    color: #859900 !important;
+}
+.comment{
+    color: #586e75 !important;
+}
+.variable, .identifier, .function{
+    color: #268bd2 !important;
+}
+.number{
+    color: #2aa198 !important;
+}
+.string{
+    color: #b58900 !important;
+}

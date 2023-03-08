@@ -1,0 +1,95 @@
+.response{
+    display: block;
+    width: 100%;
+    margin:10px 0;
+    $bgcolor: black;
+    .response_content,.loading{
+        position: relative;
+        margin-left: 10px;
+        background-color: $bgcolor;
+        border-radius: 7px;
+        max-width: 60%;
+        min-height: 50px;
+        padding: 20px;
+        color: white;
+        .title{
+            display: flex;
+            padding:5px;
+            .lang{
+                font-weight: lighter;
+                font-family: 'Courier New', Courier, monospace;
+                font-style: italic;
+                margin-right: auto;
+            }
+            .function_name{
+                font-weight: bolder;
+                margin-right: 10px;
+            }
+        }
+        &:hover{
+            box-shadow:  0 0 2rem rgba(0,123,255,.25);
+        }
+        .definition_body{
+            margin-top: 10px;
+            display: block;
+        }
+        .response_checkbox {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            top: 3px;
+            // right:0;
+            left: calc(100% + 5px);
+            border-radius: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        &::before{
+            content: "";
+            display: block;
+            position: absolute;
+            height: 10px;
+            width: 10px;
+            rotate: -45deg;
+            background-color: $bgcolor;
+            left:-5px;
+        }
+        & > .executeWrapper {
+            position: absolute;
+            right: 5px;
+            top: -8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            & > *{
+                padding: 4px;
+                background-color: #3f3f3f;
+                border-radius: 3px;
+                color:white;
+                cursor: pointer;
+                border: none;
+                outline: none;
+                margin: 1px;
+                transition: transform 0.3s ease;
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+
+            &:active{
+                box-shadow: 2px 2px 5px black;    
+            }
+        }
+    }
+    .error{
+        background-color: rgb(163, 47, 47);
+        color: white;
+        &::before{
+            background-color: rgb(163, 47, 47);
+        }
+    }
+
+    .loading{
+        color: blanchedalmond;
+    }
+}

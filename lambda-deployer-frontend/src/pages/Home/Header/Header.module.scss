@@ -1,0 +1,50 @@
+.header{
+    text-align: center;
+    color: black;
+    padding:5px 20px;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
+    height: 4em;
+    display: block;
+    box-shadow: 0 6px 6px -6px black;
+    position: relative;
+    background-color: white;
+    display: flex;
+    gap: 50px;
+    font-size: 80%;
+    place-items: center;
+    & > *{
+        place-items: center;
+    }
+    .logoWrapper{
+        // margin-left: 20px;
+        height: 100%;
+        display: flex;
+        gap: 10px;
+        cursor: pointer;
+        .headName {
+            text-align: center;
+            font-size: 1.5em;
+        }
+    }
+
+    .menuWrapper{
+        display: flex;
+        gap:40px;
+        
+    }
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1em;
+        font-weight: 550;
+        font-family: Arial, Helvetica, sans-serif;
+        &:hover{
+            color: #3f3f3f;
+        }
+    }
+    .userLoginWrapper{
+        margin-left: auto;
+    }
+}

@@ -1,0 +1,84 @@
+.Execute{
+    background-color: lightblue;
+    height: 85%;
+    margin: 5px;
+    box-sizing:border-box;
+    // overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    .line{
+        width: 100%;
+        height: 1px;
+        background-color: white;
+        margin: 5px 0;
+    }
+    .paramsWrapper{
+        border-right:2px solid black;
+        display: flex;
+        flex-flow: column;
+        justify-content: stretch;
+        align-items: flex-start;
+        padding:10px;
+        .inputTitle{
+            font-size: larger;
+            font-weight: bold;
+            display: block;
+            margin: 3px;
+        }
+        .parameter{
+            width: 100%;
+            font-size: larger;
+            display: flex;
+            flex-flow: row nowrap;
+            box-sizing: border-box;
+            input{
+                padding:3px 6px;
+                margin: 3px;
+                outline: none;
+                color: white;
+                background-color: rgb(205, 111, 111);
+                &::placeholder{
+                    color: lightgray;
+                    text-align: center;
+                }
+            }
+        }
+        .executeButton{
+            padding: 3px 6px;
+            margin: 3px;
+            outline: none;
+            color: white;
+            background-color: rgb(111, 163, 47);
+            border: none;
+            cursor: pointer;
+            &:active{
+                background-color: rgb(111, 163, 47);
+                box-shadow: 2px 2px 5px black;
+            }
+        }
+    }
+    .output{
+        border-left: 2px solid left;
+        padding:10px;
+        width: 100%;
+        box-sizing: border-box;
+        .outputTitle{
+            font-size: larger;
+            font-weight: bold;
+            display: block;
+            margin: 3px;
+        }
+        .result{
+            margin: 5px ;
+            font-weight: bolder;
+            font-size: larger;
+            display: block;
+            color: invert($color: lightblue);
+            height: 100%;
+            box-sizing: content-box;
+            white-space:normal;
+            word-break:break-all;
+            user-select: all;
+        }
+    }
+}

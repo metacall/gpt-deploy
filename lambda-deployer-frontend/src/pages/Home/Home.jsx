@@ -6,7 +6,6 @@ import DeployedFunctionPanel from '../DeployedFunctionPanel/DeployedFunctionPane
 import Header from './Header/Header';
 import CodeEditor from '../../components/CodeEditor/CodeEditor';
 const Home = () => {
-    const [prompts,setPrompts] = useState([]);
     return (
         <div className={styles.home}>
             <Header/>
@@ -14,7 +13,7 @@ const Home = () => {
                 Selectors={["Deployed functions","Deploy", "Code Editor"]}
                 Panels={[
                     <DeployedFunctionPanel/>,
-                    <DeployPanel prompts={prompts} setPrompts={setPrompts}/>,
+                    <DeployPanel/>,
                     <CodeEditor/>
                 ]}
                 /> 

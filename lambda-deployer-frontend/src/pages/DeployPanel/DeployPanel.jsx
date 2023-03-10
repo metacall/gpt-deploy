@@ -8,11 +8,21 @@ import SearchBox from '../../components/SearchBox/SearchBox'
 import styles from './DeployPanel.module.scss'
 import SelectionBox from '../../components/SelectionBox/SelectionBox';
 import {useSelector , useDispatch} from 'react-redux'
-function DeployPanel({prompts, setPrompts}) {
+import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
+import { getModel , tableEnum } from '../../models';
+const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
+                        "return object passed in parameter", 
+                        "add two number",
+                        "return the sum of all numbers in an array"]
+
+function DeployPanel({}) {
+    const randomPrompt = defaultPrompts[Math.floor(Math.random() * defaultPrompts.length)]
     const dispatch = useDispatch();
-    const {}
+    const {prompts} = useSelector(state => state.prompts);
     const chatBoxRef = React.useRef(null)
     const [collection, setCollection] = useState([]);
+    const keyValueDB = useRef(getModel(tableEnum.PROMPTS));
+    const firstTime = useRef(true);
     function goToLast(){
         setTimeout(()=>{
             const messageBody = chatBoxRef.current;
@@ -20,7 +30,35 @@ function DeployPanel({prompts, setPrompts}) {
         }, 100)
     }
 
-    function onLoad(func_name,func_id){
+    function setPrompts(prompt){
+        dispatch(updatePrompts(prompt));
+    }
+    function saveAllPrompts(){
+       const db =  keyValueDB.current;
+       return db.add(tableEnum.PROMPTS, prompts);
+    }
+    function getAllPrompts(){
+        const db = keyValueDB.current;
+        return db.get(tableEnum.PROMPTS);
+    }
+
+    useEffect(()=>{
+        if(firstTime.current)
+            firstTime.current = false;
+        else
+            saveAllPrompts();
+            
+    },[prompts]);
+
+    useEffect(()=>{
+        getAllPrompts()
+            .then(res=>{
+                if(res){
+                    setPrompts(res)
+                }
+            }).catch(err=>console.error(err));
+    },[])
+    function onLoad(){
         goToLast();
     }
     function removeItems(ids){
@@ -44,6 +82,12 @@ function DeployPanel({prompts, setPrompts}) {
         const id = nanoid();
         setPrompts([...prompts, [prompt ,id]]);
     }
+
+    // useEffect(()=>{
+    //     if(prompts.length == 0 ){
+    //         onSend(randomPrompt);
+    //     }
+    // },[])
 
     function deployItems(ids){
         const id_set = new Set(ids);

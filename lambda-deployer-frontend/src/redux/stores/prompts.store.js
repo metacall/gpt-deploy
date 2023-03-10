@@ -1,22 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
-const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
-                        "return object passed in parameter", 
-                        "add two number",
-                        "return the sum of all numbers in an array"]
-const randomPrompt = defaultPrompts[Math.floor(Math.random() * defaultPrompts.length)]
 export const slice = createSlice({
     name: 'prompts',
-    initialState: [randomPrompt],
+    initialState: {
+       prompts: [],
+    },
     reducers: {
-        updateCodeTitle: (state, action) => {
-            state.codeTitle = action.payload
+        setPrompts: (state, action) => {
+            state.prompts = action.payload
         },
-        updateCode: (state, action) => {
-            state.code = action.payload
+        addPrompt: (state, action) => {
+            state.push(action.payload)
         }
     },
 })
 
-export const { updateCode, updateCodeTitle } = slice.actions
+export const { setPrompts, addPrompt } = slice.actions
 
 export default slice.reducer

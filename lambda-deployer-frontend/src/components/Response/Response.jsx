@@ -6,28 +6,64 @@ import ModalCustom from '../Modal/Modal'
 import Execute from './components/Execute'
 import styles from './Response.module.scss'
 import Confirm from '../Confirm/Confirm'
+import {getModel, tableEnum} from '../../models'
 export default function Response({ prompt, removeResponse, onLoadComplete , collection , setCollection, responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
     const [modal , setModal] = useState(null)
     const [showPrompt , setShowPrompt] = useState(null);
     const countRetry = useRef(0)
     const [renderer , setRenderer] = useState(false);
-    const {ask, data:response, error, isLoading:loading} = useGetResponse()
+    const {ask, data, error, isLoading:loading} = useGetResponse()
+    const [response, setResponse] = useState(null)
     const execute = useRef(null);
     const wrapperRef = useRef(null);
     const [added , setAdded ] = useState(false);
+    const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
+
+    const getResponse= async (prompt)=>{
+        const db = keyValueDB.current;
+        try{
+            let res = await db.get(prompt);
+            if(res)
+                return res;
+
+            res=await new Promise((resolve, reject)=>{
+                ask(prompt,{
+                    onError:()=>{
+                        reject();
+                        // if(countRetry.current<8){
+                        //     ask(prompt)
+                        //     countRetry.current++
+                        // } 
+                    },
+                    onSuccess:(data)=>{
+                        db.add(prompt, data)
+                            .then(()=>resolve(data) )
+                            .catch(()=>reject());
+                    }
+                })
+            })
+            return res;
+
+        } catch(e) {
+            console.error(e.message);
+            return null
+        }
+
+    }
+    useEffect(()=>{
+        if(data){
+            setResponse(data)
+        }
+    },[data])
+
     useEffect(()=>{
         if(prompt){
-            ask(prompt,{
-                onError:()=>{
-                    if(countRetry.current<8){
-                        ask(prompt)
-                        countRetry.current++
-                    }
-                }
-            })
+            getResponse(prompt)
+                .then(res=>{setResponse(res);onLoadComplete();})
+                .catch(err=>console.log("unable to create response"))
         }
-    },[ask])
+    },[])
 
     useEffect(()=>{
         if(!loading ){

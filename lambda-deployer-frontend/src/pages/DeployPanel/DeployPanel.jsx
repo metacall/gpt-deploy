@@ -7,12 +7,10 @@ import Response from '../../components/Response/Response'
 import SearchBox from '../../components/SearchBox/SearchBox'
 import styles from './DeployPanel.module.scss'
 import SelectionBox from '../../components/SelectionBox/SelectionBox';
-const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
-                        "return object passed in parameter", 
-                        "add two number",
-                        "return the sum of all numbers in an array"]
+import {useSelector , useDispatch} from 'react-redux'
 function DeployPanel({prompts, setPrompts}) {
-    const randomPrompt = defaultPrompts[Math.floor(Math.random() * defaultPrompts.length)]
+    const dispatch = useDispatch();
+    const {}
     const chatBoxRef = React.useRef(null)
     const [collection, setCollection] = useState([]);
     function goToLast(){
@@ -46,12 +44,6 @@ function DeployPanel({prompts, setPrompts}) {
         const id = nanoid();
         setPrompts([...prompts, [prompt ,id]]);
     }
-    
-    useEffect(()=>{
-        if(!prompts.length)
-            onSend(randomPrompt);
-    },[])
-
 
     function deployItems(ids){
         const id_set = new Set(ids);
@@ -64,7 +56,6 @@ function DeployPanel({prompts, setPrompts}) {
         const jsFolder = zip.folder('js');
         const filename = deployFunc.map(([func_name])=>func_name).join("_");
         const content = deployFunc.map(([func_name,func_def])=>"module.exports."+ func_def).join("\n\n");
-        console.log(content);
         const file = new File([content], `${filename}.js`,{type: "text/plain"});
         jsFolder.file(file.name, file);
         const metacall_json = JSON.stringify([{
@@ -74,17 +65,22 @@ function DeployPanel({prompts, setPrompts}) {
         }])
 
         zip.generateAsync({type:"blob",
-                            mimeType: 'application/zip-x-compress'
-                        }).then(async(generatedZipFile)=>{
+                            mimeType: 'application/zip-x-compressed'
+                        }).then(async(generatedZipBlob)=>{
+            const generatedZipFile = new File([generatedZipBlob], `${filename}.zip`,{type: generatedZipBlob.type});
             const fd = new FormData();
             fd.append("jsons",metacall_json);
-            fd.append("blob",generatedZipFile,file.name);
-            fd.append("name",file.name);
-            fd.append("runners",JSON.stringify(["node"]));
+            fd.append("raw",generatedZipFile);
+            fd.append("id",filename);
+            fd.append('type', 'application/x-zip-compressed');
+            fd.append("runners",JSON.stringify(["source"]));
+            
             try{
-                const create_response = await axios.post(`/api/create`,fd).then(res=>res.data);
-                let data = await axios.post(`/api/deploy`).then(res=>res.data);
-                localStorage.setItem("suffix",data.suffix);
+                const createData = await axios.post(`/api/create`,fd).then(res=>res.data.response_data);
+                console.log(createData)
+                let data = await axios.post(`/api/deploy` , {
+                    name : createData.id
+                }).then(res=>res.data);
                 alert('deployed '+file.name+' successfully');
             }catch(err){
                 alert(err.message)

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Configuration, OpenAIApi } from "openai";
+import logger from "../../logger/index.js";
 (await import("dotenv")).config();
 import parseFunction,{ ParsedFunctionInterface, funcType } from "../../utils/parseFunctions.js";
 const configuration = new Configuration({
@@ -63,7 +64,7 @@ export const ask = async (req: Request, res: Response) => {
         res.json(response)
     } catch (err: unknown) {
         const error = err as Error;
-        console.log(error.message);
+        logger.error(error.message);
         res.status(400).json({
             message:"unable to create function"
         });

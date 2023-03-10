@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 
 import Home from './pages/Home/Home';
+import { Provider as ReduxProvider } from 'react-redux';
+import store from './redux'
 const client  = new QueryClient({
   defaultOptions: {
     queries: {
@@ -18,15 +20,16 @@ const client  = new QueryClient({
   },
 })
 
-
 function App() {
 
   return (
     <BrowserRouter>
     <QueryClientProvider client={client}>
-      <MessageStack>
-        <Home/>
-      </MessageStack>
+      <ReduxProvider store={store}>
+        <MessageStack>
+          <Home/>
+        </MessageStack>
+      </ReduxProvider>
       </QueryClientProvider> 
     </BrowserRouter>
   );

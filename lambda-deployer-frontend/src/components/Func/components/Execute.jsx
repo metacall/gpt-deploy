@@ -34,12 +34,8 @@ export default function Execute({func,params}){
                     ))
                 }
                 <button className={styles.executeButton} onClick={async()=>{
-                    if(!localStorage.getItem("suffix"))
-                        alert("please deploy functions first");
-                    else  {
                         let result = await axios.post(`/${localStorage.getItem("suffix")}/js/v1/call/`+func,parameters).then(data=>data.data).catch(console.error)
                         setOutput(result)
-                    }
                 }}>
                         Execute
                 </button>

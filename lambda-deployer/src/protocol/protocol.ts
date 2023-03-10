@@ -17,7 +17,7 @@
 	branchList: get the branches of a repository
 	fileList: get files of a repository by branch
 */
-
+import {ReadStream} from 'fs'
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import { Create, Deployment, LogType, MetaCallJSON } from './deployment.js';
@@ -152,7 +152,7 @@ export default (token: string, baseURL: string): API => {
 
 		upload: async (
 			name: string,
-			blob: unknown,
+			blob: Buffer,
 			jsons: MetaCallJSON[] = [],
 			runners: string[] = []
 		): Promise<string> => {
@@ -160,12 +160,12 @@ export default (token: string, baseURL: string): API => {
 			fd.append('id', name);
 			fd.append('type', 'application/x-zip-compressed');
 			fd.append('jsons', JSON.stringify(jsons));
-			fd.append('runners', JSON.stringify(runners));
-			fd.append('raw', blob, {
-				filename: 'blob',
+			fd.append('runners', runners);
+			fd.append('raw', blob , {
+				filename: "blob",
 				contentType: 'application/x-zip-compressed'
-			});
-			const res = await axios.post<string>(
+			  });
+			const res: any = await axios.post<string>(
 				baseURL + '/api/package/create',
 				fd,
 				{
@@ -175,7 +175,7 @@ export default (token: string, baseURL: string): API => {
 					}
 				}
 			);
-			return res.data;
+			return res?.data;
 		},
 		add: (
 			url: string,

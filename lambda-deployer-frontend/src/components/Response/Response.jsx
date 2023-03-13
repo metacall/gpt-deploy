@@ -7,6 +7,11 @@ import Execute from './components/Execute'
 import styles from './Response.module.scss'
 import Confirm from '../Confirm/Confirm'
 import {getModel, tableEnum} from '../../models'
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism.css';
+
 export default function Response({ prompt, removeResponse, onLoadComplete , collection , setCollection, responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
     const [modal , setModal] = useState(null)
@@ -19,7 +24,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , coll
     const wrapperRef = useRef(null);
     const [added , setAdded ] = useState(false);
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
-
+    const codeRef = useRef(null);
     const getResponse= async (prompt)=>{
         const db = keyValueDB.current;
         try{
@@ -31,10 +36,6 @@ export default function Response({ prompt, removeResponse, onLoadComplete , coll
                 ask(prompt,{
                     onError:()=>{
                         reject();
-                        // if(countRetry.current<8){
-                        //     ask(prompt)
-                        //     countRetry.current++
-                        // } 
                     },
                     onSuccess:(data)=>{
                         db.add(prompt, data)
@@ -88,6 +89,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , coll
             eval(`${response?.function_def}`)
             execute.current=(window[response?.name])
             setRenderer(prev=>!prev)
+            codeRef.current.innerHTML = highlight(response?.function_def, languages.js, 'js');
             countRetry.current=0
         } catch(e){
             if(countRetry.current<8){
@@ -173,7 +175,11 @@ export default function Response({ prompt, removeResponse, onLoadComplete , coll
                             }
                             <FontAwesomeIcon icon={faTrash} title = {"delete"} onClick={handleDelete}/>
                         </div>
-                        <span className={styles.definition_body}>{error? "unable to create function ":response?.function_def}</span>
+                        <span className={styles.definition_body} ref={codeRef}>
+                            {
+                                error&& "unable to create function "
+                            }
+                        </span>
                     </pre>
                 }
             </div>

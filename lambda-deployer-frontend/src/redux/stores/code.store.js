@@ -3,19 +3,24 @@ import { createSlice } from '@reduxjs/toolkit'
 export const slice = createSlice({
     name: 'code',
     initialState: {
-        codeTitle: 'no-title',
-        code: 'function '
+        codes: [],
+        selectedIndex: 0
     },
     reducers: {
-        updateCodeTitle: (state, action) => {
-            state.codeTitle = action.payload
-        },
         updateCode: (state, action) => {
-            state.code = action.payload
+            state.codes= action.payload;
+            // if(state.codes.length === 0) {
+            //     state.codes.push({id: 'start', name: 'New Code', code: '' });
+            // }
+            state.selectedIndex = state.codes.length - 1;
+        },
+        updateSelectedIndex: (state, action) => {
+            state.selectedIndex = action.payload;
         }
+
     },
 })
 
-export const { updateCode, updateCodeTitle } = slice.actions
+export const { updateCode, updateSelectedIndex } = slice.actions
 
 export default slice.reducer

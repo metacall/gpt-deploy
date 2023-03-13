@@ -5,6 +5,7 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
 
   const [inputValue, setInputValue] = useState('');
   const promptRef = useRef(null);
+  const inputRef = useRef(null);
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -17,6 +18,7 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
   };
   useEffect(()=>{
     if(showPrompt){
+      inputRef.current.focus();
       promptRef.current.style.top='0';
     } else {
       promptRef.current.style.top='-500px';
@@ -26,6 +28,7 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
   const handleOk = () => {
     setTimeout(()=>setShowPrompt(false) , 400) ;
     showPrompt.onOk(inputValue);
+    setInputValue('');
   };
 
   const handleCancel = () => {
@@ -34,6 +37,7 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
     promptRef.current.style.top='-500px';
     setTimeout(()=>setShowPrompt(false) , 400) ;
     showPrompt.onCancel(null);
+    setInputValue('');
   };
 
   const handleOutsideClick = (e) => {
@@ -70,7 +74,7 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
         <div className={styles.prompt} ref={promptRef}>
           <div className={styles.promptBox} >
             <div className={styles.promptMessage}>{showPrompt?.message}</div>
-            <input type="text" value={inputValue} onChange={handleInput} onKeyPress={handleEnter} className={styles.promptInput} />
+            <input type="text" value={inputValue} onChange={handleInput} onKeyPress={handleEnter} className={styles.promptInput} ref={inputRef}/>
             <div className={styles.promptButtons}>
               <button className={styles.promptButton} onClick={handleOk}>
                 OK

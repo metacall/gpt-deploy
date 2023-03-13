@@ -7,11 +7,8 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 import './prismjsCustom.scss'
-import {updateCode , updateCodeTitle} from '../../redux/stores/code.store'
 const themes = ['solarized-dark'];
-function CodeEditor() {
-  const dispatch = useDispatch();
-  const {codeTitle, code} = useSelector(state => state.code)
+function CodeEditor({code, setCode}) {
   const [bgcolor , setBgcolor] = useState('solarized-dark');
   const editorRef = useRef(null);
 
@@ -25,7 +22,7 @@ function CodeEditor() {
         <div className={styles.editor} ref={editorRef}>
           <Editor
             value={code}
-            onValueChange={code => dispatch(updateCode(code))}
+            onValueChange={code => setCode(code)}
             tabSize={4}
             highlight={code => {
               const sv= highlight(code, languages.js);

@@ -1,0 +1,53 @@
+.Tabs{
+    box-sizing: border-box;
+    height: calc(100vh - 4em);
+    position: relative;
+    margin-top: 1px;
+    overflow: hidden;
+    .TabListWrapper{
+        overflow: scroll;
+        scroll-snap-type: both mandatory;
+        width: 99.5%;
+        box-sizing: content-box;
+        z-index: 2;
+        top:7px;
+        left:6px;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    .TabList{
+        scroll-snap-type: both mandatory;
+        display: flex;
+        flex-wrap: nowrap;
+        place-content: flex-start;
+        list-style-type: none;
+        flex-grow: 1;
+        cursor: pointer;
+        .addButtonWrapper{
+            display: flex;
+            place-items: center;
+            margin-left: 5px;
+            background-color: darkgray;
+            border-radius: 5px;
+            padding: 0 10px;
+        }
+        .Tab{
+            scroll-snap-type: both mandatory;
+            color:whitesmoke;
+            background-color: #150338;
+            height: 100%;
+            outline: none;
+            transition: filter 0.3s ease , background-color 0.3s ease;
+            border-left: 2px solid white;
+        }
+        .Tab-Selected {
+            background-color: blueviolet;
+        }
+    }
+    .TabPanel {
+        background-color: #ccc;
+        background-color: yellow;
+        padding:0;
+    }
+}

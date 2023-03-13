@@ -107,7 +107,8 @@ function DeployPanel({}) {
             path:"./js",
             scripts:[file.name]
         }])
-
+        const metacall_json_file = new File([metacall_json], "metacall-node.json",{type: "text/plain"})
+        jsFolder.file("metacall-node.json", metacall_json_file );
         zip.generateAsync({type:"blob",
                             mimeType: 'application/zip-x-compressed'
                         }).then(async(generatedZipBlob)=>{

@@ -1,0 +1,24 @@
+2023-03-10 21:12:34:1234 [31merror[39m: [31mread ECONNRESET[39m
+2023-03-13 12:39:59:3959 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:40:00:400 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:41:13:4113 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:41:13:4113 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:42:12:4212 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:42:12:4212 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:43:35:4335 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:43:35:4335 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:44:03:443 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:44:03:443 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:45:15:4515 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:45:15:4515 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:45:33:4533 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:45:34:4534 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:47:55:4755 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:47:55:4755 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:48:05:485 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:48:05:485 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:48:28:4828 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 12:48:28:4828 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-13 22:29:40:2940 [31merror[39m: [31mread ECONNRESET[39m
+2023-03-13 22:31:35:3135 [31merror[39m: [31mread ECONNRESET[39m
+2023-03-13 22:35:39:3539 [31merror[39m: [31mread ECONNRESET[39m

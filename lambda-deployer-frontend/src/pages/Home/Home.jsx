@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import Notebook from '../../components/Notebook/Notebook';
 import DeployPanel from '../DeployPanel/DeployPanel';
@@ -15,23 +15,36 @@ const Home = () => {
     const [tabsName , setTabsName] = useState(codes.map(({id, title})=>[title , id]))
     const [tabCode, setTabCode] = useState(codes.map(({id, code})=>[code, id]))
 
+    const addTabsName = useCallback((name)=>{
+        dispatch(updateCode({
+           codesData: [...codes, {id: nanoid(), title: name, code: ""}],
+           modificationType: "add"
+        }))
+    },[codes, dispatch])
+    
+    const closeTabFromId = useCallback((id)=>{
+        const newCodes = codes.filter(c=>c.id !== id)
+        dispatch(updateCode({
+            codesData: newCodes,
+            modificationType: "remove"
+         }))
+         dispatch(updateSelectedIndex(0))
+    },[codes, dispatch])
+    
+    const setSelectedIndex = useCallback((index)=>{
+        dispatch(updateSelectedIndex(index))
+    },[dispatch])
+    
     useEffect(()=>{
         setTabsName(codes.map(({id, title})=>[title , id]))   
         setTabCode(codes.map(({id, code})=>[code, id]))  
     },[codes])
 
-    const addTabsName = useCallback((name)=>{
-        dispatch(updateCode([...codes, {id: nanoid(), title: name, code: ""}]))
-    },[])
-
-    const setSelectedIndex = useCallback((index)=>{
-        dispatch(updateSelectedIndex(index))
-    },[])
-
     const setCode = useCallback((code , id)=>{
         const newCodes = codes.map((c,i)=>c.id === id ?{...c, code}:c)
-        dispatch(updateCode(newCodes))
-    })
+        dispatch(updateCode({codesData: newCodes, modificationType: "update"}))
+    }, [codes, dispatch])
+
     return (
         <div className={styles.home}>
             <Header/>
@@ -45,9 +58,10 @@ const Home = () => {
                         Codes = {tabCode}
                         setTabsName={setTabsName} 
                         addTabsName={addTabsName} 
+                        closeTabFromId={closeTabFromId}
                         Panels={
-                            tabsName.map((tabName,index)=> <CodeEditor code={codes[index].code} setCode={
-                                (code)=>setCode(code, codes[index].id)
+                            tabsName.map((tabName,index)=> <CodeEditor code={codes[index]?.code??""} setCode={
+                                (code)=>setCode(code, codes[index]?.id??"")
                             }/>)
                         }
                         selectedIndex={selectedIndex}

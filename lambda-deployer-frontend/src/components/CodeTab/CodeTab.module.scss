@@ -24,15 +24,7 @@
         list-style-type: none;
         flex-grow: 1;
         cursor: pointer;
-        .addButtonWrapper{
-            display: flex;
-            place-items: center;
-            margin-left: 5px;
-            background-color: darkgray;
-            border-radius: 5px;
-            padding: 0 10px;
-        }
-        .Tab{
+        .Tab {
             scroll-snap-type: both mandatory;
             color:whitesmoke;
             background-color: #150338;
@@ -40,14 +32,25 @@
             outline: none;
             transition: filter 0.3s ease , background-color 0.3s ease;
             border-left: 2px solid white;
+            &:hover{
+                filter: brightness(1.5);
+            }
         }
         .Tab-Selected {
             background-color: blueviolet;
         }
+        .addButtonWrapper{
+            display: flex;
+            place-items: center;
+            margin-left: 5px;
+            background-color: darkgray;
+            border-radius: 5px;
+            padding: 0 10px;
+            height: 30px;
+        }
     }
     .TabPanel {
         background-color: #ccc;
-        background-color: yellow;
         padding:0;
     }
 }

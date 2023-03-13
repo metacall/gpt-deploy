@@ -5,7 +5,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TabButton from './components/TabButton/TabButton';
 import Prompt from '../PromptBox/Prompt';
-function CodeTab({Selectors, addTabsName, selectedIndex, setSelectedIndex,  Panels}) {
+function CodeTab({Selectors, addTabsName, closeTabFromId, selectedIndex, setSelectedIndex,  Panels}) {
     const [addMorePrompt, setAddMorePrompt] = useState(false);
     const onOk = useCallback((value)=>{
       addTabsName(value)
@@ -21,12 +21,14 @@ function CodeTab({Selectors, addTabsName, selectedIndex, setSelectedIndex,  Pane
             <div className={styles.TabListWrapper}>
               <TabList className={styles.TabList}>
                 {
-                  Selectors.map(([selector],index)=>{
+                  Selectors.map(([selector, id],index)=>{
                     return <Tab key={index} className={index === selectedIndex ? styles["Tab-Selected"]+" "+styles.Tab : styles.Tab}
                         style={{
                           borderLeft: index-1 === selectedIndex ?"brown" : index===0 ?"none":"",
                         }}>
-                          <TabButton name={selector} isSelected = {index === selectedIndex}/>
+                          <TabButton name={selector} 
+                            isSelected = {index === selectedIndex} 
+                            handleClose={()=>closeTabFromId(id)}/>
                       </Tab>
                   })
                 }

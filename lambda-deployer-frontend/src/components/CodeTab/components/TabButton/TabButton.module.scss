@@ -9,7 +9,7 @@
         height: 30px;
         border-radius: .2px 1px 1px .2px;
         text-align: center;
-        span{
+        .name{
             z-index: 2;
             padding: 0 5px;
             outline: none;
@@ -17,6 +17,24 @@
             height: 100%;
             place-items: center;
             position: absolute;
+        }
+        .remove{
+            z-index: 2;
+            padding: 0 5px;
+            outline: none;
+            display: flex;
+            right:6px;
+            height: 100%;
+            font-size: larger;
+            place-items: center;
+            position: absolute;   
+            border-radius: 10px;
+            text-align: center;
+            transition: background-color 0.3s ease , font-size 0.3s ease;
+            &:hover{
+                background-color: #222;
+                font-size: x-large;
+            }
         }
     }
 }

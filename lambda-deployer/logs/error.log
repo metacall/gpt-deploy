@@ -22,3 +22,28 @@
 2023-03-13 22:29:40:2940 [31merror[39m: [31mread ECONNRESET[39m
 2023-03-13 22:31:35:3135 [31merror[39m: [31mread ECONNRESET[39m
 2023-03-13 22:35:39:3539 [31merror[39m: [31mread ECONNRESET[39m
+2023-03-13 23:33:07:337 [31merror[39m: [31mArrays are not supported.[39m
+2023-03-13 23:39:44:3944 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 00:07:05:75 [31merror[39m: [31mArrays are not supported.[39m
+2023-03-14 00:17:56:1756 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 00:18:28:1828 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 00:19:55:1955 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 00:21:24:2124 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 07:54:38:5438 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 07:57:58:5758 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 07:58:17:5817 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 07:59:48:5948 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 08:20:37:2037 [31merror[39m: [31msource.on is not a function[39m
+2023-03-14 08:22:14:2214 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 08:30:59:3059 [31merror[39m: [31mENOENT: no such file or directory, open '/tmp/hello996'[39m
+2023-03-14 08:32:27:3227 [31merror[39m: [31mENOENT: no such file or directory, open '/Users/durge/OneDrive/Desktop/metacall-chatgpt/lambda-deployer/hello996'[39m
+2023-03-14 08:37:17:3717 [31merror[39m: [31mENOENT: no such file or directory, open '/Users/durge/OneDrive/Desktop/metacall-chatgpt/lambda-deployer/hello996'[39m
+2023-03-14 08:45:57:4557 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-14 08:50:35:5035 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 08:52:03:523 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 08:52:30:5230 [31merror[39m: [31mEEXIST: file already exists, mkdir '/tmp'[39m
+2023-03-14 08:58:50:5850 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-14 09:51:06:516 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 09:53:27:5327 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 09:56:05:565 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-14 10:07:54:754 [31merror[39m: [31mRequest failed with status code 500[39m

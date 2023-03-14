@@ -98,30 +98,34 @@ function DeployPanel({}) {
         
         const zip =new JSZip();
         const jsFolder = zip.folder('js');
-        const filename = deployFunc.map(([func_name])=>func_name).join("_");
+        const filename = deployFunc.map(([func_name])=>func_name).join("_")+ "dmsing";
         const content = deployFunc.map(([func_name,func_def])=>"module.exports."+ func_def).join("\n\n");
         const file = new File([content], `${filename}.js`,{type: "text/plain"});
         jsFolder.file(file.name, file);
-        const metacall_json = JSON.stringify([{
+        const metacall_json = JSON.stringify({
             language_id : "node",
             path:"./js",
             scripts:[file.name]
-        }])
+        })
         const metacall_json_file = new File([metacall_json], "metacall-node.json",{type: "text/plain"})
-        jsFolder.file("metacall-node.json", metacall_json_file );
+        zip.file("metacall-node.json", metacall_json_file );
         zip.generateAsync({type:"blob",
-                            mimeType: 'application/zip-x-compressed'
+                            mimeType: 'application/zip'
                         }).then(async(generatedZipBlob)=>{
             const generatedZipFile = new File([generatedZipBlob], `${filename}.zip`,{type: generatedZipBlob.type});
             const fd = new FormData();
-            fd.append("jsons",metacall_json);
+            fd.append("jsons",JSON.stringify([]));
             fd.append("raw",generatedZipFile);
             fd.append("id",filename);
-            fd.append('type', 'application/x-zip-compressed');
-            fd.append("runners",JSON.stringify(["source"]));
+            fd.append('type', 'application/zip');
+            fd.append("runners",JSON.stringify([]));
             
             try{
-                const createData = await axios.post(`/api/create`,fd).then(res=>res.data.response_data);
+                const createData = await axios.post(`/api/create`,fd,{
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  }).then(res=>res.data.response_data);
                 console.log(createData)
                 let data = await axios.post(`/api/deploy` , {
                     name : createData.id

@@ -16,36 +16,35 @@
 	logs: retrieve the logs of a deploy by runner or deployment
 	branchList: get the branches of a repository
 	fileList: get files of a repository by branch
-*/
-import {ReadStream} from 'fs'
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import FormData from 'form-data';
-import { Create, Deployment, LogType, MetaCallJSON } from './deployment.js';
-import { Plans } from './plan.js';
-
-export const isProtocolError = (err: unknown): boolean =>
+	*/
+	import axios, { AxiosError, AxiosResponse } from 'axios';
+	import FormData from 'form-data';
+	import { Create, Deployment, LogType, MetaCallJSON } from './deployment.js';
+	import { Plans } from './plan.js';
+	
+	export const isProtocolError = (err: unknown): boolean =>
 	axios.isAxiosError(err);
+	
+	export { AxiosError as ProtocolError };
+	
+	type SubscriptionMap = Record<string, number>;
+	
+	export interface SubscriptionDeploy {
+		id: string;
+		plan: Plans;
+		date: number;
+		deploy: string;
+	}
 
-export { AxiosError as ProtocolError };
-
-type SubscriptionMap = Record<string, number>;
-
-export interface SubscriptionDeploy {
-	id: string;
-	plan: Plans;
-	date: number;
-	deploy: string;
-}
-
-export type ResourceType = 'Package' | 'Repository';
-
-export interface AddResponse {
-	id: string;
-}
-
-export interface Branches {
-	branches: [string];
-}
+	export type ResourceType = 'Package' | 'Repository';
+	
+	export interface AddResponse {
+		id: string;
+	}
+	
+	export interface Branches {
+		branches: [string];
+	}
 
 export interface API {
 	refresh(): Promise<string>;
@@ -58,7 +57,8 @@ export interface API {
 		name: string,
 		blob: unknown,
 		jsons: MetaCallJSON[],
-		runners: string[]
+		runners: string[],
+		type: string
 	): Promise<string>;
 	add(
 		url: string,
@@ -154,23 +154,25 @@ export default (token: string, baseURL: string): API => {
 			name: string,
 			blob: Buffer,
 			jsons: MetaCallJSON[] = [],
-			runners: string[] = []
+			runners: string[] = [],
+			type: string 
 		): Promise<string> => {
 			const fd = new FormData();
 			fd.append('id', name);
-			fd.append('type', 'application/x-zip-compressed');
+			fd.append('type', type);
 			fd.append('jsons', JSON.stringify(jsons));
 			fd.append('runners', runners);
-			fd.append('raw', blob , {
-				filename: "blob",
-				contentType: 'application/x-zip-compressed'
-			  });
+			fd.append('raw',blob,{
+				filename: 'test.zip',
+				contentType: 'application/zip'
+			});
 			const res: any = await axios.post<string>(
 				baseURL + '/api/package/create',
 				fd,
 				{
 					headers: {
 						Authorization: 'jwt ' + token,
+						'Content-Type': 'multipart/form-data',
 						...fd.getHeaders()
 					}
 				}
@@ -215,14 +217,13 @@ export default (token: string, baseURL: string): API => {
 			resourceType: ResourceType,
 			release: string = Date.now().toString(16),
 			version = 'v1'
-		): Promise<Create> =>
-			axios
+		): Promise<Create> =>{
+			return axios
 				.post<Create>(
 					baseURL + '/api/deploy/create',
 					{
 						resourceType,
 						suffix: name,
-						release,
 						env,
 						plan,
 						version
@@ -231,8 +232,9 @@ export default (token: string, baseURL: string): API => {
 						headers: { Authorization: 'jwt ' + token }
 					}
 				)
-				.then(res => res.data),
+				.then(res => res.data)
 
+			},
 		deployDelete: (
 			prefix: string,
 			suffix: string,

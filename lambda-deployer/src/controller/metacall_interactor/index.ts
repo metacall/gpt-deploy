@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 (await import("dotenv")).config();
 import logger from "../../logger/index.js";
+import fs from 'fs';
 import axios from 'axios';
 import protocolAPI, { API, ResourceType } from "../../protocol/protocol.js";
 import { Create, Deployment, MetaCallJSON } from "../../protocol/deployment.js";
@@ -24,10 +25,13 @@ export const createPackage = async (req: Request, res: Response) => {
         // })
         // const token = req.session.token //TODO: add token to session
         // logger.info(blob);
+        // fs.writeFileSync("test.zip", blob.buffer,{
+        //     encoding: "binary"
+        // });
         const token = process.env.METACALL_TOKEN as string;
         const fd=  new FormData();
         const metacallAPI: API = protocolAPI(token , process.env.METACALL_FAAS_BASE_URL as string);
-        const response_data: string = await metacallAPI.upload(name , blob.buffer, jsons , runners);
+        const response_data: string = await metacallAPI.upload(name , blob.buffer, jsons , runners, type);
         res.json({
             message: "package created successfully",
             response_data

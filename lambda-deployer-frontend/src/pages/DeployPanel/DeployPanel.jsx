@@ -98,7 +98,7 @@ function DeployPanel({}) {
         
         const zip =new JSZip();
         const jsFolder = zip.folder('js');
-        const filename = deployFunc.map(([func_name])=>func_name).join("_")+ "dmsing";
+        const filename = deployFunc.map(([func_name])=>func_name.split('_').join('-')).join("-");
         const content = deployFunc.map(([func_name,func_def])=>"module.exports."+ func_def).join("\n\n");
         const file = new File([content], `${filename}.js`,{type: "text/plain"});
         jsFolder.file(file.name, file);

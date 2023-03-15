@@ -7,17 +7,43 @@ const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
 const openai = new OpenAIApi(configuration);
+
+
 export const ask = async (req: Request, res: Response) => {
     const idn: Number = Math.floor(Math.random()*1000);
-    if(Math.random()<0.35) 
+    const dummy_functions  = [
+        `hello${idn} = (data)=>{
+            return "Have patience and you will start getting the answer soon"
+        }`,
+        `say_hello${idn} = (name)=>{
+            return "hello "+name
+        }`,
+        `getReverse${idn} = (data)=>{
+            return data.split("").reverse().join("")
+        }`,
+        `getLength${idn} = (data)=>{
+            return data.length
+        }`,
+        `isPalindrome${idn} = (data)=>{
+            return data.split("").reverse().join("") === data
+        }`,
+        `getFirst${idn} = (data)=>{
+            return data[0];
+        }`,
+        `hello${idn} = (data)=>{
+            return "currenty you won't get right answer as open ai api key's free trial is finished is not working"
+        }`
+    ]
+    const function_def = dummy_functions[Math.floor(Math.random()*dummy_functions.length)];
+    if(Math.random()<0.15) 
         return res.status(400).json({
             message:"unable to create function: testing phase"
         });
+    const name = function_def.split("=")[0].trim();
+    console.log(name);
     const resp : ParsedFunctionInterface = {
-        function_def: `hello${idn} = (data)=>{
-                return "currenty you won't get right answer as open ai api key's free trial is finished is not working"
-        }`,
-        name: 'hello'+idn,
+        function_def: function_def,
+        name: name,
         parameter_names: [["data","string"]]
     }
     return setTimeout(()=>{return res.json(resp);},2000);

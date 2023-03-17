@@ -1,0 +1,100 @@
+.panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: calc(100vh - 52px);
+    width: calc(100vw - 50px);
+    max-width: 500px;
+    background-color: white;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%);
+    z-index: 1000;
+  
+    &.open {
+      transform: translateX(0);
+    }
+  
+    &__content {
+      height: 100%;
+      overflow-y: auto;
+    }
+  
+    &.animating {
+      transition: none;
+    }
+  
+    &.animating.open {
+      transform: translateX(0);
+    }
+
+    .panel_content{
+      height: 100%;
+      .panel_header{
+        height: 7vh;
+        display: flex;
+        flex-flow: row nowrap;
+        background-color: lightblue;
+        box-shadow: 0 0 4px 0px black;
+        place-items: center;
+        padding: 0 1rem;
+        gap: 1em;
+        max-width: 100%;
+        .goBack{
+          cursor: pointer;
+          font-size: 1.5rem;
+          color: #222;
+          &:hover{
+            filter: brightness(1.8);
+          }
+        }
+        .titleName {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #222;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          max-width: 50%;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+
+        .tools{
+          display: flex;
+          margin-left: auto;
+          flex-flow: row-reverse nowrap;
+          gap: 1rem;
+          place-items: center;
+          .tool{
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #222;
+            &:hover{
+              filter: brightness(1.8);
+            }
+          }
+        }
+
+        &:hover .titleName{
+          overflow: auto;
+          text-overflow: unset;
+        }
+      }
+
+      .panel_body{
+        height: 100%;
+      }
+    }
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    z-index: 999;
+  }
+  

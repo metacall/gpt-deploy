@@ -1,0 +1,19 @@
+.ZoomableComponent{
+    position: static;
+    z-index: 2;
+    perspective: 1000px; 
+    background-color: transparent;
+    min-height: 100px;
+    min-width: 100px;
+    max-height: 700px;
+    max-width: 700px;
+    .collector{
+        position: relative;
+        overflow: hidden;
+        transition: all 0.2s ease;
+        transform-style: preserve-3d;
+        .zoomable{
+            background: rgba(100,100,100,0.5); 
+        }
+    }
+}

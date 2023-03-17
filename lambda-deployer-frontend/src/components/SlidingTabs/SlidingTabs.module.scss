@@ -1,0 +1,27 @@
+.container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  
+  .top {
+    overflow: auto;
+    height: 10px;
+  }
+  
+  .dividerContainer {
+    height: 4px;
+    box-sizing: border-box;
+    background-color: gray;
+    border-radius: 2px;
+    cursor: ns-resize;
+  }
+  .bottom {
+    flex-grow: 1;
+    overflow: auto;
+    transition: height 0.3s ease-out;
+  }
+  
+  
+  

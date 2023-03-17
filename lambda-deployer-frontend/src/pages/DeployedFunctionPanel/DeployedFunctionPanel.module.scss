@@ -1,4 +1,78 @@
 .DeployedFunctionPanel{
     height: 90vh;
-    background-color: whitesmoke;
+    background-color: #222;
+    display: grid;
+    overflow: auto;
+    grid-auto-flow: column;
+    scroll-behavior: smooth;
+    place-items: center;
+    scroll-snap-type: x mandatory;
+    & > *{
+        scroll-snap-align: center;
+    }
+    /* Define the scrollbar track */
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 10px;
+    }
+    
+    /* Define the scrollbar thumb */
+    &::-webkit-scrollbar-thumb {
+        background-color: #5fb8ce;
+        border-radius: 10px;
+    }
+    
+    /* Define the scrollbar thumb on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #107892;
+    }
+    
+    /* Hide the scrollbar when not in use */
+    &::-webkit-scrollbar {
+        width: 5px;
+    }    
+}
+
+.LoaderSpinner{
+    backdrop-filter: blur(0.8px);
+    position: absolute;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #666;
+}
+
+.NoDeployment{
+    place-items: center;
+    background-color: #222;
+    font-weight: 600;
+    padding-top: 10vh;
+    padding-left: 10vw;
+    margin: 0;
+    .NoDeploymentText{
+        color: #fff;
+        font-size: 4rem;
+        &::first-letter{
+            color: red;
+        }
+    }
+    .try{
+        color: darkcyan;
+        font-size: 2rem;
+        margin-top: 1rem;
+        &:hover{
+            cursor: pointer;
+            filter: brightness(1.2);
+        }
+    }
+    .suggestionsAI, .workbench{
+        color: #fff;
+        margin-top: 5rem;
+        font-size: 2rem;
+        width: 50vw;
+        margin-left: 100px;
+        line-height: 3rem;
+    }
+    .workbench{
+        margin-top: 30px;
+    }
 }

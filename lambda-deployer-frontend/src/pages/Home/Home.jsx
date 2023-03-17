@@ -49,7 +49,7 @@ const Home = () => {
         <div className={styles.home}>
             <Header/>
             <Notebook 
-                Selectors={["Deployed functions","Deploy", "Code Editor"]}
+                Selectors={["Deployed functions","Deploy", "Workbench"]}
                 Panels={[
                     <DeployedFunctionPanel/>,
                     <DeployPanel/>,

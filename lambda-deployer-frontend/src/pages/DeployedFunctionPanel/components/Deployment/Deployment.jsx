@@ -7,17 +7,19 @@ function Deployment({ onClickFunction,className , funcData, pkg}) {
     suffix: funcData.suffix,
   }
   return (
-    <div className={styles.Deployment+" "+ className}>
-        {
-          funcData.functions.map((f,index)=><FunctionMini 
-              language={f.lang} 
-              content = {f.name} 
-              func = {f} 
-              metadata  = {metadata}
-              onClick={()=>onClickFunction(index)}
-              
-              /> )
-        }
+    <div className={styles.DeploymentCover}>
+      <div className={styles.Deployment+" "+ className}>
+          {
+            funcData.functions.map((f,index)=><FunctionMini 
+                language={f.lang} 
+                content = {f.name} 
+                func = {f} 
+                metadata  = {metadata}
+                onClick={()=>onClickFunction(index)}
+                
+                /> )
+          }
+      </div>
     </div>
   )
 }

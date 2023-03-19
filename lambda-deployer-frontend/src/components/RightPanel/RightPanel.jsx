@@ -3,9 +3,8 @@ import styles from "./RightPanel.module.scss";
 import { LoaderSlider} from '../../components/Loader';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleLeft, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-const RightPanel = ({ children, title, isOpen, onClose }) => {
+const RightPanel = ({ children, title, loading , isOpen, onClose }) => {
   const [isAnimating, setIsAnimating] = useState(false);
-  const [loading, setLoading] = useState(true);
   const panelRef = useRef(null);
 
   const handleClose = () => {

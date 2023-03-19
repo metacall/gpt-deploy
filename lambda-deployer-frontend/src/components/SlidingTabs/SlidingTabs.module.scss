@@ -1,26 +1,46 @@
 .container {
     position: relative;
     height: 100%;
-    display: flex;
-    flex-flow: column nowrap;
+    // display: flex;
+    // flex-flow: column nowrap;
   }
   
   .top {
     overflow: auto;
-    height: 10px;
+    height: 5px;
   }
   
   .dividerContainer {
-    height: 4px;
+    height: 6px;
+    min-height: 6px;
     box-sizing: border-box;
     background-color: gray;
     border-radius: 2px;
+    text-align: center;
     cursor: ns-resize;
+    display: grid;
+    transition: filter 0.3s 0.5s ease-in-out;
+    &:hover{
+      filter: brightness(0.5);
+      hr{
+        width: 50px;
+      }
+    }
+    hr{
+      color: red;
+      width: 30px;
+      place-items: center;
+      margin: auto;
+      transition: width 0.3s ease-in-out ;
+    }
   }
   .bottom {
     flex-grow: 1;
     overflow: auto;
+    scroll-behavior: smooth;
     transition: height 0.3s ease-out;
+    background-color: rgb(220, 221, 238);
+    height: 100%;
   }
   
   

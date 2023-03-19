@@ -22,7 +22,7 @@ const SlidingTabs = ({Top , Bottom  }) => {
   }
 
   useEffect(()=>{
-    ref.current.style.setProperty("height", "50%");
+    ref.current.style.setProperty("height", "60%");
   },[])
   return (
     <div className={styles.container}>
@@ -32,6 +32,7 @@ const SlidingTabs = ({Top , Bottom  }) => {
       <div className={styles.dividerContainer}
           onMouseDown={handleDividerMouseDown}
         >
+          <hr/>
       </div>
       <div className={styles.bottom}>
         {Bottom}

@@ -270,3 +270,83 @@
 2023-03-17 22:39:19:3919 [31merror[39m: [31mself signed certificate in certificate chain[39m
 2023-03-17 22:41:38:4138 [31merror[39m: [31mself signed certificate in certificate chain[39m
 2023-03-17 22:41:38:4138 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-18 10:03:17:317 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:03:17:317 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:04:29:429 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:04:29:429 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:05:07:57 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:05:07:57 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:06:49:649 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:06:49:649 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:07:58:758 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:07:58:758 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:11:13:1113 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:11:13:1113 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:17:22:1722 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:17:22:1722 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 10:17:37:1737 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:17:37:1737 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:17:48:1748 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:17:48:1748 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:18:55:1855 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:18:56:1856 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:21:26:2126 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 10:21:26:2126 [31merror[39m: [31mwrite EPROTO 11348:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:28:27:2827 [31merror[39m: [31mconnect ETIMEDOUT 3.232.2.73:443[39m
+2023-03-18 23:36:18:3618 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:36:46:3646 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:36:48:3648 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:36:54:3654 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:37:02:372 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:37:44:3744 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:38:16:3816 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:38:19:3819 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:38:58:3858 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-18 23:38:59:3859 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:38:59:3859 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:38:59:3859 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:39:09:399 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:47:4047 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:47:4047 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:47:4047 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:47:4047 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:47:4047 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:48:4048 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:48:4048 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:48:4048 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-18 23:40:48:4048 [31merror[39m: [31mwrite EPROTO 6100:error:1425F102:SSL routines:ssl_choose_client_version:unsupported protocol:c:\ws\deps\openssl\openssl\ssl\statem\statem_lib.c:1994:[39m
+[31m[39m
+2023-03-19 09:48:05:485 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 09:48:05:485 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:55:01:551 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:55:01:551 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:55:39:5539 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:55:39:5539 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:56:34:5634 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:56:34:5634 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:56:43:5643 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:56:43:5643 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:59:56:5956 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-19 14:59:56:5956 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m

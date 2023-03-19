@@ -1,13 +1,24 @@
 import React, { useEffect, useRef , useLayoutEffect} from 'react'
 import FunctionMini from '../FunctionMini/FunctionMini'
 import styles from './Deployment.module.scss'
-function Deployment({ onClickFunction,className}) {
-
+function Deployment({ onClickFunction,className , funcData, pkg}) {
+  console.log(funcData, "*********")
+  const metadata = {
+    prefix: funcData.prefix,
+    suffix: funcData.suffix,
+  }
   return (
     <div className={styles.Deployment+" "+ className}>
-          {
-            new Array(3).fill(0).map((_,index)=><FunctionMini language={"NodeJS"} content = {index} onClick={()=>onClickFunction(index)}/> )
-          }
+        {
+          funcData.functions.map((f,index)=><FunctionMini 
+              language={f.lang} 
+              content = {f.name} 
+              func = {f} 
+              metadata  = {metadata}
+              onClick={()=>onClickFunction(index)}
+              
+              /> )
+        }
     </div>
   )
 }

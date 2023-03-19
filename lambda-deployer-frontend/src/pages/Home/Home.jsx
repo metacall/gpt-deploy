@@ -49,7 +49,7 @@ const Home = () => {
         <div className={styles.home}>
             <Header/>
             <Notebook 
-                Selectors={["Deployed functions","Deploy", "Workbench"]}
+                Selectors={["Deployed Packages","Deploy", "Workbench"]}
                 Panels={[
                     <DeployedFunctionPanel/>,
                     <DeployPanel/>,
@@ -60,7 +60,7 @@ const Home = () => {
                         addTabsName={addTabsName} 
                         closeTabFromId={closeTabFromId}
                         Panels={
-                            tabsName.map((tabName,index)=> <CodeEditor code={codes[index]?.code??""} setCode={
+                            tabsName.map((tabName,index)=> <CodeEditor key = {index} code={codes[index]?.code??""} setCode={
                                 (code)=>setCode(code, codes[index]?.id??"")
                             }/>)
                         }

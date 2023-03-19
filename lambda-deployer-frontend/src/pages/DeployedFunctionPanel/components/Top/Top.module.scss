@@ -1,0 +1,74 @@
+.Top{
+    padding: 0px;
+    height: 100%;
+    overflow: auto;
+    scroll-behavior: smooth;
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    .mainContent{
+        padding:0 5px;
+        overflow: auto;
+        height: 100%;
+        .urlWrapper{
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            margin: 20px auto;
+            background-color: darkgray;
+            border : 1px solid black;
+            padding: 10px 10px;
+            text-align: center;
+            width: 95%;
+            overflow: auto;
+            text-overflow: clip;
+            white-space: nowrap;
+            place-items: center;
+            border-radius: 4px;
+            gap: 10px;
+            .method{
+                font-size: 1rem;
+                font-weight: 600;
+                color: white;
+                background-color: #2c7a8e;
+                padding: 5px;
+                border-radius: 5px;
+                text-align: center;
+            }
+            .url{
+                overflow: auto;
+                text-overflow: clip;
+                white-space: nowrap;
+            }
+            .toolBox{
+                margin-left: auto;
+                cursor: pointer;
+                transition: all 0.5s ease-in-out;
+                text-align: right;
+                display: flex;
+                flex-flow: row nowrap;
+                gap: 6px;
+                & > *{
+                    transition: transform 0.5s ease-in-out;
+                    &:hover{
+                        filter: brightness(2);
+                        transform: scale(1.2);
+                    }
+                    &:active{
+                        transform: scale(0.4);
+                    }                    
+                }
+            }
+            .run{
+                background-color: darkgreen;
+                cursor: pointer;
+                padding: 5px 15px;
+                color:cyan;
+                border-radius: 5px;
+                &:active{
+                    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
+                }
+            }
+        }
+    }
+}

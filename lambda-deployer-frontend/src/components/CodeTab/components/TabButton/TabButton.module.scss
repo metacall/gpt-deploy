@@ -28,11 +28,11 @@
             font-size: larger;
             place-items: center;
             position: absolute;   
-            border-radius: 10px;
+            border-radius: 2px;
             text-align: center;
             transition: background-color 0.3s ease , font-size 0.3s ease;
             &:hover{
-                background-color: #222;
+                background-color: rgba($color: gray, $alpha: 0.5);
                 font-size: x-large;
             }
         }

@@ -1,0 +1,68 @@
+.fieldBox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 95%;
+    padding: 10px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  
+    .key {
+        font-weight: bold;
+        margin-right: 10px;
+        background-color: #107892;
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+        min-width: 100px;
+        border-radius: 5px;
+    }
+  
+    .value {
+      flex-grow: 1;
+      text-align: right;
+      overflow: auto;
+      text-overflow: ellipsis;
+      .boolFieldType {
+        color: #107892;
+      }
+      .stringFieldType {
+        color: #5fb8ce;
+      }
+      .numberFieldType {
+        color: #f5a623;
+      }
+    }
+    .inputWrapper {
+      display: flex;
+      flex-direction: column;
+      margin-left: auto;
+      overflow: hidden;
+  
+      textarea,
+      input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-family: inherit;
+        font-size: inherit;
+        resize: both;
+        min-height: 50px;
+      }
+  
+      .inputValid {
+        border-color: #ccc;
+      }
+  
+      .inputInvalid {
+        border-color: red;
+      }
+    }
+  }
+  

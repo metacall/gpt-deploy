@@ -86,6 +86,7 @@ function DeployedFunctionPanel() {
             data
         }, {
             onSuccess: (data) => {
+                data = JSON.stringify(data);
                 setOutput(data.trim() ?? '<No Output>');
                 setOutputErrorFlag(false)
             },
@@ -123,7 +124,7 @@ function DeployedFunctionPanel() {
                             Bottom = {<Bottom
                                         title={'Output'}
                                         content={output}
-                                        isJson = {false}
+                                        isJson = {true}
                                         setContent = {setOutput}
                                         errorFlag = {outputErrorFlag}
                                         setErrorFlag = {setOutputErrorFlag}

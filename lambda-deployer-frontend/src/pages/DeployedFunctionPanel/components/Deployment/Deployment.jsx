@@ -2,7 +2,6 @@ import React, { useEffect, useRef , useLayoutEffect} from 'react'
 import FunctionMini from '../FunctionMini/FunctionMini'
 import styles from './Deployment.module.scss'
 function Deployment({ onClickFunction,className , funcData, pkg}) {
-  console.log(funcData, "*********")
   const metadata = {
     prefix: funcData.prefix,
     suffix: funcData.suffix,

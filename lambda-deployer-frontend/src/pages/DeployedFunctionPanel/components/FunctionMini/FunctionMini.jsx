@@ -12,7 +12,6 @@ const colorSchema = {
 
 
 function FunctionMini({language, content,func,metadata, onClick}) {
-    console.log(func)
     let method = func.params.length > 0 ? "POST" : "GET";
     if(language === "file")
         method = "FILE";

@@ -1,12 +1,15 @@
 .DeployedFunctionPanel{
     height: 90vh;
     background-color: rgb(13, 17, 23);
-    display: grid;
-    overflow: auto;
-    grid-auto-flow: column;
+    overflow: scroll;
+    padding: 30px;
+    display: flex;
+    flex-flow: column nowrap;
     scroll-behavior: smooth;
     place-items: center;
     scroll-snap-type: x mandatory;
+    height: max-content;
+    gap: 30px;
     & > *{
         scroll-snap-align: center;
     }
@@ -37,13 +40,12 @@
     backdrop-filter: blur(0.8px);
     position: absolute;
     z-index: 3;
-    background-color: rgba(255, 255, 255, 0.1);
-    background-color: #666;
+    background-color: rgb(13, 17, 23);
 }
 
 .NoDeployment{
     place-items: center;
-    background-color: #222;
+    background-color: rgb(13, 17, 23);
     font-weight: 600;
     padding-top: 10vh;
     padding-left: 10vw;

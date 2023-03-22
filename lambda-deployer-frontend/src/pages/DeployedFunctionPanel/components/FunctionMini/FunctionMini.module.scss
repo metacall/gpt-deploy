@@ -1,74 +1,70 @@
 .FunctionMini{
     position: relative;
-    aspect-ratio: 1;
-    // background-color: rgb(232, 203, 131);
-    background-color: cadetblue;
     border-radius: 5px;
-    box-shadow: inset 0 0 0 2px white;
     transition: transform 0.7s ease;
-    display: grid;
-    place-content: center;
+    border: 1px solid rgb(22, 36, 56);
+    border-collapse: collapse;
+    -webkit-margin-collapse: collapse;
+    display: flex;
+    padding-left: 1%;
     place-items: center;
-    text-align: center;
     cursor: pointer;
     text-overflow: ellipsis;
     overflow: hidden;
     &:hover{
-        .hoverUpMenu{
-            transform: scaleY(1);
-        }
-        .miniContent{
-            transform: translateY(-30px) scale(0.7);
-        }
+        filter: brightness(1.3);
     }
-
     .miniContent{
         transition: transform 0.3s ease;
-        color: white;
+        font-size: smaller;
+        color: rgb(192, 216, 222);
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: break-all;
+        white-space: nowrap;
         margin: 5px;
     }
+    .url{
+        color: rgb(123, 140, 147);
+        font-size: smaller;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: nowrap;
+        margin: auto;
+    }
     .hoverUpMenu{
-        position: absolute;
-        z-index: 1;
-        background: linear-gradient(to top , rgb(39, 172, 53) 70%, transparent);
-        backdrop-filter: blur(0.8px);
-        color:white;
+        color:rgb(217, 234, 218);
         border-radius: 5px;
         padding: 5px;
-        bottom: 0;
-        width: 100%;
-        height: 40%;
         display: flex;
         flex-flow: row-reverse nowrap;
         transition: transform 0.5s ease;
         transform-origin: bottom;
-        transform: scaleY(0);
         align-items: end;
         cursor: default;
         &> * {
             padding: 5px;
-            color: black;
-            font-size: larger;
             border-radius: 5px;
             cursor: pointer;
             &:hover{
                 background-color: rgba(255, 255, 255, 0.2);
             }
+            &:active{
+                background-color: rgba(255, 255, 255, 0.4);
+            }
         }
     }
     
     .languageNameBox{
-        position: absolute;
         z-index: 1;
         background-color: rgb(16, 3, 48);
         padding: 1px 5px;
-        right: 4px;
-        top: 4px;
         color: cyan;
         background-color: #002b36; ;
         font-family:Impact;
+        width: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }

@@ -1,10 +1,31 @@
 .home{
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
+    overflow-x: hidden;
     width: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
     background-color: #222;
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 10px;
+    }
+    
+    /* Define the scrollbar thumb */
+    &::-webkit-scrollbar-thumb {
+        background-color: #084453;
+        border-radius: 10px;
+    }
+    
+    /* Define the scrollbar thumb on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #107892;
+    }
+    
+    /* Hide the scrollbar when not in use */
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
 }
 

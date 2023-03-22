@@ -1,9 +1,10 @@
-import { faCopy, faExternalLinkAlt, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCircle, faCopy, faExternalLinkAlt, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import FieldInput from '../FieldInput/FieldInput'
 import styles from './Top.module.scss'
-function Top({ funcUrl , fields , setFields , method, onCall}) {
+function Top({ funcUrl , fields , setFields , method, onCall, loading}) {
 
     const changeField = (index,text)=>{
         let temp = [...fields];
@@ -40,7 +41,12 @@ function Top({ funcUrl , fields , setFields , method, onCall}) {
                         }
                     />
                 </div>
-                    <FontAwesomeIcon icon={faPlay} className={styles.run} title={"run function"} onClick={onCall}/>
+                <FontAwesomeIcon icon={faPlay} className={classNames(styles.run, {[styles.running]: loading})} title={"run function"} 
+                    onClick={(e)=>{
+                                if(!loading)
+                                    onCall()
+                            }
+                        }/>
             </div>
             {
             method=== "POST" &&

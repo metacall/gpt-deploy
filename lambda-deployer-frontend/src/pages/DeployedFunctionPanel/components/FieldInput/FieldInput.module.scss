@@ -1,68 +1,54 @@
-.fieldBox {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 95%;
-    padding: 10px;
-    margin: 20px auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-  
-    &:hover {
-      background-color: #f5f5f5;
-    }
-  
-    .key {
-        font-weight: bold;
-        margin-right: 10px;
-        background-color: #107892;
-        padding: 10px;
-        margin: 10px;
-        text-align: center;
-        min-width: 100px;
-        border-radius: 5px;
-    }
-  
-    .value {
-      flex-grow: 1;
-      text-align: right;
-      overflow: auto;
-      text-overflow: ellipsis;
-      .boolFieldType {
-        color: #107892;
-      }
-      .stringFieldType {
-        color: #5fb8ce;
-      }
-      .numberFieldType {
-        color: #f5a623;
-      }
-    }
-    .inputWrapper {
-      display: flex;
-      flex-direction: column;
-      margin-left: auto;
-      overflow: hidden;
-  
-      textarea,
-      input {
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        font-family: inherit;
-        font-size: inherit;
-        resize: both;
-        min-height: 50px;
-      }
-  
-      .inputValid {
-        border-color: #ccc;
-      }
-  
-      .inputInvalid {
-        border-color: red;
-      }
-    }
-  }
-  
+.container {
+  display: flex;
+  place-items: center;
+  flex-direction: row;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.fieldset{
+  padding: 0px 0px 0 5px;
+  transition: border-color 0.2s ease-in-out;
+  border-radius: 5px ;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 3em;
+}
+.fieldsetFocused {
+  border: 2.5px solid #0078d4;
+  background-color: whitesmoke;
+}
+
+.legend{
+  font-size: 1em;
+  transition: font-size 0.2s ease-in-out;
+  transform-origin: center;
+  margin-left: 20px;
+  padding: 0 3px 0 ;
+}
+.legendFocused{
+  // font-size: 1.2em;
+  color: rgb(255, 0, 212);
+}
+
+.selectBox{
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+
+.input {
+  font-size: 16px;
+  padding: 10px;
+  outline: none;
+  min-height: 3em;
+  width: 100%;
+  resize: vertical;
+  border: none;
+}
+
+.focused {
+  background-color: whitesmoke;
+}

@@ -48,6 +48,7 @@ function Bottom({title= 'Output', content="", setContent,errorFlag =false,setErr
                     />
             </div>
         </div>
+        <div></div>
         <div className={styles.bottomContainer} ref= {contentRef}>
         </div>
     </div>

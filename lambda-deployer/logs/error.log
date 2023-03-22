@@ -350,3 +350,11 @@
 2023-03-19 14:56:43:5643 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
 2023-03-19 14:59:56:5956 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
 2023-03-19 14:59:56:5956 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
+2023-03-20 16:39:12:3912 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:39:38:3938 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:40:23:4023 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:42:39:4239 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:43:34:4334 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:43:59:4359 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:44:47:4447 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-20 16:45:56:4556 [31merror[39m: [31mRequest failed with status code 500[39m

@@ -28,6 +28,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: break-all;
+        margin: 5px;
     }
     .hoverUpMenu{
         position: absolute;
@@ -66,7 +67,8 @@
         padding: 1px 5px;
         right: 4px;
         top: 4px;
-        color: yellowgreen;
+        color: cyan;
+        background-color: #002b36; ;
         font-family:Impact;
     }
 }

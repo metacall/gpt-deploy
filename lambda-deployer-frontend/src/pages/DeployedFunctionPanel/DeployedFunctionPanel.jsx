@@ -74,19 +74,18 @@ function DeployedFunctionPanel() {
             </div>
         )
     }
-    const onCall = useCallback(()=>{
+    const onCall = ()=>{
         const data = {};
         fields.forEach((field)=>{
             data[field[0]] = field[2];
         })
-
         call({
-            url: funcUrl,
+            url: selectedFunc.lang === 'file'? 
+                `/api/getStaticFile/${funcs[selectedIndex[0]].prefix}/${funcs[selectedIndex[0]].suffix}/${funcs[selectedIndex[0]].functions[selectedIndex[1]].name}` : funcUrl,
             method,
             data
         }, {
             onSuccess: (data) => {
-                data = JSON.stringify(data);
                 setOutput(data.trim() ?? '<No Output>');
                 setOutputErrorFlag(false)
             },
@@ -98,7 +97,7 @@ function DeployedFunctionPanel() {
                 setOutputErrorFlag(true)
             }
         });
-    }, [funcUrl])
+    }
 
     function fieldManger(arr){
         setFields(arr);
@@ -120,6 +119,7 @@ function DeployedFunctionPanel() {
                                 onCall = {onCall}
                                 fields = {fields}
                                 setFields = {fieldManger}
+                                loading = {isLoading}
                             />} 
                             Bottom = {<Bottom
                                         title={'Output'}

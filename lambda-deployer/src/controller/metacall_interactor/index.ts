@@ -105,3 +105,19 @@ export const getDeployments = async (req: Request, res: Response) => {
         })
     }
 }
+
+export const getStaticFile = async (req: Request, res: Response) => {
+    try{
+        const prefix = req.params.prefix;
+        const suffix = req.params.suffix;
+        const filename = req.params.filename;
+        const fileContent = await axios.get(`https://api.metacall.io/${prefix}/${suffix}/v1/static/${filename}`).then(res => res.data);
+        res.send(fileContent);
+    } catch (err : unknown){
+        const error = err as Error;
+        logger.error(error.message);
+        res.status(500).json({
+            message: "failed to get static file"
+        })
+    }
+}

@@ -10,7 +10,13 @@ async function query(postData){
     } else  if(postData.method === 'GET'){
         response= await axios.get(postData.url).then(res=>res.data)
         return response
-    } else throw Error("Invalid method type")
+    } else if(postData.method === 'DELETE'){
+        response= await axios.post(postData.url,{
+            ...postData.data
+        }).then(res=>res.data)
+        return response 
+    }
+    else throw Error("Invalid method type")
 }
 
 export default function useFunctionCall(){

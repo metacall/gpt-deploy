@@ -349,3 +349,17 @@
 2023-03-20 16:43:59:4359 [31merror[39m: [31mRequest failed with status code 500[39m
 2023-03-20 16:44:47:4447 [31merror[39m: [31mRequest failed with status code 500[39m
 2023-03-20 16:45:56:4556 [31merror[39m: [31mRequest failed with status code 500[39m
+2023-03-25 07:35:39:3539 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-25 07:35:39:3539 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-25 09:44:22:4422 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-25 09:44:22:4422 [31merror[39m: [31mself signed certificate in certificate chain[39m
+2023-03-25 10:32:41:3241 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:33:21:3321 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:33:58:3358 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:34:04:344 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:34:10:3410 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:41:47:4147 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:42:58:4258 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:43:48:4348 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 10:43:57:4357 [31merror[39m: [31mRequest failed with status code 400[39m
+2023-03-25 11:37:13:3713 [31merror[39m: [31mRequest failed with status code 504[39m

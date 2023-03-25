@@ -3,7 +3,6 @@ import styles from './Confirm.module.scss';
 
 const Confirm = ({showPrompt, setShowPrompt }) => {
 
-  const [inputValue, setInputValue] = useState('');
   const promptRef = useRef(null);
 
   useEffect(()=>{
@@ -16,7 +15,7 @@ const Confirm = ({showPrompt, setShowPrompt }) => {
 
   const handleOk = () => {
     setTimeout(()=>setShowPrompt(false) , 400) ;
-    showPrompt.onOk(inputValue);
+    showPrompt.onOk();
   };
 
   const handleCancel = () => {

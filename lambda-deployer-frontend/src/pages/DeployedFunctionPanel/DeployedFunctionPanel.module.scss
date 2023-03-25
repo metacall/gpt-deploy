@@ -1,5 +1,5 @@
 .DeployedFunctionPanel{
-    height: 90vh;
+    min-height: 90vh;
     background-color: rgb(13, 17, 23);
     overflow: scroll;
     padding: 30px;
@@ -48,6 +48,8 @@
     background-color: rgb(13, 17, 23);
     font-weight: 600;
     padding-top: 10vh;
+    height: 100vh;
+    overflow: hidden;
     padding-left: 10vw;
     margin: 0;
     .NoDeploymentText{

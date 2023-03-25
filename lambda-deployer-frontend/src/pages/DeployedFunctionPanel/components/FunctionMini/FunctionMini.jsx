@@ -85,7 +85,7 @@
 // export default FunctionMini
 
 
-import { faCab, faCopy, faExternalLinkAlt, faTerminal } from '@fortawesome/free-solid-svg-icons'
+import { faCab, faCloudDownloadAlt, faCopy, faExternalLinkAlt, faTerminal } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import styles from './FunctionMini.module.scss'
@@ -96,7 +96,14 @@ const colorSchema = {
     "GET": 'rgb(13, 17, 23)'
 }
 
-
+function download(url) {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = "hello.txt"
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
 function FunctionMini({language, content,func,metadata, funcUrl, onClick}) {
     let method = func.params.length > 0 ? "POST" : "GET";
     if(language === "file")

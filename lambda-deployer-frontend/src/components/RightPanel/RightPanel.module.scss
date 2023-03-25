@@ -8,7 +8,7 @@
     background-color: white;
     transition: transform 0.3s ease-in-out;
     transform: translateX(100%);
-    z-index: 1000;
+    z-index: 100005;
   
     &.open {
       transform: translateX(0);

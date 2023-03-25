@@ -139,7 +139,6 @@ function DeployedFunctionPanel() {
                                 <Deployment 
                                     key={packageNo}
                                     funcData={funcData}
-                                    funcUrl = {funcUrl}
                                     onClickFunction={(funcNo)=>onClickFunction(packageNo, funcNo)}
                                     />
                             )

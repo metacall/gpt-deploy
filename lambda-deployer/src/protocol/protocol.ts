@@ -21,9 +21,7 @@
 	import FormData from 'form-data';
 	import { Create, Deployment, LogType, MetaCallJSON } from './deployment.js';
 	import { Plans } from './plan.js';
-	import fs from 'fs';
-	import {exec as execCallback} from 'child_process';
-
+	
 	export const isProtocolError = (err: unknown): boolean =>
 	axios.isAxiosError(err);
 	
@@ -158,7 +156,7 @@ export default (token: string, baseURL: string): API => {
 			jsons: MetaCallJSON[] = [],
 			runners: string[] = [],
 			type: string 
-		): Promise<any> => {
+		): Promise<string> => {
 			const fd = new FormData();
 			fd.append('id', name);
 			fd.append('type', type);
@@ -168,36 +166,18 @@ export default (token: string, baseURL: string): API => {
 				filename: 'test.zip',
 				contentType: 'application/zip'
 			});
-			//:TODO: uncomment this when the backend is ready
-			// const res: any = await axios.post<string>(
-			// 	baseURL + '/api/package/create',
-			// 	fd,
-			// 	{
-			// 		headers: {
-			// 			Authorization: 'jwt ' + token,
-			// 			'Content-Type': 'multipart/form-data',
-			// 			...fd.getHeaders()
-			// 		}
-			// 	}
-			// );
-
-			//use command line for now
-			//:TODO: remove this
-			fs.writeFileSync("test.zip", blob,{
-				encoding: "binary"
-			});	
-			const uploader_curl_command = "curl -X POST  -H \"Authorization:jwt " + token + "\" -H \"Content-Type:multipart/form-data\" -F \"id=" + name + "\" -F \"type=" + type + "\" -F \"jsons=" + jsons + "\" -F \"runners=" + runners + "\" -F \"raw=@test.zip\" " + baseURL + "/api/package/create"
-			const data = await new Promise((res,rej)=>{
-				// console.log(uploader_curl_command)
-				execCallback(uploader_curl_command,(err,stdout,stderr)=>{
-					if(err)
-						return rej("error: " + err);
-						res(JSON.parse(stdout));
-					});	
-			})
-			// return res?.data;
-			console.log(data);
-			return data ;
+			const res: any = await axios.post<string>(
+				baseURL + '/api/package/create',
+				fd,
+				{
+					headers: {
+						Authorization: 'jwt ' + token,
+						'Content-Type': 'multipart/form-data',
+						...fd.getHeaders()
+					}
+				}
+			);
+			return res?.data;
 		},
 		add: (
 			url: string,

@@ -2,8 +2,7 @@
     display: block;
     width: 100%;
     margin:10px 0;
-    // $bgcolor: rgb(111, 163, 47);
-    $bgcolor: rgb(164, 239, 164);
+    $bgcolor: rbg(13, 17, 23);
     opacity: 1;
     animation: fade 0.4s ease-in-out 1;
     .ask__content{
@@ -11,11 +10,13 @@
         margin-right: 10px;
         margin-left: auto;
         background-color: $bgcolor;
+        background-color: rgb(41, 45, 51);
         border-radius: 7px;
         max-width: 60%;
         min-height: 50px;
         padding: 20px;
         color: black;
+        color:white;
         &::after{
             content: "";
             display: block;

@@ -2,22 +2,28 @@
     display: flex;
     width:50%;
     border: 2px solid lightgray;
+    background-color: red;
     border-radius: 2px;
     overflow: hidden;
+    box-sizing: border-box;
+    outline: none;
+    margin: none;
     input{
-        color: #999;
         outline: none;
         padding: 5px;
-        margin: 0 5px;
+        margin: 0 0px;
+        color:lightgray;
         width: 100%;
         border: 0;
+        background-color: #171515;
         &::placeholder{
             margin: auto;
-            color:lightgray;
+            color: #999;
+            opacity: 0.5;
             font-family: Arial, Helvetica, sans-serif;
         }
     }
     &:focus-within{
-        border-color: rgb(157, 0, 255);
+        border-color: rgb(40, 111, 31);
     }
 }

@@ -9,7 +9,10 @@
         display: none;
     }
     .header{
-        background-color: rgb(222, 153, 25);
+        // background-color: rgb(222, 153, 25);
+        //solarized dark
+        color: whitesmoke;
+        background-color: rgb(0, 43, 54);
         height: 2rem;
         display: flex;
         align-items: center;
@@ -40,17 +43,17 @@
         text-align: justify;
         white-space: pre;
         position: relative;
-        border: 3px solid rgb(222, 153, 25);
-        &::before{
-            content: "";
-            display: block;
-            height: 100%;
-            position: absolute;
-            left: 4px;
-            background-color: red;
-            width: 3px;
-            z-index: 100;
-            overflow: hidden;
-          }
+        border: 3px solid rgb(0, 43, 54);
+        // &::before{
+        //     content: "";
+        //     display: block;
+        //     height: 100%;
+        //     position: absolute;
+        //     left: 4px;
+        //     background-color: red;
+        //     width: 3px;
+        //     z-index: 100;
+        //     overflow: hidden;
+        //   }
     }
 }

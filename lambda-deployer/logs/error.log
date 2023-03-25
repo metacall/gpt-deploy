@@ -47,16 +47,7 @@
 2023-03-14 09:53:27:5327 [31merror[39m: [31mRequest failed with status code 504[39m
 2023-03-14 09:56:05:565 [31merror[39m: [31mRequest failed with status code 504[39m
 2023-03-14 10:07:54:754 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:34:24:3424 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:38:11:3811 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:39:27:3927 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:43:23:4323 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:44:50:4450 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:47:10:4710 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:51:01:511 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 06:51:42:5142 [31merror[39m: [31mRequest failed with status code 500[39m
-2023-03-15 07:54:21:5421 [31merror[39m: [31mRequest failed with status code 429[39m
-2023-03-15 07:54:24:5424 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-14 10:15:39:1539 [31merror[39m: [31mRequest failed with status code 500[39m
 2023-03-15 21:58:33:5833 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
 2023-03-15 21:58:33:5833 [31merror[39m: [31mgetaddrinfo ENOTFOUND dashboard.metacall.io[39m
 2023-03-17 09:08:01:81 [31merror[39m: [31mread ECONNRESET[39m

@@ -12,6 +12,7 @@
         min-height: 50px;
         padding: 20px;
         color: white;
+        box-shadow:  0 0 2rem rgba(0,123,255,.25);
         .title{
             display: flex;
             padding:5px;
@@ -27,7 +28,8 @@
             }
         }
         &:hover{
-            box-shadow:  0 0 2rem rgba(0,123,255,.25);
+            box-shadow:  0 0 3rem 1rem rgba(0,123,255,.25);
+            filter: brightness(1.2);
         }
         .definition_body{
             margin-top: 10px;

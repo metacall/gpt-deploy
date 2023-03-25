@@ -136,7 +136,7 @@ function FunctionMini({language, content,func,metadata, funcUrl, onClick}) {
                 {content}
             </div>
             <div className={styles.url}>
-                {funcUrl}
+                {url.url}
             </div>
         <div className={styles.hoverUpMenu} 
             onClick = {(event)=>{

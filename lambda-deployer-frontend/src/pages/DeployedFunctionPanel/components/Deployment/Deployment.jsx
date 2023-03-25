@@ -42,7 +42,6 @@ function Deployment({ onClickFunction,className , funcData, funcUrl}) {
                 func = {f} 
                 metadata  = {metadata}
                 onClick={()=>onClickFunction(index)}
-                funcUrl = {funcUrl}
                 /> )
           }
       </div>

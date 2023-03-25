@@ -5,7 +5,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: rgb(13,17,23);
     .head{
         text-align: center;
         color: white;
@@ -78,7 +78,7 @@
         padding-bottom: 50px;
         /* Define the scrollbar track */
         ::-webkit-scrollbar-track {
-            background-color: #f5f5f5;
+            background-color: rgb(13, 17, 23);
             border-radius: 10px;
         }
         
@@ -96,11 +96,13 @@
         
         /* Hide the scrollbar when not in use */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 0px;
             background-color: #f5f5f5;
+            display: none;
         }
         .chats{
             background-color: whitesmoke;
+            background-color: rgb(13,17,23);
             height: 100%;
             overflow-y: scroll;
         }

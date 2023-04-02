@@ -11,7 +11,7 @@ import useFunctionCall from '../../customHooks/useCallFunction';
 import useInspect from '../../customHooks/useInspect';
 import dataTypeMapping from '../../constants/dataTypeMapping';
 
-function DeployedFunctionPanel() {
+function DeployedFunctionPanel({selectedTabIndex , setSelectedTabIndex}) {
     const [funcs , setFuncs] = useState([]);
     const [isOpen , setIsOpen] = useState(false);
     const [selectedIndex , setSelectedIndex] = useState(null);
@@ -66,10 +66,18 @@ function DeployedFunctionPanel() {
                     No Deployments Found
                 </div>
                 <div className={styles.suggestionsAI}>
-                    <span className={styles.try}>Try</span> our intelligent deployment assistant to deploy your functions.
+                    <span className={styles.try}
+                    onClick={()=>{
+                        setSelectedTabIndex(1);
+                    }}
+                    >Try</span> our intelligent deployment assistant to deploy your functions.
                 </div>
                 <div className={styles.workbench}>
-                <span className={styles.try}>Try</span> our workbench.
+                <span className={styles.try}
+                    onClick={()=>{
+                        setSelectedTabIndex(2);
+                    }}
+                >Try</span> our workbench.
                 </div>
             </div>
         )

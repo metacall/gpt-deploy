@@ -136,7 +136,16 @@
         scroll-snap-align: start;
         scroll-padding-top: -10px;
     }
-
+    .noFunctions{
+        height: 300px;
+        display: flex;
+        place-content: center;
+        place-items: center;
+        background-color: black;
+        color: #107892;
+        font-size: xx-large;
+        font-family:  'Arial Narrow Bold', sans-serif;
+    }
 }
 
 .animateToMiddle{

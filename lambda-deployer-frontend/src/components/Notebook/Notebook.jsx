@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import {Tabs, TabList,TabPanel, Tab} from 'react-tabs'
 import styles from './Notebook.module.scss'
-function Notebook({Selectors,Panels}) {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+function Notebook({Selectors,Panels, selectedIndex, setSelectedIndex}) {
     return (
         <Tabs selectedIndex={selectedIndex} onSelect={ind=>setSelectedIndex(ind)} className={styles.Tabs}>
         <TabList className={styles.TabList}>

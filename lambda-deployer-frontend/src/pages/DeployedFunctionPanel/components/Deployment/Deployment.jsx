@@ -77,14 +77,17 @@ function Deployment({ onClickFunction,className , funcData, funcUrl}) {
           </div>
         </div>
         <div className={styles.Deployment+" "+ className}>
-            {
-              funcData.functions.map((f,index)=><FunctionMini 
+            { countFiles(funcData.functions) > 0 
+              ? funcData.functions.map((f,index)=><FunctionMini 
                   language={f.lang} 
                   content = {f.name} 
                   func = {f} 
                   metadata  = {metadata}
                   onClick={()=>onClickFunction(index)}
                   /> )
+              : <div className={styles.noFunctions}>
+                  No functions found
+                </div>
             }
         </div>
         </div>

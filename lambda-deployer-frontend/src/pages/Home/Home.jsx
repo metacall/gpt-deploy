@@ -14,7 +14,7 @@ const Home = () => {
     const {codes, selectedIndex} = useSelector(state => state.codes);
     const [tabsName , setTabsName] = useState(codes.map(({id, title})=>[title , id]))
     const [tabCode, setTabCode] = useState(codes.map(({id, code})=>[code, id]))
-
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const addTabsName = useCallback((name)=>{
         dispatch(updateCode({
            codesData: [...codes, {id: nanoid(), title: name, code: ""}],
@@ -50,8 +50,13 @@ const Home = () => {
             <Header/>
             <Notebook 
                 Selectors={["Deployed Packages","Deploy", "Workbench"]}
+                selectedIndex={selectedTabIndex}
+                setSelectedIndex={setSelectedTabIndex}
                 Panels={[
-                    <DeployedFunctionPanel/>,
+                    <DeployedFunctionPanel
+                    selectedTabIndex={ selectedTabIndex}
+                    setSelectedTabIndex={setSelectedTabIndex}
+                    />,
                     <DeployPanel/>,
                     <CodeTab 
                         Selectors={tabsName} 

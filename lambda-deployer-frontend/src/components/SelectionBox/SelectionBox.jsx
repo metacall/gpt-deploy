@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWindowMinimize,faWindowMaximize, faUpload, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faWindowMinimize,faWindowMaximize, faUpload, faTrashAlt, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import styles from "./SelectionBox.module.scss";
 import ContextMenu from "../ContextMenu/ContextMenu";
@@ -113,7 +113,7 @@ const SelectionBox = ({ title, selections , removeItems, deployItems }) => {
       <div className={styles.header}  onMouseDown={handleMouseDown}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.options} ref={setOptionRef}>
-            <FontAwesomeIcon icon= {faUpload} title="Deploy" className={styles.menuItem}
+            <FontAwesomeIcon icon= {faCloudUploadAlt} title="Deploy" className={styles.menuItem}
                 onClick={
                   (event)=>{
                       event.preventDefault();

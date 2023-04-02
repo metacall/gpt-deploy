@@ -363,3 +363,11 @@
 2023-03-25 10:43:48:4348 [31merror[39m: [31mRequest failed with status code 400[39m
 2023-03-25 10:43:57:4357 [31merror[39m: [31mRequest failed with status code 400[39m
 2023-03-25 11:37:13:3713 [31merror[39m: [31mRequest failed with status code 504[39m
+2023-03-25 21:27:48:2748 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-25 21:31:25:3125 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-25 21:32:40:3240 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-25 21:32:48:3248 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-25 21:33:42:3342 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-25 21:33:57:3357 [31merror[39m: [31mRequest failed with status code 429[39m
+2023-03-25 21:34:44:3444 [31merror[39m: [31mRequest failed with status code 404[39m
+2023-03-25 21:37:47:3747 [31merror[39m: [31mRequest failed with status code 404[39m

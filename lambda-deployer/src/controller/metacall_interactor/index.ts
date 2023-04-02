@@ -72,7 +72,6 @@ export const deploy = async (req: Request, res: Response) => {
 
 export const undeploy = async (req: Request, res: Response) => {
     try {
-        console.log("done bro")
         const prefix = req.body.prefix as string;
         const suffix = req.body.suffix as string;
         const version = req.body.version as string ?? "v1";

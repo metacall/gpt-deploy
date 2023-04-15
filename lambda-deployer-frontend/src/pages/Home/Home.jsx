@@ -28,9 +28,16 @@ const Home = () => {
             codesData: newCodes,
             modificationType: "remove"
          }))
-         dispatch(updateSelectedIndex(0))
     },[codes, dispatch])
     
+    const renameTabFromId = useCallback((id, name)=>{
+        const newCodes = codes.map(c=>c.id === id ? {...c, title: name}:c)
+        dispatch(updateCode({
+            codesData: newCodes,
+            modificationType: "update"
+         }))
+    },[codes, dispatch])    
+
     const setSelectedIndex = useCallback((index)=>{
         dispatch(updateSelectedIndex(index))
     },[dispatch])
@@ -64,6 +71,7 @@ const Home = () => {
                         setTabsName={setTabsName} 
                         addTabsName={addTabsName} 
                         closeTabFromId={closeTabFromId}
+                        renameTabFromId={renameTabFromId}
                         Panels={
                             tabsName.map((tabName,index)=> <CodeEditor key = {index} code={codes[index]?.code??""} setCode={
                                 (code)=>setCode(code, codes[index]?.id??"")

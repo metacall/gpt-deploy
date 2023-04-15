@@ -77,7 +77,7 @@ function Deployment({ onClickFunction,className , funcData, funcUrl}) {
           </div>
         </div>
         <div className={styles.Deployment+" "+ className}>
-            { countFiles(funcData.functions) > 0 
+            { funcData.functions.length > 0 
               ? funcData.functions.map((f,index)=><FunctionMini 
                   language={f.lang} 
                   content = {f.name} 

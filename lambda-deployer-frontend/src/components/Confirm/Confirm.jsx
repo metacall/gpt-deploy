@@ -34,10 +34,13 @@ const Confirm = ({showPrompt, setShowPrompt }) => {
     }
   };
 
-  const handleEscape = (e) => {
+  const handleActionButton = (e) => {
     if (e.key === 'Escape') {
       handleCancel();
+    } else if (e.key === 'Enter') {
+      handleOk();
     }
+
   };
 
   useEffect(() => {
@@ -45,13 +48,13 @@ const Confirm = ({showPrompt, setShowPrompt }) => {
 
     promptRef.current.style.top = '0';
     document.addEventListener('mousedown', handleOutsideClick);
-    document.addEventListener('keydown', handleEscape);
+    document.addEventListener('keydown', handleActionButton);
 
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleActionButton);
     };
-  }, []);
+  });
   
 
   return (

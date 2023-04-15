@@ -17,6 +17,20 @@
             height: 100%;
             place-items: center;
             position: absolute;
+            user-select: none;
+            .editingText{
+                color: purple;
+                font-size: 90%;
+                font-family: 'Roboto', sans-serif;
+                outline: none;
+                background-color: gray;
+                padding: 2px 2px;
+                font-weight: 700;
+                height: 90%;
+                box-sizing: border-box;
+                border-radius: 10px;
+                border: 0;
+            }
         }
         .remove{
             z-index: 2;

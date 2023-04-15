@@ -66,7 +66,7 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, [showPrompt]);
   
 
   return (

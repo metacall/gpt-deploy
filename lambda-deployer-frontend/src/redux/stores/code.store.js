@@ -16,7 +16,7 @@ export const slice = createSlice({
                 state.selectedIndex = 0;
                 state.codes.push({code: '', title: '<code>', id: nanoid()});
             }
-            
+
             if(state.codes.length <= state.selectedIndex )
                 state.selectedIndex = state.codes.length - 1;
         },

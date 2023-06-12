@@ -1,11 +1,16 @@
 import { useMutation } from "react-query"
-import axios from "axios"
+import axios from "../backend_logic/utils/faxios"
 import { useEffect } from "react"
 async function query(prompt){
         let response= await axios.post('/api/ask',{
             prompt
-        }).then(res=>res.data)
-        return response
+        })
+
+        const statusCode = response.response.status
+        if(!(statusCode < 400 && statusCode >= 200)){
+            throw new Error("Error with status code: " + statusCode)
+        }
+        return response.data
 }
 
 export default function useGetResponse(){

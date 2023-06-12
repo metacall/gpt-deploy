@@ -12,7 +12,7 @@ export const slice = createSlice({
             if(action.payload.modificationType === 'add')
                 state.selectedIndex = state.codes.length - 1;
             
-            if(state.codes.length==0 ){
+            if(state.codes.length === 0 ){
                 state.selectedIndex = 0;
                 state.codes.push({code: '', title: '<code>', id: nanoid()});
             }

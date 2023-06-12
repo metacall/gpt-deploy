@@ -1,3 +1,4 @@
+import './env.js'
 import './App.css';
 import React, { useEffect } from 'react'
 import { QueryClient, QueryClientProvider, QueryClientConfig } from 'react-query'

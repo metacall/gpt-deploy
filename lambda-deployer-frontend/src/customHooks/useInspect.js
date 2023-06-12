@@ -1,8 +1,14 @@
 import { useMutation } from "react-query"
-import axios from "axios"
+import axios from "../backend_logic/utils/faxios"
 
 async function query(prompt){
-    const deployments = await axios.get("/api/getDeployments").then(res=>res.data).then(data=>{
+    const deployments = await axios.get("/api/getDeployments").then(res=>{
+        const statusCode = res.response.status
+        if(!(statusCode < 400 && statusCode >= 200)){
+            throw new Error("Error with status code: " + statusCode)
+        }
+        return res.data
+    }).then(data=>{
         const langs = ['node', 'py', 'file']
         const packagesData = data.map(({packages, ...rest})=>{
             const collection = []
@@ -30,6 +36,7 @@ async function query(prompt){
         return packagesData
     }
     )
+    console.log(deployments)
     return deployments;
 }
 

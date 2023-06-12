@@ -1,20 +1,32 @@
 import { useMutation } from "react-query"
-import axios from "axios"
+import axios from "../backend_logic/utils/faxios"
 async function query(postData){
     let response = null;
     if(postData.method === 'POST'){
         response= await axios.post(postData.url,{
             ...postData.data
-        }).then(res=>res.data)
-        return response
+        })
+        const statusCode = response.response.status
+        if(!(statusCode < 400 && statusCode >= 200)){
+            throw new Error("Error with status code: " + statusCode)
+        }
+        return response.data
     } else  if(postData.method === 'GET'){
-        response= await axios.get(postData.url).then(res=>res.data)
-        return response
+        response= await axios.get(postData.url)
+        const statusCode = response.response.status
+        if(!(statusCode < 400 && statusCode >= 200)){
+            throw new Error("Error with status code: " + statusCode)
+        }
+        return response.data
     } else if(postData.method === 'DELETE'){
         response= await axios.post(postData.url,{
             ...postData.data
-        }).then(res=>res.data)
-        return response 
+        })
+        const statusCode = response.response.status
+        if(!(statusCode < 400 && statusCode >= 200)){
+            throw new Error("Error with status code: " + statusCode)
+        }
+        return response.data
     }
     else throw Error("Invalid method type")
 }

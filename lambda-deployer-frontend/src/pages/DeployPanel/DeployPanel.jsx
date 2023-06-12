@@ -1,6 +1,6 @@
 import React,{useState,useRef , useEffect} from 'react'
 import JSZip from 'jszip';
-import axios from 'axios';
+import axios from '../../backend_logic/utils/faxios';
 import Ask from '../../components/Ask/Ask'
 import { nanoid } from 'nanoid';
 import Response from '../../components/Response/Response'

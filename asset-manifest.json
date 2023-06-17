@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/chatgpt-functions-deployer/static/css/main.651003a3.css",
-    "main.js": "/chatgpt-functions-deployer/static/js/main.1fb8aec4.js",
-    "static/js/787.deb412d2.chunk.js": "/chatgpt-functions-deployer/static/js/787.deb412d2.chunk.js",
-    "index.html": "/chatgpt-functions-deployer/index.html",
-    "main.651003a3.css.map": "/chatgpt-functions-deployer/static/css/main.651003a3.css.map",
-    "main.1fb8aec4.js.map": "/chatgpt-functions-deployer/static/js/main.1fb8aec4.js.map",
-    "787.deb412d2.chunk.js.map": "/chatgpt-functions-deployer/static/js/787.deb412d2.chunk.js.map"
+    "main.css": "/static/css/main.651003a3.css",
+    "main.js": "/static/js/main.623041cb.js",
+    "static/js/787.546f619e.chunk.js": "/static/js/787.546f619e.chunk.js",
+    "index.html": "/index.html",
+    "main.651003a3.css.map": "/static/css/main.651003a3.css.map",
+    "main.623041cb.js.map": "/static/js/main.623041cb.js.map",
+    "787.546f619e.chunk.js.map": "/static/js/787.546f619e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.651003a3.css",
-    "static/js/main.1fb8aec4.js"
+    "static/js/main.623041cb.js"
   ]
 }

@@ -1,12 +1,13 @@
 .Messages{
     position: fixed;
-    bottom: 0;
-    width: 100vw;
+    width: min-content;
     z-index: 1000;
+    right: 0;
+    padding: 0;
     ul{
         display: flex;
         flex-flow: column;
-        padding: 30px;
+        padding: 0;
         justify-content: flex-end;
         position: relative;
         .messageBox{
@@ -19,7 +20,7 @@
             text-align: right;
             margin-left: auto;
 
-            animation: showMessage 1s linear forwards;
+            animation: showMessage 2s linear forwards;
             &:first-of-type{
                 margin-top: auto;
             }
@@ -29,6 +30,7 @@
             .message{
                 display: inline-block;
                 background-color: green;
+                border-radius: 2px;
                 padding:10px;
                 margin: 2px 0;
                 box-shadow: -10px 0 0 0px rgb(82, 82, 108) ;
@@ -40,9 +42,17 @@
                 background-color: rgb(222, 18, 18);
             }
             @keyframes showMessage {
-                100%{
+                10%{
                     left:0%;
                     opacity: 100%;
+                }
+                90% {
+                    left:0%;
+                    opacity: 100%;
+                }
+                100%{
+                    left:100%;
+                    opacity: 0%;
                 }
             }
         }

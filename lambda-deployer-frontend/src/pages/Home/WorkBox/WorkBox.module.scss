@@ -1,0 +1,13 @@
+.WorkBox{
+    height: 100%;
+    border: 2px solid #C2C2C2;
+    margin: 6px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    padding: 6px;
+    overflow: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

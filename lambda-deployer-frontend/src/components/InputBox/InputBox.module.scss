@@ -1,0 +1,9 @@
+.textBox{
+    .controller{
+        display: none;
+    }
+
+    &:hover .controller{
+        display: inherit;
+    }
+}

@@ -1,87 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styles from './Home.module.scss'
-import Notebook from '../../components/Notebook/Notebook';
-import DeployPanel from '../DeployPanel/DeployPanel';
-import DeployedFunctionPanel from '../DeployedFunctionPanel/DeployedFunctionPanel';
-import Header from './Header/Header';
-import CodeEditor from '../../components/CodeEditor/CodeEditor';
-import CodeTab from '../../components/CodeTab/CodeTab';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCode, updateSelectedIndex } from '../../redux/stores/code.store';
+import Header from './Header/Header'
+import WorkBox from './WorkBox/WorkBox';
 const Home = () => {
     const dispatch = useDispatch();
-    const {codes, selectedIndex} = useSelector(state => state.codes);
-    const [tabsName , setTabsName] = useState(codes.map(({id, title})=>[title , id]))
-    const [tabCode, setTabCode] = useState(codes.map(({id, code})=>[code, id]))
-    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-    const addTabsName = useCallback((name)=>{
-        dispatch(updateCode({
-           codesData: [...codes, {id: nanoid(), title: name, code: ""}],
-           modificationType: "add"
-        }))
-    },[codes, dispatch])
     
-    const closeTabFromId = useCallback((id)=>{
-        const newCodes = codes.filter(c=>c.id !== id)
-        dispatch(updateCode({
-            codesData: newCodes,
-            modificationType: "remove"
-         }))
-    },[codes, dispatch])
-    
-    const renameTabFromId = useCallback((id, name)=>{
-        const newCodes = codes.map(c=>c.id === id ? {...c, title: name}:c)
-        dispatch(updateCode({
-            codesData: newCodes,
-            modificationType: "update"
-         }))
-    },[codes, dispatch])    
-
-    const setSelectedIndex = useCallback((index)=>{
-        dispatch(updateSelectedIndex(index))
-    },[dispatch])
-    
-    useEffect(()=>{
-        setTabsName(codes.map(({id, title})=>[title , id]))   
-        setTabCode(codes.map(({id, code})=>[code, id]))  
-    },[codes])
-
-    const setCode = useCallback((code , id)=>{
-        const newCodes = codes.map((c,i)=>c.id === id ?{...c, code}:c)
-        dispatch(updateCode({codesData: newCodes, modificationType: "update"}))
-    }, [codes, dispatch])
-
     return (
         <div className={styles.home}>
             <Header/>
-            <Notebook 
-                Selectors={["Deployed Packages","Deploy", "Workbench"]}
-                selectedIndex={selectedTabIndex}
-                setSelectedIndex={setSelectedTabIndex}
-                Panels={[
-                    <DeployedFunctionPanel
-                    selectedTabIndex={ selectedTabIndex}
-                    setSelectedTabIndex={setSelectedTabIndex}
-                    />,
-                    <DeployPanel/>,
-                    <CodeTab 
-                        Selectors={tabsName} 
-                        Codes = {tabCode}
-                        setTabsName={setTabsName} 
-                        addTabsName={addTabsName} 
-                        closeTabFromId={closeTabFromId}
-                        renameTabFromId={renameTabFromId}
-                        Panels={
-                            tabsName.map((tabName,index)=> <CodeEditor key = {index} code={codes[index]?.code??""} setCode={
-                                (code)=>setCode(code, codes[index]?.id??"")
-                            }/>)
-                        }
-                        selectedIndex={selectedIndex}
-                        setSelectedIndex={setSelectedIndex}
-                    />
-                ]}
-                /> 
+            <WorkBox/>
         </div>
     )
     

@@ -1,5 +1,4 @@
 {
-  "homepage": "https://durgesh077.github.io/chatgpt-functions-deployer/",
   "name": "lambdaease",
   "version": "0.1.0",
   "private": true,
@@ -64,6 +63,7 @@
     ]
   },
   "devDependencies": {
-    "dotenv-webpack": "^8.0.1"
+    "dotenv-webpack": "^8.0.1",
+    "tailwindcss": "^3.3.2"
   }
 }

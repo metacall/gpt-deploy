@@ -1,0 +1,8 @@
+.box{
+    .img{
+        visibility: hidden;
+    }
+    &:hover .img{
+        visibility: visible;
+    }
+}

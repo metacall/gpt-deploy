@@ -42,8 +42,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "deploy:dev": "gh-pages -d build --remote personal",
+    "deploy": "npm run build && gh-pages -d build",
+    "deploy:dev": "npm run build && gh-pages -d build --remote personal",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

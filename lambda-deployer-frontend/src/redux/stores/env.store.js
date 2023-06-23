@@ -13,7 +13,7 @@ if(envVars){
     }
 }
 export const slice = createSlice({
-    name: 'prompts',
+    name: 'envs',
     initialState: env,
     reducers: {
         setOpenAIKey: (state, action) => {

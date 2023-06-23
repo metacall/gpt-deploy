@@ -1,24 +1,22 @@
 import React,{ useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faMicrochip, faRefresh } from '@fortawesome/free-solid-svg-icons'
 import { faCopy, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import useGetResponse from '../../customHooks/useGetResponse'
-import ModalCustom from '../Modal/Modal'
-import Execute from './components/Execute'
-import styles from './Response.module.scss'
-import Confirm from '../Confirm/Confirm'
 import {getModel, tableEnum} from '../../models'
-import { useSelector } from 'react-redux';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
-export default function Response({ prompt, removeResponse, onLoadComplete , collection , setCollection, responseId ,lang="js" }) {
+import { addItem } from '../../redux/stores/stashes.store'
+export default function Response({ prompt, removeResponse, onLoadComplete , responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
     const {OPENAI_API_KEY:openAIKey} = useSelector(state=> state.env)
     const {ask, data, error, isLoading:loading} = useGetResponse(openAIKey)
     const [response, setResponse] = useState(null)
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
+    const dispatch = useDispatch()
     const getResponse= async (prompt)=>{
         try{
             const db = keyValueDB.current;
@@ -78,6 +76,12 @@ export default function Response({ prompt, removeResponse, onLoadComplete , coll
         return ()=>clearInterval(interval)
     },[loading])
 
+    const stashFunction = ()=>{
+        dispatch(addItem([
+            response,
+            responseId
+        ]))
+    }
     function getRenderedResponse(){
         return (
             <React.Fragment>
@@ -125,7 +129,9 @@ export default function Response({ prompt, removeResponse, onLoadComplete , coll
                 {
                     !error &&
                     <div className='flex' >
-                        <button className='bg-black text-sm text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mt-3 active:bg-slate-700 cursor-pointer ml-auto'>
+                        <button className='bg-black text-sm text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mt-3 active:bg-slate-700 cursor-pointer ml-auto'
+                            onClick={stashFunction}
+                        >
                             <span>  STASH FUNCTION </span>
                             <FontAwesomeIcon icon={faArrowRight} className='text-white pl-5 pr-5'/>
                         </button>

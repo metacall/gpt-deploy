@@ -1,7 +1,11 @@
 import React from 'react'
-import StashList from '../StashList/StashList'
 import styles from './StashBox.module.scss'
+import {useSelector, useDispatch} from 'react-redux'
+import StashList from '../StashList/StashList'
+import { removeItem } from '../../redux/stores/stashes.store'
 function StashBox({deployable = false}) {
+  const dispatch = useDispatch();
+  const {collection} = useSelector(state => state.stashes);
   return (
     <div className={'h-full w-1/4 primary-border p-2 flex flex-col'}>
       <p className='text-base font-semibold text-gray-600'>
@@ -17,7 +21,7 @@ function StashBox({deployable = false}) {
         )
       }
     
-     <StashList />
+     <StashList fnList={collection}/>
       
       <button 
       className= {

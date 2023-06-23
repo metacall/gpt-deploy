@@ -7,6 +7,7 @@ import Response from '../../components/Response/Response'
 import {useSelector , useDispatch} from 'react-redux'
 import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
 import { getModel , tableEnum } from '../../models';
+import StashBox from '../StashBox/StashBox';
 const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
                         "return object passed in parameter", 
                         "add two number",

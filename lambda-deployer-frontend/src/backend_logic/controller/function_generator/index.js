@@ -1,17 +1,18 @@
 import { Configuration, OpenAIApi } from "openai";
 import parseFunction from "../../utils/parseFunctions.js";
 import logger from "../../logger/index.js";
-const getAsker = (apiKey) => {
+import wait from "../../utils/wait.js";
+export const getAsker = (apiKey) => {
     const configuration = new Configuration({
         apiKey
     });
     const openai = new OpenAIApi(configuration);
-    return async (req, res) => {
+    return async (query) => {
         const idn = Math.floor(Math.random() * 1000);
-        if (Math.random() < 0.35)
-            return res.status(400).json({
-                message: "unable to create function: testing phase"
-            });
+        // if (Math.random() < 0.35)
+        //     return {
+        //         message: "unable to create function: testing phase"
+        //     }
         const resp = {
             function_def: `hello${idn} = (data)=>{
                     return "currenty you won't get right answer as open ai api key's free trial is finished is not working"
@@ -19,7 +20,8 @@ const getAsker = (apiKey) => {
             name: 'hello' + idn,
             parameter_names: [["data", "string"]]
         };
-        return setTimeout(() => { return res.json(resp); }, 500);
+        // await wait(2);
+        // return resp;
         const prompt = `
             convert the following text command as a javascript language's arrow function with proper indentation without comments without  test cases and without explanation
             also give the name of the function and the parameter names in the following format
@@ -47,7 +49,7 @@ const getAsker = (apiKey) => {
             
             function declaration on following :-
             
-            ${req.body.prompt}
+            ${query}
         `;
         try {
             const completions = await openai.createCompletion({
@@ -60,15 +62,26 @@ const getAsker = (apiKey) => {
             });
             const message = completions.data.choices[0].text;
             const response = parseFunction(message);
-            res.json(response);
+            return response;
         }
         catch (err) {
             const error = err;
             logger.error(error.message);
-            res.status(400).json({
-                message: "unable to create function"
-            });
+            throw error;
         }
     };
 }
-export const ask = getAsker(process.env2.OPENAI_API_KEY);
+
+export const getModels = async (apiKey) => {
+    console.log(apiKey)
+    const configuration = new Configuration({
+        apiKey
+    });
+    const openai = new OpenAIApi(configuration);
+    const res = await openai.listModels();
+    const modelsList = res.data.data;
+    const models = modelsList.map((model) => 
+        model.id
+    )
+    return models;
+}

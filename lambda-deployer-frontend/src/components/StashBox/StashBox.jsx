@@ -3,7 +3,7 @@ import StashList from '../StashList/StashList'
 import styles from './StashBox.module.scss'
 function StashBox({deployable = false}) {
   return (
-    <div className={'h-full w-1/4 border border-gray-300 p-2 flex flex-col'}>
+    <div className={'h-full w-1/4 primary-border p-2 flex flex-col'}>
       <p className='text-base font-semibold text-gray-600'>
         STASHED FUNCTIONS
       </p>
@@ -26,7 +26,7 @@ function StashBox({deployable = false}) {
             'bg-gray-300  text-white font-bold py-2 px-4 rounded mt-3'
       }
       disabled={!deployable}>
-            Deploy
+            DEPLOY
        </button>
     </div>
   )

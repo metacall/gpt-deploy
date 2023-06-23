@@ -1,19 +1,11 @@
 import { useMutation } from "react-query"
-import axios from "../backend_logic/utils/faxios"
-import { useEffect } from "react"
-async function query(prompt){
-        let response= await axios.post('/api/ask',{
-            prompt
-        })
+import {getAsker} from "../backend_logic/controller/function_generator"
 
-        const statusCode = response.response.status
-        if(!(statusCode < 400 && statusCode >= 200)){
-            throw new Error("Error with status code: " + statusCode)
-        }
-        return response.data
-}
-
-export default function useGetResponse(){
+export default function useGetResponse(openAIKey){
+    const asker = getAsker(openAIKey)
+    async function query(prompt){
+            return await asker(prompt)
+    }
     const {mutate:ask, data,status,isLoading, error} = useMutation(query,{
         retry: 0,
         onError: (error) => {

@@ -1,25 +1,34 @@
 import React,{useState, useContext} from 'react'
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight} from '@fortawesome/free-solid-svg-icons'
-import InputBox from '../InputBox/InputBox'
+import InputBoxOpenAIToken from '../InputBoxOpenAIToken/InputBoxInputBoxOpenAIToken'
 import SelectionBox from '../SelectionBox/SelectionBox'
 import InputOption from '../InputOption/InputOption'
 import { setMetacallToken, setModel, setOpenAIKey } from '../../redux/stores/env.store'
 import cog from './cog.svg'
 import {MessageContext} from '../../components/MessageStack/MessageStack'
+import { getModels } from '../../backend_logic/controller/function_generator'
+import CodeGeneration from '../CodeGeneration/CodeGeneration';
+import { nanoid } from 'nanoid';
+import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
+import MetacallTokenInput from '../MetacallTokenInput/MetacallTokenInput';
+import { useEffect } from 'react';
 function CodeBox() {
   const dispatch = useDispatch()
+  const {prompts} = useSelector(state => state.prompts);
   const [text, setText] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     OPENAI_API_KEY:openAIKey,
     MODEL: model,
     METACALL_TOKEN: metacallToken
   } = useSelector(state=> state.env)
   const {addSuccess, addError} = useContext(MessageContext)
+  const [options, setOptions] = useState(null)
   const [deployable, setDeployable] = useState(openAIKey && model && metacallToken)
   const [dataAlreadySet, setDataAlreadySet] = useState(deployable)
-
   const saveData = ()=>{
     const data =`MODEL=${model}
     OPENAI_API_KEY=${openAIKey}
@@ -31,12 +40,47 @@ function CodeBox() {
   }
 
   const setting = ()=>{
-    setDeployable(false)
-    setDataAlreadySet(false)
+    setDeployable(state => !state)
+    setDataAlreadySet(state => !state)
   }
 
+  const retrieveModelOptions = ()=>{
+    getModels(openAIKey)
+    .then((models)=>{
+      setOptions(models)
+      if(models.length > 0)
+        setModel(models[0])
+    })
+    .catch((err)=>{
+      // if error stattus code is 401, then the key is invalid
+      if(err.response.status === 401)
+        addError('Invalid OpenAI API Key')
+      else 
+        addError('Something went wrong while fetching models')
+      
+      setOptions(null)
+    })
+  }
+
+  function onSend(prompt){
+    const id = nanoid();
+    dispatch(updatePrompts([...prompts, [prompt ,id]]));
+  }
+
+  const handleEnterPress = (event) => {
+    if (event.key === 'Enter') {
+      onSend(text);
+      setText("");
+    }
+  };
+
+  useEffect(()=>{
+    if(searchParams.get('mt'))
+      dispatch(setMetacallToken(searchParams.get('mt')))
+  },[searchParams.get('mt')])
+
   return (
-    <div className='h-full w-full flex flex-col gap-3 box-border pr-2'>
+    <div className='h-full w-full flex flex-col gap-3 box-border pr-2 '>
         <img src={cog} className='mt-auto w-10 border border-gray-300 p-3 rounded outline-icon active:bg-slate-200 cursor-pointer' onClick={setting}/>
         {
           !dataAlreadySet &&
@@ -54,13 +98,19 @@ function CodeBox() {
               Please rest assured that we prioritize your privacy and guarantee that your key will not be sent elsewhere.
             </span>
           </p>
-          <InputBox placeholder='sk-...' text={openAIKey} setText={(value)=>dispatch(setOpenAIKey(value))}/>
-          <div className='flex gap-4 mt-3 rounded'>
-            <InputOption value={model} setValue={(value)=>dispatch(setModel(value))}/>
-            <button className='bg-black rounded filter active:bg-slate-700' onClick={saveData} title='save'>
-              <FontAwesomeIcon icon={faArrowRight} className='text-white pl-5 pr-5'/>
-            </button>
-          </div>
+
+          <MetacallTokenInput placeholder='Metacall Token' text={metacallToken} setText={(value)=>dispatch(setMetacallToken(value))} disabled={searchParams.get('mt')}
+          />
+          <InputBoxOpenAIToken placeholder='sk-...' text={openAIKey} setText={(value)=>dispatch(setOpenAIKey(value))} setAvailableModels={retrieveModelOptions}/>
+            {
+              options &&
+              <div className='flex gap-4 mt-3 rounded'>
+                <InputOption value={model} setValue={(value)=>dispatch(setModel(value))} options={options}/>
+                <button className='bg-black rounded filter active:bg-slate-700' onClick={saveData} title='save'>
+                  <FontAwesomeIcon icon={faArrowRight} className='text-white pl-5 pr-5'/>
+                </button>
+              </div>
+            }
           </React.Fragment>
           :
           <p className='text-sm'>
@@ -70,16 +120,23 @@ function CodeBox() {
           }
         </div>
         }
+        
+        <CodeGeneration/>
 
         <div className='flex flex-row w-full p-2 border border-gray-300 rounded'>
           <input type='text' className='flex w-full outline-none mr-2 text-gray-700' value={text} 
               placeholder='Write a function description'
-              onChange={(e)=>setText(e.target.value)}/>
-
+              onChange={(e)=>setText(e.target.value)}
+              onKeyPress={handleEnterPress}
+              />
               <button className={
                deployable && text? 'bg-black rounded text-white whitespace-nowrap p-1 pl-3 pr-3 active:bg-slate-700'
                : 'bg-gray-300  text-white whitespace-nowrap p-1 pl-3 pr-3 rounded'
-              } disabled={!deployable || !text}>
+              } 
+              onClick={()=>{
+                onSend(text)
+              }}
+              disabled={!deployable || !text}>
                 GENERATE FUNCTION
             </button>
         </div>

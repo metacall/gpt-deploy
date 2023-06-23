@@ -1,6 +1,6 @@
 import React,{useState,useRef , useEffect} from 'react'
 import JSZip from 'jszip';
-import axios from '../../backend_logic/utils/faxios';
+import axios from 'axios'
 import Ask from '../../components/Ask/Ask'
 import { nanoid } from 'nanoid';
 import Response from '../../components/Response/Response'
@@ -8,7 +8,6 @@ import SearchBox from '../../components/SearchBox/SearchBox'
 import styles from './DeployPanel.module.scss'
 import SelectionBox from '../../components/SelectionBox/SelectionBox';
 import {useSelector , useDispatch} from 'react-redux'
-import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
 import { getModel , tableEnum } from '../../models';
 const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
                         "return object passed in parameter", 

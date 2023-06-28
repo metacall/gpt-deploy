@@ -85,3 +85,4 @@ export const generateJsonsFromFiles = (files) => Object.keys(Languages).reduce((
         ];
     }
 }, []);
+//# sourceMappingURL=package.js.map

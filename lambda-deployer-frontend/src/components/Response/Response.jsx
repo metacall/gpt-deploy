@@ -9,7 +9,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
-import { addItem } from '../../redux/stores/stashes.store'
+import { addItem, removeItem } from '../../redux/stores/stashes.store'
 export default function Response({ prompt, removeResponse, onLoadComplete , responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
     const {OPENAI_API_KEY:openAIKey} = useSelector(state=> state.env)
@@ -17,6 +17,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     const [response, setResponse] = useState(null)
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
     const dispatch = useDispatch()
+    const [stashed, setStashed] = useState(false)
     const getResponse= async (prompt)=>{
         try{
             const db = keyValueDB.current;
@@ -77,10 +78,16 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     },[loading])
 
     const stashFunction = ()=>{
-        dispatch(addItem([
-            response,
-            responseId
-        ]))
+        if(!stashed){
+            setStashed(true)
+            dispatch(addItem([
+                response,
+                responseId
+            ]))
+        } else {
+            setStashed(false)
+            dispatch(removeItem(responseId))
+        }
     }
     function getRenderedResponse(){
         return (
@@ -132,7 +139,11 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                         <button className='bg-black text-sm text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mt-3 active:bg-slate-700 cursor-pointer ml-auto'
                             onClick={stashFunction}
                         >
-                            <span>  STASH FUNCTION </span>
+                            <span>  
+                                {
+                                    !stashed? "STASH FUNCTION": "UNSTASH FUNCTION"
+                                } 
+                            </span>
                             <FontAwesomeIcon icon={faArrowRight} className='text-white pl-5 pr-5'/>
                         </button>
                     </div>

@@ -8,7 +8,7 @@ export const slice = createSlice({
     reducers: {
         removeItem: (state, action) => {
             const removal_id = action.payload;
-            state.collection = state.collection.filter(([func_name, func_def, id]) => id !== removal_id);
+            state.collection = state.collection.filter(([_, id]) => id !== removal_id);
         },
         addItem: (state, action) => {
             state.collection.push(action.payload);

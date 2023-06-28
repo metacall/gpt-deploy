@@ -16,3 +16,4 @@ export default (email, password, baseURL) => {
     })
         .then(res => res.data);
 };
+//# sourceMappingURL=login.js.map

@@ -173,7 +173,7 @@ export default (token: string, baseURL: string): API => {
 					headers: {
 						Authorization: 'jwt ' + token,
 						'Content-Type': 'multipart/form-data',
-						...fd.getHeaders()
+						...(fd.getHeaders?.() ?? {})
 					}
 				}
 			);

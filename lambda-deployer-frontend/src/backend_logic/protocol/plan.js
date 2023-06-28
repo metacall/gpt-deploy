@@ -4,3 +4,4 @@ export var Plans;
     Plans["Standard"] = "Standard";
     Plans["Premium"] = "Premium";
 })(Plans || (Plans = {}));
+//# sourceMappingURL=plan.js.map

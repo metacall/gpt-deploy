@@ -63,21 +63,21 @@ export default (token, baseURL) => {
             headers: { Authorization: 'jwt ' + token }
         })
             .then(res => res.data),
-        upload: async (name, blob, jsons = [], runners = [], type) => {
+        upload: async (name, blob, jsons = [], runners = [], type = 'application/x-zip-compressed') => {
             const fd = new FormData();
             fd.append('id', name);
             fd.append('type', type);
             fd.append('jsons', JSON.stringify(jsons));
-            fd.append('runners', runners);
+            fd.append('runners', JSON.stringify(runners));
             fd.append('raw', blob, {
-                filename: 'test.zip',
-                contentType: 'application/zip'
+                filename: 'blob',
+                contentType: type
             });
             const res = await axios.post(baseURL + '/api/package/create', fd, {
                 headers: {
                     Authorization: 'jwt ' + token,
                     'Content-Type': 'multipart/form-data',
-                    ...fd.getHeaders()
+                    ...(fd.getHeaders?.() ?? {})
                 }
             });
             return res?.data;
@@ -142,3 +142,4 @@ export default (token, baseURL) => {
     };
     return api;
 };
+//# sourceMappingURL=protocol.js.map

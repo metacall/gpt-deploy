@@ -7,3 +7,4 @@ export const expiresIn = (token) => {
     const now = Date.now() / 1000;
     return new Date((decoded?.['exp'] || now) * 1000).getTime() - now * 1000;
 };
+//# sourceMappingURL=token.js.map

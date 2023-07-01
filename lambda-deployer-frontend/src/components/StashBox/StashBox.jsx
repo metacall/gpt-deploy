@@ -4,9 +4,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import StashList from '../StashList/StashList'
 import { removeItem } from '../../redux/stores/stashes.store'
 import JSZip from 'jszip'
-// import protocol from '@metacall/protocol/protocol' //TODO: use official protocol
-import protocol from '../../backend_logic/protocol/protocol'
-import {Plans} from '../../backend_logic/protocol/plan'
+import protocol, {ResourceType} from '@metacall/protocol/protocol'
+import { Plans } from '@metacall/protocol/plan'
 import { MessageContext } from '../MessageStack/MessageStack'
 function StashBox({}) {
   const {addError, addSuccess} = useContext(MessageContext)
@@ -41,11 +40,10 @@ function StashBox({}) {
 
             const createData = await metacallApi.upload(filename, generatedZipBlob)
             const env = []
-            const ResourceType = 'Package'
-            const deployData = await metacallApi.deploy(createData.id, env, Plans.Standard, ResourceType)
+            const deployData = await metacallApi.deploy(createData.id, env, Plans.Standard, ResourceType.Package)
             addSuccess('deployed '+file.name+' successfully');
         }catch(err){
-            addError(err.response.data)
+            addError(err?.response?.data ?? err.message)
         }
     })
 

@@ -8,5 +8,5 @@ module.exports = {
       systemvars: true,
       prefix: 'env2.',
     }),
-  ],
+  ]
 };

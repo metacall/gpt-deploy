@@ -22,4 +22,6 @@ npm run deploy
 
 ## Showcase
 
+![Function Example](./docs/images/new-UI.png)
+
 ![Function Example](./docs/images/example-function.png)

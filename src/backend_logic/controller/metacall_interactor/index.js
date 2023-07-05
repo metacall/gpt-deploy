@@ -90,7 +90,6 @@ export const getDeployments = async (req, res) => {
         const token = process.env2.METACALL_TOKEN;
         const metacallAPI = protocolAPI(token, process.env2.METACALL_FAAS_BASE_URL);
         const deployments = await metacallAPI.inspect();
-        console.log(deployments)
         return res.json(deployments);
     }
     catch (err) {

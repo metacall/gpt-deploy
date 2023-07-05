@@ -36,7 +36,6 @@ async function query(prompt){
         return packagesData
     }
     )
-    console.log(deployments)
     return deployments;
 }
 

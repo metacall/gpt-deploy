@@ -9,13 +9,8 @@ import styles from './DeployPanel.module.scss'
 import SelectionBox from '../../components/SelectionBox/SelectionBox';
 import {useSelector , useDispatch} from 'react-redux'
 import { getModel , tableEnum } from '../../models';
-const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
-                        "return object passed in parameter", 
-                        "add two number",
-                        "return the sum of all numbers in an array"]
-
-function DeployPanel({}) {
-    const randomPrompt = defaultPrompts[Math.floor(Math.random() * defaultPrompts.length)]
+import updatePrompts from '../../redux/stores/prompts.store'
+function DeployPanel() {
     const dispatch = useDispatch();
     const {prompts} = useSelector(state => state.prompts);
     const chatBoxRef = React.useRef(null)
@@ -125,7 +120,6 @@ function DeployPanel({}) {
                       'Content-Type': 'multipart/form-data'
                     }
                   }).then(res=>res.data.response_data);
-                console.log(createData)
                 let data = await axios.post(`/api/deploy` , {
                     name : createData.id
                 }).then(res=>res.data);

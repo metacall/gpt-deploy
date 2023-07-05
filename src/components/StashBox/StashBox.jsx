@@ -5,14 +5,12 @@ import JSZip from 'jszip'
 import protocol, {ResourceType} from '@metacall/protocol/protocol'
 import { Plans } from '@metacall/protocol/plan'
 import { MessageContext } from '../MessageStack/MessageStack'
-
+import { metacallBaseUrl } from '../../constants/URLs'
 function StashBox() {
   const {addError, addSuccess} = useContext(MessageContext)
   const {collection} = useSelector(state => state.stashes);
   const metacallToken = useSelector(state => state.env.METACALL_TOKEN)
   const deployable = collection.length > 0 && metacallToken !== '';
-  const metacallBaseUrl = 'https://dashboard.metacall.io'
-  console.log(protocol)
   const metacallApi = protocol(metacallToken, metacallBaseUrl)
   async function deployItems(){
     if(collection.length ===0)

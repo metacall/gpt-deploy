@@ -43,7 +43,6 @@ const Prompt = ({showPrompt, setShowPrompt }) => {
   const handleOutsideClick = (e) => {
     if(!promptRef.current)
       return
-      console.log(promptRef , e.target)
     if (!promptRef.current.contains(e.target)) {
       handleCancel();
     }

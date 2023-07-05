@@ -58,7 +58,6 @@ export const getAsker = (apiKey) => {
 }
 
 export const getModels = async (apiKey) => {
-    console.log(apiKey)
     const configuration = new Configuration({
         apiKey
     });

@@ -1,4 +1,4 @@
-import React,{useState,useRef , useEffect} from 'react'
+import React,{useState,useRef , useEffect, useCallback} from 'react'
 import JSZip from 'jszip';
 import axios from 'axios'
 import Ask from '../../components/Ask/Ask'
@@ -57,9 +57,9 @@ function DeployPanel({}) {
                 }
             }).catch(err=>console.error(err));
     },[])
-    function onLoad(){
+    const onLoad = useCallback(()=>{
         goToLast();
-    }
+    },[])
     function removeItems(ids){
         const id_set = new Set(ids);
         const newPrompts = prompts.filter(([prompt, id]) => !id_set.has(id));

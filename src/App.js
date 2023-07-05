@@ -1,4 +1,3 @@
-import './env.js';
 import './App.css';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';

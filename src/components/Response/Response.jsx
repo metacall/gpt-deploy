@@ -63,7 +63,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                     console.log("unable to create response: "+ err.message); 
                 })
         }
-    },[])
+    },[prompt])
 
     useEffect(()=>{
         if(!loading ){

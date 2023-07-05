@@ -14,6 +14,7 @@ function StashBox({}) {
   const metacallToken = useSelector(state => state.env.METACALL_TOKEN)
   const deployable = collection.length > 0 && metacallToken !== '';
   const metacallBaseUrl = 'https://dashboard.metacall.io'
+  console.log(protocol)
   const metacallApi = protocol(metacallToken, metacallBaseUrl)
   async function deployItems(){
     if(collection.length ===0)

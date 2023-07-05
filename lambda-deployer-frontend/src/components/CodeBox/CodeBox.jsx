@@ -65,12 +65,12 @@ function CodeBox() {
   function onSend(prompt){
     const id = nanoid();
     dispatch(updatePrompts([...prompts, [prompt ,id]]));
+    setText("");
   }
 
   const handleEnterPress = (event) => {
     if (event.key === 'Enter') {
       onSend(text);
-      setText("");
     }
   };
 

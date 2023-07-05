@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { nanoid } from 'nanoid';
+import { createSlice } from '@reduxjs/toolkit';
 export const slice = createSlice({
     name: 'stashes',
     initialState: {

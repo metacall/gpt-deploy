@@ -18,7 +18,7 @@ function CodeBox() {
   const dispatch = useDispatch()
   const {prompts} = useSelector(state => state.prompts);
   const [text, setText] = useState('')
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const {
     OPENAI_API_KEY:openAIKey,
     MODEL: model,
@@ -80,7 +80,7 @@ function CodeBox() {
 
   return (
     <div className='h-full w-full flex flex-col gap-3 box-border pr-2 '>
-        <img src={cog} className='mt-auto w-10 border border-gray-300 p-3 rounded outline-icon active:bg-slate-200 cursor-pointer' onClick={setting}/>
+        <img src={cog} className='mt-auto w-10 border border-gray-300 p-3 rounded outline-icon active:bg-slate-200 cursor-pointer' alt="cog" onClick={setting}/>
         {
           !dataAlreadySet &&
         <div className={'w-full p-3 border border-gray-300 rounded '+(!deployable?'w-3/4':'')}>
@@ -113,7 +113,7 @@ function CodeBox() {
           </React.Fragment>
           :
           <p className='text-sm'>
-              <strong>All set! You can click on the <img src={cog} className='inline'/> to change settings.</strong> <br/>
+              <strong>All set! You can click on the <img src={cog} className='inline' alt="cog"/> to change settings.</strong> <br/>
               Let's now unleash the power of MetaCall GPT and create something remarkable together!
           </p>
           }

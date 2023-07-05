@@ -1,12 +1,12 @@
 import React, {useContext} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import StashList from '../StashList/StashList'
 import JSZip from 'jszip'
 import protocol, {ResourceType} from '@metacall/protocol/protocol'
 import { Plans } from '@metacall/protocol/plan'
 import { MessageContext } from '../MessageStack/MessageStack'
 
-function StashBox({}) {
+function StashBox() {
   const {addError, addSuccess} = useContext(MessageContext)
   const {collection} = useSelector(state => state.stashes);
   const metacallToken = useSelector(state => state.env.METACALL_TOKEN)
@@ -39,7 +39,7 @@ function StashBox({}) {
 
             const createData = await metacallApi.upload(filename, generatedZipBlob)
             const env = []
-            const deployData = await metacallApi.deploy(createData.id, env, Plans.Standard, ResourceType.Package)
+            await metacallApi.deploy(createData.id, env, Plans.Standard, ResourceType.Package)
             addSuccess('deployed '+file.name+' successfully');
         }catch(err){
             addError(err?.response?.data ?? err.message)

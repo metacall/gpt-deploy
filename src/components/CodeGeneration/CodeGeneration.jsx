@@ -5,13 +5,7 @@ import {useSelector , useDispatch} from 'react-redux'
 import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
 import { getModel , tableEnum } from '../../models';
 
-const defaultPrompts = ["take two strings as parameter and return contatenation of them in upper case",
-                        "return object passed in parameter", 
-                        "add two number",
-                        "return the sum of all numbers in an array"]
-
 function CodeGeneration({newPrompt}) {
-    const randomPrompt = defaultPrompts[Math.floor(Math.random() * defaultPrompts.length)]
     const dispatch = useDispatch();
     const {prompts} = useSelector(state => state.prompts);
     const chatBoxRef = React.useRef(null)

@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
-import { faCheck, faTicket, faTimes } from '@fortawesome/free-solid-svg-icons'
+import React from 'react'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './InputBoxOpenAIToken.module.scss'
-import axios from 'axios'
 function InputBoxOpenAIToken({text, setText, setAvailableModels, placeholder='', className=''}) {
     return (
         <div className={'flex w-full p-2 border rounded border-gray-300 '+styles.textBox}>

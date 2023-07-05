@@ -1,18 +1,15 @@
-import './env.js'
+import './env.js';
 import './App.css';
-import React, { useEffect } from 'react'
-import { QueryClient, QueryClientProvider, QueryClientConfig } from 'react-query'
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import MessageStack from './components/MessageStack/MessageStack';
 import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate
+  BrowserRouter
 } from "react-router-dom";
 
 import Home from './pages/Home/Home';
 import { Provider as ReduxProvider } from 'react-redux';
-import store from './redux'
+import store from './redux';
 const client  = new QueryClient({
   defaultOptions: {
     queries: {

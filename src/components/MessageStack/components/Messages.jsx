@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Messages.module.scss'
 function Messages({messageList}) {
-  if(!messageList || messageList.length==0)
+  if(!messageList || messageList.length === 0)
     return null
   return (
     <div className={styles.Messages}>

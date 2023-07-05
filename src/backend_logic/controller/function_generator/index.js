@@ -1,27 +1,12 @@
 import { Configuration, OpenAIApi } from "openai";
 import parseFunction from "../../utils/parseFunctions.js";
 import logger from "../../logger/index.js";
-import wait from "../../utils/wait.js";
 export const getAsker = (apiKey) => {
     const configuration = new Configuration({
         apiKey
     });
     const openai = new OpenAIApi(configuration);
     return async (query) => {
-        const idn = Math.floor(Math.random() * 1000);
-        // if (Math.random() < 0.35)
-        //     return {
-        //         message: "unable to create function: testing phase"
-        //     }
-        const resp = {
-            function_def: `hello${idn} = (data)=>{
-                    return "currenty you won't get right answer as open ai api key's free trial is finished is not working"
-            }`,
-            name: 'hello' + idn,
-            parameter_names: [["data", "string"]]
-        };
-        // await wait(2);
-        // return resp;
         const prompt = `
             convert the following text command as a javascript language's arrow function with proper indentation without comments without  test cases and without explanation
             also give the name of the function and the parameter names in the following format

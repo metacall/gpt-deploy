@@ -14,7 +14,7 @@ function MessageStack({children}) {
     }])
 
     setTimeout(()=>{
-      setMessageList(prev=>prev.filter(msg=>msg.id!=id))
+      setMessageList(prev=>prev.filter(msg=>msg.id !== id))
     }, 3000);
   }
 

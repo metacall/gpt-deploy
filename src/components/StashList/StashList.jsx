@@ -10,7 +10,7 @@ export default function StashList({fnList}) {
             fnList.map(([fn,id],index)=>{
                 return <div key={index} className={'h-10 cursor-pointer w-full flex items-center justify-center mt-2 bg-green-200 border hover:bg-green-400 border-gray-300 transition '+styles.box}>
                     <div className='ml-2 truncate overflow-ellipsis text-center w-full text-gray-500'>{fn?.name}</div>
-                    <img src = {flask} className={'ml-auto mr-2 ' + styles.img}/>
+                    <img src = {flask} className={'ml-auto mr-2 ' + styles.img} alt="options"/>
                 </div>
             })
         }

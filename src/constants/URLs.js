@@ -1,0 +1,1 @@
+export const metacallBaseUrl = 'https://dashboard.metacall.io'

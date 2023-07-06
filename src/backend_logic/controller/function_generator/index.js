@@ -6,7 +6,7 @@ export const getAsker = (apiKey) => {
         apiKey
     });
     const openai = new OpenAIApi(configuration);
-    return async (query) => {
+    return async (query, model) => {
         const prompt = `
             convert the following text command as a javascript language's arrow function with proper indentation without comments without  test cases and without explanation
             also give the name of the function and the parameter names in the following format
@@ -38,7 +38,7 @@ export const getAsker = (apiKey) => {
         `;
         try {
             const completions = await openai.createCompletion({
-                model: "text-davinci-003",
+                model,
                 prompt,
                 max_tokens: 2048,
                 n: 1,

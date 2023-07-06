@@ -1,4 +1,4 @@
-import React,{ useEffect, useRef, useState } from 'react'
+import React,{ useEffect, useRef, useState, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faEdit, faMicrochip, faRefresh, faSave } from '@fortawesome/free-solid-svg-icons'
@@ -11,10 +11,12 @@ import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 import { addItem, removeItem } from '../../redux/stores/stashes.store'
 import Confirm from '../Confirm/Confirm'
+import { MessageContext } from '../MessageStack/MessageStack'
 export default function Response({ prompt, removeResponse, onLoadComplete , responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
-    const {OPENAI_API_KEY:openAIKey} = useSelector(state=> state.env)
-    const {ask, data, error, isLoading:loading} = useGetResponse(openAIKey)
+    const {addError} = useContext(MessageContext)
+    const {OPENAI_API_KEY:openAIKey, MODEL: model} = useSelector(state=> state.env)
+    const {ask, error, isLoading:loading} = useGetResponse(openAIKey, model)
     const [response, setResponse] = useState(null)
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
     const dispatch = useDispatch()
@@ -44,7 +46,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             return res;
 
         } catch(e) {
-            console.error(e.message);
+            addError(e.message);
             return null
         }
 
@@ -58,7 +60,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                     onLoadComplete();
                 })
                 .catch(err=>{
-                    console.log("unable to create response: "+ err.message); 
+                    addError(err?.message ?? "Unable to create response"); 
                 })
         }
     },[prompt])
@@ -87,7 +89,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             dispatch(removeItem(responseId))
         }
     }
-  
+    
     function getRenderedResponse(){
         return (
             <React.Fragment>
@@ -97,13 +99,13 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                     onClick={()=>{
                         const db = keyValueDB.current;
                         ask(prompt,{
-                            onError:()=>{
-                                //TODO: add error message
+                            onError:(err)=>{
+                                addError(err?.response?.message ?? "Failed to regenerate response")
                             },
                             onSuccess:(data)=>{
                                 db.add(prompt, data)
                                     .then(()=> setResponse(data))
-                                    .catch(()=>console.error('unable to get response'));
+                                    .catch(()=>addError('Unable to get response'));
                             }
                         })
                     }}/>
@@ -116,11 +118,16 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                     }
                     {
                         response?.function_def &&
-                        <FontAwesomeIcon icon={editable? faSave :faEdit} className='font-thin font-serif primary-border p-1  cursor-pointer active:scale-110' title={editable? 'save': 'edit'}
+                        <FontAwesomeIcon icon={editable? faSave :faEdit} className={'font-thin font-serif primary-border p-1  cursor-pointer active:scale-110 '} title={editable? 'save': 'edit'}
                             onClick={()=>{
                                 if(editable){
-                                    response.function_def = codeRef.current.textContent
-                                    setResponse({...response})
+                                    const db = keyValueDB.current;
+                                    response.function_def = codeRef.current.innerText;
+                                    db.add(prompt, response)
+                                    .then(()=> {
+                                        setResponse({...response})}
+                                        )
+                                    .catch(()=>console.error('unable to get response'));
                                 }
                                 setEditable(state => !state)
 
@@ -148,9 +155,9 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                             </span>
                             :<code 
                                 dangerouslySetInnerHTML={{ __html: highlight(response?.function_def ?? '' , languages.js, 'js')  }} 
-                                className='outline-none' contentEditable={editable}
+                                className={'outline-none '+ (editable?'bg-white font-semibold py-1':'') }contentEditable={editable}
                                 suppressContentEditableWarning={true}
-                                ref={codeRef}/>
+                                ref={codeRef} />
                         }
                     </pre>
                 </div>

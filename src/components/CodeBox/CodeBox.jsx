@@ -26,6 +26,7 @@ function CodeBox() {
   } = useSelector(state=> state.env)
   const {addSuccess, addError} = useContext(MessageContext)
   const [options, setOptions] = useState(null)
+  const [isOptionLoading , setIsOptionLoading] = useState(false)
   const [deployable, setDeployable] = useState(openAIKey && model && metacallToken)
   const [dataAlreadySet, setDataAlreadySet] = useState(deployable)
   const saveData = ()=>{
@@ -39,18 +40,26 @@ function CodeBox() {
   }
 
   const setting = ()=>{
-    setDeployable(state => !state)
-    setDataAlreadySet(state => !state)
+    if(deployable ^ dataAlreadySet){
+      setDeployable( false)
+      setDataAlreadySet(false)
+    } else {
+      setDeployable(state => !state)
+      setDataAlreadySet(state => !state)
+    }
   }
 
   const retrieveModelOptions = ()=>{
+    setIsOptionLoading(true)
     getModels(openAIKey)
     .then((models)=>{
+      setIsOptionLoading(false)
       setOptions(models)
       if(models.length > 0)
         setModel(models[0])
     })
     .catch((err)=>{
+      setIsOptionLoading(false)
       // if error stattus code is 401, then the key is invalid
       if(err.response.status === 401)
         addError('Invalid OpenAI API Key')
@@ -79,8 +88,11 @@ function CodeBox() {
   };
 
   useEffect(()=>{
-    if(searchParams.get('mt'))
+    if(searchParams.get('mt')){
       dispatch(setMetacallToken(searchParams.get('mt')))
+      setDataAlreadySet(false)
+      setDeployable(false)
+    }
   },[searchParams.get('mt')])
 
   return (
@@ -105,7 +117,7 @@ function CodeBox() {
 
           <MetacallTokenInput placeholder='Metacall Token' text={metacallToken} setText={(value)=>dispatch(setMetacallToken(value))} disabled={searchParams.get('mt')}
           />
-          <InputBoxOpenAIToken placeholder='sk-...' text={openAIKey} setText={(value)=>dispatch(setOpenAIKey(value))} setAvailableModels={retrieveModelOptions}/>
+          <InputBoxOpenAIToken placeholder='sk-...' text={openAIKey} setText={(value)=>dispatch(setOpenAIKey(value))} isLoading={isOptionLoading} setAvailableModels={retrieveModelOptions}/>
             {
               options &&
               <div className='flex gap-4 mt-3 rounded'>

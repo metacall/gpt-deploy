@@ -88,6 +88,7 @@ function Deployment({ onClickFunction,className , funcData, funcUrl}) {
                   func = {f} 
                   metadata  = {metadata}
                   onClick={()=>onClickFunction(index)}
+                  key = {index}
                   /> )
               : <div className={styles.noFunctions}>
                   No functions found

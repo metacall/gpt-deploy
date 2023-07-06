@@ -1,20 +1,24 @@
 import { useMutation } from "react-query"
-import axios from "../backend_logic/utils/faxios"
+import axios from "axios"
 
 async function query(postData){
     let response = null;
     if(postData.method === 'POST'){
         response= await axios.post(postData.url,{
             ...postData.data
+        },{
+            headers: postData.headers || {}
         })
-        const statusCode = response.response.status
+        const statusCode = response.status
         if(!(statusCode < 400 && statusCode >= 200)){
             throw new Error("Error with status code: " + statusCode)
         }
         return response.data
     } else  if(postData.method === 'GET'){
-        response= await axios.get(postData.url)
-        const statusCode = response.response.status
+        response= await axios.get(postData.url,{
+            headers: postData.headers || {}
+        })
+        const statusCode = response.status
         if(!(statusCode < 400 && statusCode >= 200)){
             throw new Error("Error with status code: " + statusCode)
         }
@@ -22,8 +26,10 @@ async function query(postData){
     } else if(postData.method === 'DELETE'){
         response= await axios.post(postData.url,{
             ...postData.data
+        },{
+            headers: postData.headers || {}
         })
-        const statusCode = response.response.status
+        const statusCode = response.status
         if(!(statusCode < 400 && statusCode >= 200)){
             throw new Error("Error with status code: " + statusCode)
         }
@@ -33,7 +39,7 @@ async function query(postData){
 }
 
 export default function useFunctionCall(){
-    const {mutate:call, data,status,isLoading, error} = useMutation(query,{
+    const {mutate:call, data,isLoading, error} = useMutation(query,{
         retry: 0,
         onError: (error) => {
             console.error(error)

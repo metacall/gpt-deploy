@@ -38,7 +38,6 @@ const getController = async (url) => {
 }
 
 const _caller =  async (path, body) => {
-    console.info('Calling url: ' + path, body)
     let response = null;
     try{
         const {controller, query, params} = await getController(path);
@@ -65,7 +64,6 @@ const _caller =  async (path, body) => {
             }
         }
     } finally{
-        console.info('Response for url: ' + response)
         return response;
     }
 }

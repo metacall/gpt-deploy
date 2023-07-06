@@ -1,14 +1,13 @@
 .DeployedFunctionPanel{
-    min-height: 90vh;
+    height: 100vh;
     background-color: rgb(13, 17, 23);
-    overflow: scroll;
+    overflow: auto;
     padding: 30px;
     display: flex;
     flex-flow: column nowrap;
     scroll-behavior: smooth;
     place-items: center;
     scroll-snap-type: x mandatory;
-    height: max-content;
     gap: 30px;
     & > *{
         scroll-snap-align: center;

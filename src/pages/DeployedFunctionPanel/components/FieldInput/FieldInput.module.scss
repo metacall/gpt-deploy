@@ -14,6 +14,8 @@
   box-sizing: border-box;
   width: 100%;
   min-height: 3em;
+  border: 1px solid #0078d4;
+  transition: border-color 0.2s, border-width 0.2s;
 }
 .fieldsetFocused {
   border: 2.5px solid #0078d4;

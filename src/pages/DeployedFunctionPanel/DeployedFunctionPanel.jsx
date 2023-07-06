@@ -1,17 +1,18 @@
-import axios from 'axios'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './DeployedFunctionPanel.module.scss'
 import Deployment from './components/Deployment/Deployment';
 import RightPanel from '../../components/RightPanel/RightPanel';
-import { LoaderSlider, LoaderSpinner } from '../../components/Loader';
+import { LoaderSpinner } from '../../components/Loader';
 import SlidingTabs from '../../components/SlidingTabs/SlidingTabs';
 import Top from './components/Top/Top';
 import Bottom from './components/Bottom/Bottom';
 import useFunctionCall from '../../customHooks/useCallFunction';
 import useInspect from '../../customHooks/useInspect';
 import dataTypeMapping from '../../constants/dataTypeMapping';
-
-function DeployedFunctionPanel({selectedTabIndex , setSelectedTabIndex}) {
+import {Link} from 'react-router-dom'
+import { useSelector} from 'react-redux';
+function DeployedFunctionPanel() {
+    const { METACALL_TOKEN: metacallToken } = useSelector(state=> state.env)
     const [funcs , setFuncs] = useState([]);
     const [isOpen , setIsOpen] = useState(false);
     const [selectedIndex , setSelectedIndex] = useState(null);
@@ -21,7 +22,7 @@ function DeployedFunctionPanel({selectedTabIndex , setSelectedTabIndex}) {
     const {call ,data, isLoading , error } = useFunctionCall();
     const [method , setMethod]  = useState();
     const [output , setOutput] = useState('');
-    const {inspect,data: deploymentData, isLoading:isDeploymentsLoading , deploymentsError } = useInspect()
+    const {inspect, isLoading:isDeploymentsLoading } = useInspect(metacallToken)
     const [fields , setFields] = useState(null);
     const [outputErrorFlag , setOutputErrorFlag] = useState(false);
     const onClose = useCallback(()=>{
@@ -67,17 +68,11 @@ function DeployedFunctionPanel({selectedTabIndex , setSelectedTabIndex}) {
                 </div>
                 <div className={styles.suggestionsAI}>
                     <span className={styles.try}
-                    onClick={()=>{
-                        setSelectedTabIndex(1);
-                    }}
-                    >Try</span> our intelligent deployment assistant to deploy your functions.
-                </div>
-                <div className={styles.workbench}>
-                <span className={styles.try}
-                    onClick={()=>{
-                        setSelectedTabIndex(2);
-                    }}
-                >Try</span> our workbench.
+                    >
+                        <Link to = '/'>
+                            Try
+                        </Link>
+                    </span> our intelligent deployment assistant to deploy your functions.
                 </div>
             </div>
         )
@@ -116,7 +111,8 @@ function DeployedFunctionPanel({selectedTabIndex , setSelectedTabIndex}) {
           {
             !isDeploymentsLoading && funcs.length === 0 
             ? getNoDeployment()
-            :!isDeploymentsLoading && <React.Fragment>
+            :
+            !isDeploymentsLoading && <React.Fragment>
                 <RightPanel isOpen={isOpen} title={title} onClose={onClose} loading={isLoading}>
                     {
                         <SlidingTabs 
@@ -141,6 +137,9 @@ function DeployedFunctionPanel({selectedTabIndex , setSelectedTabIndex}) {
                     }
                 </RightPanel>
                     <div className={styles.DeployedFunctionPanel}> 
+                    <div className='ml-auto text-3xl text-cyan-800 font-extrabold'>
+                        Metacall Deployments
+                    </div>
                     {
                         funcs.map((funcData , packageNo)=>{
                             return (

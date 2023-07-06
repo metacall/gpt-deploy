@@ -1,8 +1,9 @@
 import logger from "../../logger/index.js";
 import axios from 'axios';
-import protocolAPI from "../../protocol/protocol.js";
-import { Plans } from "../../protocol/plan.js";
+import protocolAPI from "@metacall/protocol/protocol";
+import { Plans } from "@metacall/protocol/plan";
 import FormData from "form-data";
+import { metacallBaseUrl } from "../../../constants/URLs.js";
 export const createPackage = async (req, res) => {
     try {
         const blob = req.file;
@@ -10,18 +11,6 @@ export const createPackage = async (req, res) => {
         const runners = req.body.runners;
         const name = req.body.id;
         const type = req.body.type;
-        // logger.info(name);
-        // logger.info({
-        //     blob,
-        //     jsons,
-        //     runners,
-        //     name
-        // })
-        // const token = req.session.token //TODO: add token to session
-        // logger.info(blob);
-        // fs.writeFileSync("test.zip", blob.buffer,{
-        //     encoding: "binary"
-        // });
         const token = process.env2.METACALL_TOKEN;
         const fd = new FormData();
         const metacallAPI = protocolAPI(token, process.env2.METACALL_FAAS_BASE_URL);
@@ -69,8 +58,8 @@ export const undeploy = async (req, res) => {
         const prefix = req.body.prefix;
         const suffix = req.body.suffix;
         const version = req.body.version ?? "v1";
-        const token = process.env2.METACALL_TOKEN;
-        const metacallAPI = protocolAPI(token, process.env2.METACALL_FAAS_BASE_URL);
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2VAbWV0YWNhbGwuaW8iLCJpYXQiOjE2ODg2NTYzMjQsImV4cCI6MTY5MTI0ODMyNH0.EiXNu4KVOd90N0DkaAP0peVOwZCSFDG70LMjXvSw0Bg';
+        const metacallAPI = protocolAPI(token, metacallBaseUrl);
         const create_data = await metacallAPI.deployDelete(prefix, suffix, version);
         res.json({
             message: "undeployed successfully",
@@ -87,8 +76,8 @@ export const undeploy = async (req, res) => {
 };
 export const getDeployments = async (req, res) => {
     try {
-        const token = process.env2.METACALL_TOKEN;
-        const metacallAPI = protocolAPI(token, process.env2.METACALL_FAAS_BASE_URL);
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2VAbWV0YWNhbGwuaW8iLCJpYXQiOjE2ODg2NTYzMjQsImV4cCI6MTY5MTI0ODMyNH0.EiXNu4KVOd90N0DkaAP0peVOwZCSFDG70LMjXvSw0Bg';
+        const metacallAPI = protocolAPI(token, metacallBaseUrl);
         const deployments = await metacallAPI.inspect();
         return res.json(deployments);
     }

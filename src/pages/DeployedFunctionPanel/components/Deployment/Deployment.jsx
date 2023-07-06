@@ -1,18 +1,26 @@
-import { faCloudDownloadAlt, faEraser, faRemove } from '@fortawesome/free-solid-svg-icons';
+import {  faEraser, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, {useState, useEffect, useRef , useLayoutEffect} from 'react'
+import React, {useState, useContext} from 'react'
 import Confirm from '../../../../components/Confirm/Confirm';
-import useFunctionCall from '../../../../customHooks/useCallFunction';
 import FunctionMini from '../FunctionMini/FunctionMini'
 import styles from './Deployment.module.scss'
+import logo from './logo.png'
+import {useSelector} from 'react-redux'
+import { MessageContext } from '../../../../components/MessageStack/MessageStack';
+import protocol from '@metacall/protocol/protocol'
+import { metacallBaseUrl } from '../../../../constants/URLs';
 function Deployment({ onClickFunction,className , funcData, funcUrl}) {
-
-  const {call, data , isLoading , error} = useFunctionCall()
+  const {
+    METACALL_TOKEN: metacallToken
+  } = useSelector(state=> state.env)
+  const metacallAPI = protocol(metacallToken, metacallBaseUrl)
+  const [removingPackage , setRemovingPackage] = useState(false)
   const [showPrompt , setShowPrompt] = useState(false)
   const metadata = {
     prefix: funcData.prefix,
     suffix: funcData.suffix,
   }
+  const {addSuccess, addError} = useContext(MessageContext)
   function countFiles(funcs){
     let count = 0;
     funcs.forEach(f=>{
@@ -29,40 +37,36 @@ function Deployment({ onClickFunction,className , funcData, funcUrl}) {
             <div className={styles.skewed}>
             </div>
             <div className={styles.headTools}>
-              <FontAwesomeIcon icon = {faEraser} className={styles.removePackage} 
+              <FontAwesomeIcon icon = { removingPackage? faSpinner :faEraser} className={ removingPackage? 'animate-spin ':''+styles.removePackage} 
               title = "undeploy" 
               onClick={()=>{
                 setShowPrompt({
                   message: `Are you sure you want to undeploy ${funcData.suffix}?`,
                   onOk: ()=>{
-                    call({
-                      url: '/api/undeploy',
-                      method: 'POST',
-                      data: {
-                        prefix: funcData.prefix,
-                        suffix: funcData.suffix,
-                      }
-                    },{
-                      onSuccess: (data)=>{
-                        window.location.reload();
-                        alert(data.message)
-                      },
-                      onError: (error)=>{
-                        console.log(error);
-                        alert("Error occured")
-                      }
+                    setRemovingPackage(true)
+                    metacallAPI.deployDelete(
+                      funcData.prefix, 
+                      funcData.suffix
+                    ).then(()=>{
+                      setRemovingPackage(false)
+                      window.location.reload();
+                      addSuccess( "Undeploying successfully")
+                    }).catch((error)=>{
+                      setRemovingPackage(false)
+                      addError(error?.message ?? error?.response?.data?.message ?? "Undeploying failed")
                     })
                   },
                   onCancel: ()=>{},
                 })
               }}
+              disabled = {removingPackage}
               />
             </div>
         </div>
         <div className={styles.body}>
         <div className={styles.DeploymentTitle}>
-          <div className={styles.logo}>
-            <img src={'./logo.png'} alt="logo" height="50px" />
+          <div className='overflow-hidden h-full' >
+            <img src={logo} alt="logo" height="100%" className='h-full'/>
           </div>
           <div className={styles.packageName}>
             {funcData.suffix}

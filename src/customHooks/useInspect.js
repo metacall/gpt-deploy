@@ -1,46 +1,45 @@
 import { useMutation } from "react-query"
-import axios from "../backend_logic/utils/faxios"
-
-async function query(prompt){
-    const deployments = await axios.get("/api/getDeployments").then(res=>{
-        const statusCode = res.response.status
-        if(!(statusCode < 400 && statusCode >= 200)){
-            throw new Error("Error with status code: " + statusCode)
-        }
-        return res.data
-    }).then(data=>{
-        const langs = ['node', 'py', 'file']
-        const packagesData = data.map(({packages, ...rest})=>{
-            const collection = []
-            for(let lang of langs){
-                if(!packages[lang]) continue;
-
-                for(let pkg of packages[lang]){
-                    const funcs  = pkg.scope.funcs;
-                    for(let func of funcs){
-                        const func_metadata = {
-                            lang ,
-                            name: func.name,
-                            params: func.signature.args,
-                            return_type: func.signature.ret.type,
+import protocol from '@metacall/protocol/protocol'
+import { metacallBaseUrl } from "../constants/URLs"
+export default function useInspect(metacallToken){
+    async function query(){
+        try{
+            const metacallAPI = protocol(metacallToken, metacallBaseUrl)
+        const deployments = await metacallAPI.inspect().then(data=>{
+            const langs = ['node', 'py', 'file']
+            const packagesData = data.map(({packages, ...rest})=>{
+                const collection = []
+                for(let lang of langs){
+                    if(!packages[lang]) continue;
+    
+                    for(let pkg of packages[lang]){
+                        const funcs  = pkg.scope.funcs;
+                        for(let func of funcs){
+                            const func_metadata = {
+                                lang ,
+                                name: func.name,
+                                params: func.signature.args,
+                                return_type: func.signature.ret.type,
+                            }
+                            collection.push(func_metadata)
                         }
-                        collection.push(func_metadata)
                     }
                 }
-            }
-            return {
-                functions: collection ,
-                ...rest
-            };
-        })
-        return packagesData
+                return {
+                    functions: collection ,
+                    ...rest
+                };
+            })
+            return packagesData
+        }
+        )
+        return deployments;
+        } catch(err){
+            console.error(err)
+            throw err
+        }
     }
-    )
-    return deployments;
-}
-
-export default function useInspect(){
-    const {mutate:inspect, data,status,isLoading, error} = useMutation(query,{
+    const {mutate:inspect, data,isLoading, error} = useMutation(query,{
         retry: 0,
         onError: (error) => {
             console.error(error)

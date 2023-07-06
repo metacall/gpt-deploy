@@ -49,7 +49,7 @@ export default function KeyValuePairModel(tableNames , dbName = 'keyValueCache',
 
          tableNames.forEach(tableName => {
                 const lf_instance = localforage.createInstance({
-                    name: 'keyValueCache',
+                    name: dbName,
                     storeName: tableName
                 })
                 pairCollection[tableName] = new KeyValuePair(lf_instance);

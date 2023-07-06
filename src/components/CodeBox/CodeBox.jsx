@@ -63,7 +63,12 @@ function CodeBox() {
 
   function onSend(prompt){
     const id = nanoid();
-    dispatch(updatePrompts([...prompts, [prompt ,id]]));
+    dispatch(updatePrompts([
+      ...prompts, 
+      [prompt ,id, {
+        timestamp : new Date()-0
+      }]
+    ]));
     setText("");
   }
 

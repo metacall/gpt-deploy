@@ -2,7 +2,6 @@ import { faClock } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from 'moment'
 export default function Ask({timestamp, query }) {
-    timestamp = new Date()-0
     return (
         <div className='flex flex-col overflow-hidden '>
             <div className='min-w-min ml-auto primary-border text-sm my-4 px-2 py-1'>

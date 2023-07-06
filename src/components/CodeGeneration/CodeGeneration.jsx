@@ -5,7 +5,7 @@ import {useSelector , useDispatch} from 'react-redux'
 import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
 import { getModel , tableEnum } from '../../models';
 
-function CodeGeneration({newPrompt}) {
+function CodeGeneration() {
     const dispatch = useDispatch();
     const {prompts} = useSelector(state => state.prompts);
     const chatBoxRef = React.useRef(null)
@@ -57,10 +57,10 @@ function CodeGeneration({newPrompt}) {
         setPrompts(newPrompts);
         setCollection(newCollections);
     }
-    function getChatReponse([prompt ,id] ){
+    function getChatReponse([prompt ,id, metadata] ){
         const element = (
             <React.Fragment key={id}>
-                <Ask query = {prompt}/>
+                <Ask query = {prompt} timestamp={metadata.timestamp}/>
                 <Response onLoadComplete={onLoad} prompt={prompt} removeResponse={()=>removeItems([id])} collection={collection} setCollection = {setCollection} responseId= {id}/>
             </React.Fragment>
             )

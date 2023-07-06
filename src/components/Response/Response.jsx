@@ -1,7 +1,7 @@
 import React,{ useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faMicrochip, faRefresh } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faEdit, faMicrochip, faRefresh, faSave } from '@fortawesome/free-solid-svg-icons'
 import { faCopy, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import useGetResponse from '../../customHooks/useGetResponse'
 import {getModel, tableEnum} from '../../models'
@@ -10,6 +10,7 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 import { addItem, removeItem } from '../../redux/stores/stashes.store'
+import Confirm from '../Confirm/Confirm'
 export default function Response({ prompt, removeResponse, onLoadComplete , responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
     const {OPENAI_API_KEY:openAIKey} = useSelector(state=> state.env)
@@ -18,6 +19,9 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
     const dispatch = useDispatch()
     const [stashed, setStashed] = useState(false)
+    const [editable, setEditable] = useState(false)
+    const [showConfirmation, setShowConfirmation] = useState(false)
+    const codeRef = useRef(null)
     const getResponse= async (prompt)=>{
         try{
             const db = keyValueDB.current;
@@ -45,12 +49,6 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
         }
 
     }
-
-    useEffect(()=>{
-        if(data){
-            setResponse(data)
-        }
-    },[data])
 
     useEffect(()=>{
         if(prompt){
@@ -89,6 +87,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             dispatch(removeItem(responseId))
         }
     }
+  
     function getRenderedResponse(){
         return (
             <React.Fragment>
@@ -110,14 +109,34 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                     }}/>
                     {
                         response?.function_def &&
-                        <FontAwesomeIcon icon={faCopy} className='font-thin font-serif primary-border p-1  cursor-pointer active:scale-110' title='copy'
+                        <FontAwesomeIcon icon={faCopy} className='font-thin font-serif primary-border p-1  cursor-pointer active:scale-110' title={'copy'}
                             onClick={()=>{
                                 navigator.clipboard.writeText(response?.function_def);
                             }}/>
                     }
+                    {
+                        response?.function_def &&
+                        <FontAwesomeIcon icon={editable? faSave :faEdit} className='font-thin font-serif primary-border p-1  cursor-pointer active:scale-110' title={editable? 'save': 'edit'}
+                            onClick={()=>{
+                                if(editable){
+                                    response.function_def = codeRef.current.textContent
+                                    setResponse({...response})
+                                }
+                                setEditable(state => !state)
+
+                                }
+                            }/>
+                    }
                     <FontAwesomeIcon icon={faTimesCircle} className='font-thin font-serif primary-border p-1 ml-auto  cursor-pointer active:scale-110' title='close'
                     onClick={()=>{
-                        removeResponse()
+                        setShowConfirmation({
+                            message: 'Are you sure you want to remove this response?',
+                            onOk: ()=>{
+                                removeResponse()
+                            },
+                            onCancel: ()=>{
+                            }
+                        })
                     }}/>
                 </div>
                 <div className={'flex bg-gray-200 my-2 ' + (error && 'bg-red-600')}>
@@ -127,8 +146,11 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                             <span>
                                 {error?.message}
                             </span>
-                            :<code dangerouslySetInnerHTML={{ __html: highlight(response?.function_def ?? '' , languages.js, 'js')  }} 
-                            className=''/>
+                            :<code 
+                                dangerouslySetInnerHTML={{ __html: highlight(response?.function_def ?? '' , languages.js, 'js')  }} 
+                                className='outline-none' contentEditable={editable}
+                                suppressContentEditableWarning={true}
+                                ref={codeRef}/>
                         }
                     </pre>
                 </div>
@@ -154,19 +176,22 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     }
 
     return (
-        <div className='flex flex-col'>
-            <div className=''>
-                <FontAwesomeIcon icon={faMicrochip} className={'p-3 primary-border text-purple-500 '+(!loading && 'text-green-500')}/>
+        <React.Fragment>
+            <div className='flex flex-col'>
+                <div className=''>
+                    <FontAwesomeIcon icon={faMicrochip} className={'p-3 primary-border text-purple-500 '+(!loading && 'text-green-500')}/>
+                </div>
+                {
+                    loading?
+                        <div className='primary-border w-10 text-center my-2'>
+                            {
+                                ".".repeat(numDots)
+                            }
+                        </div>
+                        : getRenderedResponse()
+                }
             </div>
-            {
-                loading?
-                    <div className='primary-border w-10 text-center my-2'>
-                        {
-                            ".".repeat(numDots)
-                        }
-                    </div>
-                    : getRenderedResponse()
-            }
-        </div>
+            <Confirm showPrompt={showConfirmation} setShowPrompt={setShowConfirmation}/>
+        </React.Fragment>
     )
 }

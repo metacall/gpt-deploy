@@ -58,7 +58,7 @@ export const undeploy = async (req, res) => {
         const prefix = req.body.prefix;
         const suffix = req.body.suffix;
         const version = req.body.version ?? "v1";
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2VAbWV0YWNhbGwuaW8iLCJpYXQiOjE2ODg2NTYzMjQsImV4cCI6MTY5MTI0ODMyNH0.EiXNu4KVOd90N0DkaAP0peVOwZCSFDG70LMjXvSw0Bg';
+        const token = req.body.token;
         const metacallAPI = protocolAPI(token, metacallBaseUrl);
         const create_data = await metacallAPI.deployDelete(prefix, suffix, version);
         res.json({
@@ -76,7 +76,7 @@ export const undeploy = async (req, res) => {
 };
 export const getDeployments = async (req, res) => {
     try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2VAbWV0YWNhbGwuaW8iLCJpYXQiOjE2ODg2NTYzMjQsImV4cCI6MTY5MTI0ODMyNH0.EiXNu4KVOd90N0DkaAP0peVOwZCSFDG70LMjXvSw0Bg';
+        const token = req.body.token;
         const metacallAPI = protocolAPI(token, metacallBaseUrl);
         const deployments = await metacallAPI.inspect();
         return res.json(deployments);

@@ -1,7 +1,7 @@
-import { faCircle, faCopy, faExternalLinkAlt, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faExternalLinkAlt, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import FieldInput from '../FieldInput/FieldInput'
 import styles from './Top.module.scss'
 function Top({ funcUrl , fields , setFields , method, onCall, loading}) {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './Confirm.module.scss';
 
 const Confirm = ({showPrompt, setShowPrompt }) => {

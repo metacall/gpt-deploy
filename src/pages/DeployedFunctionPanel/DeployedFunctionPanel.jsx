@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import styles from './DeployedFunctionPanel.module.scss'
-import Deployment from './components/Deployment/Deployment';
-import RightPanel from '../../components/RightPanel/RightPanel';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { LoaderSpinner } from '../../components/Loader';
+import RightPanel from '../../components/RightPanel/RightPanel';
 import SlidingTabs from '../../components/SlidingTabs/SlidingTabs';
-import Top from './components/Top/Top';
-import Bottom from './components/Bottom/Bottom';
+import dataTypeMapping from '../../constants/dataTypeMapping';
 import useFunctionCall from '../../customHooks/useCallFunction';
 import useInspect from '../../customHooks/useInspect';
-import dataTypeMapping from '../../constants/dataTypeMapping';
-import {Link} from 'react-router-dom'
-import { useSelector} from 'react-redux';
+import styles from './DeployedFunctionPanel.module.scss';
+import Bottom from './components/Bottom/Bottom';
+import Deployment from './components/Deployment/Deployment';
+import Top from './components/Top/Top';
 function DeployedFunctionPanel() {
     const { METACALL_TOKEN: metacallToken } = useSelector(state=> state.env)
     const [funcs , setFuncs] = useState([]);
@@ -19,7 +19,7 @@ function DeployedFunctionPanel() {
     const [selectedFunc, setSelectedFunc] = useState(null);
     const [title , setTitle] = useState('');
     const [funcUrl , setFuncUrl] = useState("");
-    const {call ,data, isLoading , error } = useFunctionCall();
+    const {call , isLoading  } = useFunctionCall();
     const [method , setMethod]  = useState();
     const [output , setOutput] = useState('');
     const {inspect, isLoading:isDeploymentsLoading } = useInspect(metacallToken)
@@ -40,8 +40,8 @@ function DeployedFunctionPanel() {
         if(selectedIndex === null) return;
 
         const currentFunction = funcs[selectedIndex[0]].functions[selectedIndex[1]];
-        setFields(currentFunction.params.
-            map((param)=>[param.name , dataTypeMapping[param.type.id]??'string' , ""])) ;
+        setFields(currentFunction.params
+            .map((param)=>[param.name , dataTypeMapping[param.type.id]??'string' , ""])) ;
         setTitle(currentFunction.name);
         setSelectedFunc(currentFunction);
         setMethod(currentFunction.params.length === 0 ? 'GET' : 'POST');

@@ -18,7 +18,6 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     const {OPENAI_API_KEY:openAIKey, MODEL: model} = useSelector(state=> state.env)
     const {ask, error, isLoading:loading} = useGetResponse(openAIKey, model)
     const [response, setResponse] = useState(null)
-    const [functionCode, setFunctionCode] = useState(null)
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
     const dispatch = useDispatch()
     const [stashed, setStashed] = useState(false)

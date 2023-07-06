@@ -20,7 +20,7 @@ function Loader({height="" , width= "", className, loading}) {
     return (
         <div className={className+ ' '+ styles.loader} style={{height, width}} ref={ref}
         onTransitionEnd={onTransitionEnd}>
-            <img src= {"./logo-animated.svg"} className={styles.loaderImage}/>
+            <img src= {"./logo-animated.svg"} className={styles.loaderImage} alt = 'logo-animated'/>
         </div>
     )
 }

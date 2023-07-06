@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import styles from "./RightPanel.module.scss";
-import { LoaderSlider} from '../../components/Loader';
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowCircleLeft, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import React, { useRef, useState } from "react";
+import { LoaderSlider } from '../../components/Loader';
+import styles from "./RightPanel.module.scss";
 const RightPanel = ({ children, title, loading , isOpen, onClose }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const panelRef = useRef(null);

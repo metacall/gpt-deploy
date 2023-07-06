@@ -14,10 +14,11 @@ import Confirm from '../Confirm/Confirm'
 import { MessageContext } from '../MessageStack/MessageStack'
 export default function Response({ prompt, removeResponse, onLoadComplete , responseId ,lang="js" }) {
     const [numDots, setNumDots] = useState(1)
-    const {addError} = useContext(MessageContext)
+    const {addError, addSuccess} = useContext(MessageContext)
     const {OPENAI_API_KEY:openAIKey, MODEL: model} = useSelector(state=> state.env)
     const {ask, error, isLoading:loading} = useGetResponse(openAIKey, model)
     const [response, setResponse] = useState(null)
+    const [functionCode, setFunctionCode] = useState(null)
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
     const dispatch = useDispatch()
     const [stashed, setStashed] = useState(false)
@@ -89,7 +90,69 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             dispatch(removeItem(responseId))
         }
     }
-    
+
+    useEffect(()=>{
+        codeRef.current.innerHTML =  highlight(response?.function_def ?? '' , languages[lang], lang)
+    },[response?.function_def])
+
+    const handleNameChange = (e) => {
+        if(["Enter", "Tab", "Escape", " "].includes(e.key)){
+            e.preventDefault();
+            e.stopPropagation();
+            const db = keyValueDB.current;
+            response.name = e.target.innerText;
+            response.function_def = codeRef.current.innerText;
+            db.add(prompt, response)
+                .then(()=> {
+                    setResponse({...response})
+                    addSuccess("Changed name to "+e.target.textContent)
+                })
+                .catch(()=>addError('Unable to change response'));
+            
+            e.target.contentEditable = false;
+        } else 
+            if(!(/^[0-9a-zA-Z$_]$/.test(e.key))){
+                e.preventDefault();
+                e.stopPropagation();
+            }
+    }
+
+    const handleNameMouseClick = (e) => {
+        e.target.contentEditable = true;
+    }
+    useEffect(()=>{
+        const functionNameEls = codeRef.current.querySelectorAll('.function-variable')
+        for(let i=0; i<functionNameEls.length; i++){
+            functionNameEls[i].addEventListener('keydown', handleNameChange)
+            functionNameEls[i].addEventListener('dblclick', handleNameMouseClick)
+        }
+
+        return ()=>{
+            for(let i=0; i<functionNameEls.length; i++){
+                functionNameEls[i].removeEventListener('keydown', handleNameChange)
+                functionNameEls[i].removeEventListener('dblclick', handleNameMouseClick)
+            }
+        }
+    },[response])
+
+    const handleInputKeyDown = (e) => {
+        e.stopPropagation();
+        
+        if (e.key === 'Tab') {
+            let chr = '\t';
+            e.preventDefault(); 
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            const tabNode = document.createTextNode(chr);
+            range.insertNode(tabNode);
+            range.setStartAfter(tabNode);
+            range.setEndAfter(tabNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+    } 
+  };
+
+
     function getRenderedResponse(){
         return (
             <React.Fragment>
@@ -125,9 +188,10 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                                     response.function_def = codeRef.current.innerText;
                                     db.add(prompt, response)
                                     .then(()=> {
-                                        setResponse({...response})}
-                                        )
-                                    .catch(()=>console.error('unable to get response'));
+                                        setResponse({...response})
+                                        addSuccess('Response saved')
+                                    })
+                                    .catch(()=>addError, addSuccess('unable to get response'));
                                 }
                                 setEditable(state => !state)
 
@@ -153,11 +217,14 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                             <span>
                                 {error?.message}
                             </span>
-                            :<code 
-                                dangerouslySetInnerHTML={{ __html: highlight(response?.function_def ?? '' , languages.js, 'js')  }} 
-                                className={'outline-none '+ (editable?'bg-white font-semibold py-1':'') }contentEditable={editable}
+                            :
+                            <div 
+                                className={'outline-none '+ (editable?'bg-white font-semibold p-2':'') } 
+                                contentEditable={editable}
                                 suppressContentEditableWarning={true}
-                                ref={codeRef} />
+                                onKeyDown={handleInputKeyDown}
+                                ref={codeRef} >
+                            </div>                            
                         }
                     </pre>
                 </div>

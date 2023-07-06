@@ -37,3 +37,10 @@ body {
   border-radius: 4px;
   border: 1px solid #C2C2C2;
 }
+
+.function-variable:focus{
+  padding-left: 2px;
+  padding-right: 2px;
+  outline: 2px solid darkcyan;
+  user-select: none;
+}

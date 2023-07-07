@@ -60,7 +60,7 @@ const InputWithLegend = ({ fieldName, setInputValue, inputValue, fieldType: type
 };
 
 InputWithLegend.propTypes = {
-  type: PropTypes.oneOf(['string', 'integer', 'json', 'decimal']).isRequired,
+  fieldType: PropTypes.oneOf(['string', 'integer', 'json', 'decimal', 'object']).isRequired,
   isDropdown: PropTypes.bool,
 };
 

@@ -55,7 +55,7 @@ function Top({ funcUrl , fields , setFields , method, onCall, loading}) {
                             key={index}
                             inputValue={field[2]}
                             setInputValue={(text)=>{changeField(index , text)}}
-                            fieldType={field[1]}F
+                            fieldType={field[1]}
                             fieldName={field[0]}
                         />
                 })

@@ -41,7 +41,7 @@
         flex-flow: row-reverse nowrap;
         transition: transform 0.5s ease;
         transform-origin: bottom;
-        align-items: end;
+        align-items: flex-end;
         cursor: default;
         &> * {
             padding: 5px;

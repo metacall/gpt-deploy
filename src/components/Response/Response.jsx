@@ -16,9 +16,11 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     const [numDots, setNumDots] = useState(1)
     const {addError, addSuccess} = useContext(MessageContext)
     const {OPENAI_API_KEY:openAIKey, MODEL: model} = useSelector(state=> state.env)
+    const {stashedKeys} = useSelector(state => state.stashes);
     const {ask, error, isLoading:loading} = useGetResponse(openAIKey, model)
     const [response, setResponse] = useState(null)
     const keyValueDB = useRef(getModel(tableEnum.RESPONSES))
+    const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS))
     const dispatch = useDispatch()
     const [stashed, setStashed] = useState(false)
     const [editable, setEditable] = useState(false)
@@ -27,7 +29,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     const getResponse= useCallback(async (prompt)=>{
         try{
             const db = keyValueDB.current;
-            let res = await db.get(prompt);
+            let res = await db.get(responseId);
             if(res)
                 return res;
             
@@ -37,7 +39,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                         reject();
                     },
                     onSuccess:(data)=>{
-                        db.add(prompt, data)
+                        db.add(responseId, data)
                             .then(()=>resolve(data) )
                             .catch(()=>reject());
                     }
@@ -50,7 +52,8 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             return null
         }
 
-    },[addError ,ask])
+    },[addError ,ask, responseId])
+
 
     useEffect(()=>{
         if(prompt){
@@ -79,14 +82,25 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
 
     const stashFunction = ()=>{
         if(!stashed){
-            setStashed(true)
-            dispatch(addItem([
-                response,
-                responseId
-            ]))
+            stashedKeysDB.current.add(
+                'keys',
+                [...stashedKeys, responseId]
+            ).then(()=>{
+                setStashed(true)
+                dispatch(addItem(responseId))
+            }).catch(()=>{
+                addError("Unable to stash function")
+            })
         } else {
-            setStashed(false)
-            dispatch(removeItem(responseId))
+            stashedKeysDB.current.add(
+                'keys',
+                stashedKeys.filter(key=>key!==responseId)
+            ).then(()=>{
+                setStashed(false)
+                dispatch(removeItem(responseId))
+            }).catch(()=>{
+                addError("Unable to unstash function")
+            })
         }
     }
 
@@ -101,7 +115,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             const db = keyValueDB.current;
             response.name = e.target.innerText;
             response.function_def = codeRef.current.innerText;
-            db.add(prompt, response)
+            db.add(responseId, response)
                 .then(()=> {
                     setResponse({...response})
                     addSuccess("Changed name to "+e.target.textContent)
@@ -110,11 +124,11 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             
             e.target.contentEditable = false;
         } else 
-            if(!(/^[0-9a-zA-Z$_]$/.test(e.key))){
+            if(!(/^[0-9a-zA-Z$_]$/.test(e.key)) && e.key.length===1){
                 e.preventDefault();
                 e.stopPropagation();
             }
-    },[addError , addSuccess, response, prompt])
+    },[addError , addSuccess, response, responseId])
 
     const handleNameMouseClick = (e) => {
         e.target.contentEditable = true;
@@ -151,11 +165,17 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     } 
   };
 
+  useEffect(()=>{
+        stashedKeysDB.current.get('keys').then(keys=>{
+            setStashed(keys?.includes(responseId) ?? false)
+        }).catch(()=>{
+        })
+  },[responseId])
 
     function getRenderedResponse(){
         return (
             <React.Fragment>
-            <div className={'primary-border p-4 my-2 ' + (error && 'bg-red-100') }style={{maxWidth:'80%'}}>
+            <div className={'primary-border p-4 my-2 ' + (error && 'bg-red-100') } style={{maxWidth:'80%'}}>
                 <div className='flex text-gray-400 font-thin gap-4'>
                     <FontAwesomeIcon icon={faRefresh} className='font-thin font-serif primary-border p-1 cursor-pointer active:scale-110' title='regenerate'
                     onClick={()=>{
@@ -165,7 +185,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                                 addError(err?.response?.message ?? "Failed to regenerate response")
                             },
                             onSuccess:(data)=>{
-                                db.add(prompt, data)
+                                db.add(responseId, data)
                                     .then(()=> setResponse(data))
                                     .catch(()=>addError('Unable to get response'));
                             }
@@ -185,7 +205,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                                 if(editable){
                                     const db = keyValueDB.current;
                                     response.function_def = codeRef.current.innerText;
-                                    db.add(prompt, response)
+                                    db.add(responseId, response)
                                     .then(()=> {
                                         setResponse({...response})
                                         addSuccess('Response saved')

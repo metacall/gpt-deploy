@@ -2,19 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 export const slice = createSlice({
     name: 'stashes',
     initialState: {
-        collection: [],
+        stashedKeys: [],
     },
     reducers: {
         removeItem: (state, action) => {
             const removal_id = action.payload;
-            state.collection = state.collection.filter(([_, id]) => id !== removal_id);
+            state.stashedKeys = state.stashedKeys.filter((id) => id !== removal_id);
         },
         addItem: (state, action) => {
-            state.collection.push(action.payload);
+            state.stashedKeys.push(action.payload);
+        },
+        setItems: (state, action) => {
+            state.stashedKeys = action.payload;
         }
     },
 })
 
-export const { removeItem, addItem } = slice.actions
+export const { removeItem, addItem, setItems } = slice.actions
 
 export default slice.reducer

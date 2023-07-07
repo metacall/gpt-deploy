@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react'
-import {useSelector} from 'react-redux'
+import React, {useContext, useState, useRef, useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import StashList from '../StashList/StashList'
 import JSZip from 'jszip'
 import protocol, {ResourceType} from '@metacall/protocol/protocol'
@@ -7,13 +7,38 @@ import { Plans } from '@metacall/protocol/plan'
 import { MessageContext } from '../MessageStack/MessageStack'
 import { metacallBaseUrl } from '../../constants/URLs'
 import Confirm from '../Confirm/Confirm'
+import { getModel, tableEnum } from '../../models';
+import { setItems } from '../../redux/stores/stashes.store'
 function StashBox() {
+  const dispatch = useDispatch()
+  const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS))
   const {addError, addSuccess} = useContext(MessageContext)
-  const {collection} = useSelector(state => state.stashes);
+  const {stashedKeys} = useSelector(state => state.stashes);
+  const keyValueDB = useRef(getModel(tableEnum.RESPONSES));
   const [showConfirmation , setShowConfirmation] = useState(false)
   const metacallToken = useSelector(state => state.env.METACALL_TOKEN)
-  const deployable = collection.length > 0 && metacallToken !== '';
-  const metacallApi = protocol(metacallToken, metacallBaseUrl)
+  const [collection, setCollection] = useState([]);
+  const deployable = stashedKeys.length > 0 && metacallToken !== '';
+  const metacallApi = protocol(metacallToken, metacallBaseUrl);
+  
+  useEffect(()=>{
+    stashedKeysDB.current.get('keys').then((keys)=>{
+        dispatch(setItems(keys ?? []))
+    })
+  },[dispatch])
+
+  useEffect(()=>{
+    
+    async function getResponses(){
+      const responses = await Promise.all(stashedKeys.map(async(key)=>{
+        const response = await keyValueDB.current.get(key)
+        return [response, key]
+      }))
+      setCollection(responses)
+    }
+    getResponses()
+  },[stashedKeys])
+  
   async function deployItems(){
     if(collection.length ===0)
        return alert("No function selected ")

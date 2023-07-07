@@ -2,7 +2,8 @@ import KeyValuePairModel from "./keyValue.model";
 
 export const tableEnum = Object.freeze({
     RESPONSES: 'responses',
-    PROMPTS: 'prompts'
+    PROMPTS: 'prompts',
+    STASHED_KEYS: 'stashed_keys'
 })
 
 const keyValueModel = KeyValuePairModel(Object.values(tableEnum))

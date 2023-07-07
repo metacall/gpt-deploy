@@ -1,18 +1,16 @@
-import React, {useContext, useState, useRef, useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import StashList from '../StashList/StashList'
+import { faCaretDown, faCaretUp, faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import protocol, { ResourceType } from '@metacall/protocol/protocol'
 import JSZip from 'jszip'
-import protocol, {ResourceType} from '@metacall/protocol/protocol'
-import { Plans } from '@metacall/protocol/plan'
-import { MessageContext } from '../MessageStack/MessageStack'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { metacallBaseUrl } from '../../constants/URLs'
-import Confirm from '../Confirm/Confirm'
-import { getModel, tableEnum } from '../../models';
-import { setItems } from '../../redux/stores/stashes.store'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretUp, faCaretDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import usePLansAvailable from '../../customHooks/usePlansAvailable'
-import { LoaderSlider } from '../Loader'
+import { getModel, tableEnum } from '../../models'
+import { setItems } from '../../redux/stores/stashes.store'
+import Confirm from '../Confirm/Confirm'
+import { MessageContext } from '../MessageStack/MessageStack'
+import StashList from '../StashList/StashList'
 function StashBox() {
   const dispatch = useDispatch()
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS))

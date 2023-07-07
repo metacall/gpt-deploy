@@ -125,7 +125,7 @@ function StashBox() {
             }
           <div className='flex'>
             <button 
-            className={'flex items-center justify-center w-full py-2 px-4 rounded '+ (deployable ? 'bg-black active:bg-slate-700': 'bg-gray-400')}
+            className={'flex items-center justify-center w-full py-2 px-4 rounded '+ (!(isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying) ? 'bg-black active:bg-slate-700': 'bg-gray-400')}
             onClick={()=>{
               setShowConfirmation({
                 message: 'Are you sure you want to deploy these functions?',
@@ -135,14 +135,14 @@ function StashBox() {
                 onCancel: ()=>{}
               })
             }}
-            disabled={isPlanLoading || !Array.isArray(plansAvailable) || !deployable}
+            disabled={isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying}
             >
                   DEPLOY
             </button>
 
             <button 
-              className={'flex items-center  justify-center w-1/4 py-2 px-4 rounded ' + (deployable ? 'bg-black active:bg-slate-700': 'bg-gray-400')}
-              disabled={isPlanLoading || !Array.isArray(plansAvailable) || !deployable}
+              className={'flex items-center  justify-center w-1/4 py-2 px-4 rounded ' + (!(isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying) ? 'bg-black active:bg-slate-700': 'bg-gray-400')}
+              disabled={isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying}
               onClick={()=>setPlansAreShown(!plansAreShown)}
             >
               <FontAwesomeIcon icon={(plansAreShown? faCaretDown : faCaretUp)} />

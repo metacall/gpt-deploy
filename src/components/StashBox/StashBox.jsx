@@ -49,22 +49,29 @@ function StashBox() {
       setSelectedPlan(plansAvailable?.[0])
   },[plansAvailable])
 
-  async function deployItems(){
-      if(collection.length ===0)
-        return alert("No function selected ")
-
-      const zip =new JSZip();
-      const filename = collection.map(([{name}])=>name.split('_').join('-')).join("-");
-      const content = collection.map(([{function_def}])=>"module.exports."+ function_def).join("\n\n");
-      const file = new File([content], `${filename}.js`,{type: "text/plain"});
-      zip.file(file.name, file);
-      const metacall_json = JSON.stringify({
-          language_id : "node",
-          path:".",
-          scripts:[file.name]
+  async function getBundle(collection){
+    const zip =new JSZip();
+    const filename = collection.map(([{name}])=>name.split('_').join('-')).join("-").slice(0, 8);
+    const file = new File([content], `${filename}.js`,{type: "text/plain"});
+    zip.file(file.name, file);
+    const metacall_json = JSON.stringify({
+        language_id : "node",
+        path:".",
+        scripts:[file.name]
+    })
+    const metacall_json_file = new File([metacall_json], "metacall.json",{type: "text/plain"})
+    zip.file(metacall_json_file.name, metacall_json_file );
+    
+    return new Promise((resolve)=>{
+      zip.generateAsync({type:"blob",
+                        mimeType: 'application/x-zip-compressed'
+                    }).then((generatedZipBlob)=>{
+        resolve({generatedZipBlob, filename, file})
       })
-      const metacall_json_file = new File([metacall_json], "metacall.json",{type: "text/plain"})
-      zip.file(metacall_json_file.name, metacall_json_file );
+    })
+  }
+  async function deployItems(collection){
+
 
       zip.generateAsync({type:"blob",
                         mimeType: 'application/x-zip-compressed'

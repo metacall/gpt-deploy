@@ -11,7 +11,9 @@ import styles from './DeployedFunctionPanel.module.scss';
 import Bottom from './components/Bottom/Bottom';
 import Deployment from './components/Deployment/Deployment';
 import Top from './components/Top/Top';
+import { useNavigate } from 'react-router-dom';
 function DeployedFunctionPanel() {
+    const navigate = useNavigate();
     const { METACALL_TOKEN: metacallToken } = useSelector(state=> state.env)
     const [funcs , setFuncs] = useState([]);
     const [isOpen , setIsOpen] = useState(false);
@@ -105,6 +107,11 @@ function DeployedFunctionPanel() {
     function fieldManger(arr){
         setFields(arr);
     }
+
+    if(!metacallToken){
+        navigate('/')
+    }
+
     return (
         <React.Fragment>
           <LoaderSpinner loading={isDeploymentsLoading} className={styles.LoaderSpinner}/>
@@ -137,7 +144,7 @@ function DeployedFunctionPanel() {
                     }
                 </RightPanel>
                     <div className={styles.DeployedFunctionPanel}> 
-                    <div className='ml-auto text-3xl text-cyan-800 font-extrabold'>
+                    <div className='mr-auto text-3xl text-white font-extrabold  px-6 py-4 rounded'>
                         Metacall Deployments
                     </div>
                     {

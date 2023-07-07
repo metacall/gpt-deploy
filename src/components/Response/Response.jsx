@@ -200,6 +200,8 @@ export default function Response({
   useEffect(()=>{
     if(stashedKeys.indexOf(responseId) === -1){
       setStashed(false)
+    } else {
+      setStashed(true)
     }
   }, [stashedKeys, responseId])
 

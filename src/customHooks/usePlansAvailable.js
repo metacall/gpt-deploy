@@ -7,7 +7,7 @@ export default function usePLansAvailable(metacallToken){
         const plans = await metacallAPI.listSubscriptions()
         return Object.keys(plans)
     }
-    const {data,isLoading, status, error} = useQuery("getAllPlans",query,{
+    const {data,isLoading, status, error, refetch, isRefetching} = useQuery("getAllPlans",query,{
         retry: 0,
         onError: (error) => {
             console.error(error)
@@ -17,6 +17,8 @@ export default function usePLansAvailable(metacallToken){
             data, 
             isLoading, 
             error,
-            status
+            status,
+            refetch,
+            isRefetching
         }
 }

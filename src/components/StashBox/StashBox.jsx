@@ -23,7 +23,7 @@ function StashBox() {
   const deployable = stashedKeys.length > 0 && metacallToken !== '';
   const [isDeploying, setIsDeploying] = useState(false)
   const metacallApi = protocol(metacallToken, metacallBaseUrl);
-  const {data: plansAvailable, isLoading: isPlanLoading} = usePLansAvailable(metacallToken)
+  const {data: plansAvailable, isLoading: isPlanLoading, refetch ,isRefetching} = usePLansAvailable(metacallToken)
   const [selectedPlan, setSelectedPlan] = useState("Package")
   const [plansAreShown, setPlansAreShown] = useState(false)
   useEffect(()=>{
@@ -102,12 +102,12 @@ function StashBox() {
       
       <StashList fnList={collection}/>
         <div  className= {
-                deployable ?
+                (!(isPlanLoading || !Array.isArray(plansAvailable) || plansAvailable.length === 0 || !deployable || isDeploying)) ?
                 'bg-black text-white font-bold rounded transition duration-300 ease-in-out mt-3  cursor-pointer ' :
                 'bg-gray-300  text-white font-bold rounded mt-3'
           }>
             { 
-              !isPlanLoading && Array.isArray(plansAvailable) && deployable &&
+              !isPlanLoading && Array.isArray(plansAvailable) && plansAvailable.length > 0 && deployable &&
               <React.Fragment>
                 <div className={'flex items-center justify-center py-2 px-4 '+(plansAreShown ? 'visible': 'hidden')}>
                     <ul>
@@ -125,27 +125,34 @@ function StashBox() {
             }
           <div className='flex'>
             <button 
-            className={'flex items-center justify-center w-full py-2 px-4 rounded '+ (!(isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying) ? 'bg-black active:bg-slate-700': 'bg-gray-400')}
+            className={'flex items-center justify-center w-full py-2 px-4 rounded '+ (!(isPlanLoading || !Array.isArray(plansAvailable) || plansAvailable.length === 0 || !deployable || isDeploying) ? 'bg-black active:bg-slate-700': 'bg-gray-300')}
             onClick={()=>{
               setShowConfirmation({
                 message: 'Are you sure you want to deploy these functions?',
                 onOk: ()=>{
-                  deployItems()
+                  deployItems();
+                  refetch();
                 },
                 onCancel: ()=>{}
               })
             }}
-            disabled={isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying}
+            disabled={isPlanLoading || !Array.isArray(plansAvailable) || plansAvailable.length === 0 ||  !deployable || isDeploying}
             >
-                  DEPLOY
+                  { Array.isArray(plansAvailable) &&  plansAvailable.length === 0 ? 
+                  <span title="click escape button to see deployments">NOT AVAILABLE </span>
+                  : 
+                  <span>DEPLOY</span>
+                  }
             </button>
 
             <button 
-              className={'flex items-center  justify-center w-1/4 py-2 px-4 rounded ' + (!(isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying) ? 'bg-black active:bg-slate-700': 'bg-gray-400')}
-              disabled={isPlanLoading || !Array.isArray(plansAvailable) || !deployable || isDeploying}
+              className={'flex items-center  justify-center w-1/4 py-2 px-4 rounded ' + (!(isPlanLoading || !Array.isArray(plansAvailable) || plansAvailable.length === 0 || !deployable || isDeploying) ? 'bg-black active:bg-slate-700': 'bg-gray-300')}
+              disabled={isPlanLoading || !Array.isArray(plansAvailable) || plansAvailable.length === 0 || !deployable || isDeploying || isRefetching}
               onClick={()=>setPlansAreShown(!plansAreShown)}
             >
-              <FontAwesomeIcon icon={(plansAreShown? faCaretDown : faCaretUp)} />
+              <FontAwesomeIcon icon={ isRefetching? faSpinner :(plansAreShown? faCaretDown : faCaretUp)} 
+                className={(isRefetching)? 'animate-spin': ''}
+              />
             </button>
           </div>
         </div>

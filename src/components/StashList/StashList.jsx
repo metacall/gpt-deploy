@@ -35,8 +35,8 @@ export default function StashList({fnList}) {
                       }
                       }} title='Options' controller={controller} setController={setController}
                       key = {id}>
-                        <div key={id} className={'h-10 cursor-pointer w-full flex items-center justify-center mt-2 bg-green-200 border hover:bg-green-400 border-gray-300 transition '+styles.box}>
-                              <div className='ml-2 truncate overflow-ellipsis text-center w-full text-gray-500'>{fn?.name}</div>
+                        <div key={id} className={'h-10 cursor-pointer w-full flex items-center rounded-sm justify-center mt-2 bg-gray-200 border hover:bg-gray-400 border-gray-300 transition '+styles.box}>
+                              <div className='ml-2 truncate overflow-ellipsis text-center w-full hover:text-white transition-colors'>{fn?.name}</div>
                               <img src = {flask} className={'ml-auto mr-2 ' + styles.img} alt="options"
                                 onClick={(e)=>{
                                   e.stopPropagation()

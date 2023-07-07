@@ -49,7 +49,7 @@ function DeployedFunctionPanel() {
             setFuncUrl(`https://api.metacall.io/${funcs[selectedIndex[0]].prefix}/${funcs[selectedIndex[0]].suffix}/v1/static/${currentFunction.name}`);
         else
         setFuncUrl(`https://api.metacall.io/${funcs[selectedIndex[0]].prefix}/${funcs[selectedIndex[0]].suffix}/v1/call/${currentFunction.name}`);
-    },[selectedIndex ])
+    },[selectedIndex,funcs ])
 
 
     useEffect(()=>{
@@ -58,7 +58,7 @@ function DeployedFunctionPanel() {
                 setFuncs(data);
             }
         });
-    },[])
+    },[inspect])
 
     function getNoDeployment(){
         return (

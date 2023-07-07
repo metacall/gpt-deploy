@@ -1,4 +1,4 @@
-import React,{ useEffect, useRef, useState, useContext } from 'react'
+import React,{ useEffect, useRef, useState, useContext, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faEdit, faMicrochip, faRefresh, faSave } from '@fortawesome/free-solid-svg-icons'
@@ -24,7 +24,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
     const [editable, setEditable] = useState(false)
     const [showConfirmation, setShowConfirmation] = useState(false)
     const codeRef = useRef(null)
-    const getResponse= async (prompt)=>{
+    const getResponse= useCallback(async (prompt)=>{
         try{
             const db = keyValueDB.current;
             let res = await db.get(prompt);
@@ -50,7 +50,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             return null
         }
 
-    }
+    },[addError ,ask])
 
     useEffect(()=>{
         if(prompt){
@@ -63,7 +63,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                     addError(err?.message ?? "Unable to create response"); 
                 })
         }
-    },[prompt])
+    },[prompt, addError, onLoadComplete, getResponse])
 
     useEffect(()=>{
         if(!loading ){
@@ -75,7 +75,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
             setNumDots(numDots=>numDots===4?1:numDots+1)
         }, 300)
         return ()=>clearInterval(interval)
-    },[loading])
+    },[loading, onLoadComplete, response?.name, responseId])
 
     const stashFunction = ()=>{
         if(!stashed){
@@ -92,9 +92,9 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
 
     useEffect(()=>{
         codeRef.current.innerHTML =  highlight(response?.function_def ?? '' , languages[lang], lang)
-    },[response?.function_def])
+    },[response?.function_def, lang])
 
-    const handleNameChange = (e) => {
+    const handleNameChange = useCallback((e) => {
         if(["Enter", "Tab", "Escape", " "].includes(e.key)){
             e.preventDefault();
             e.stopPropagation();
@@ -114,7 +114,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                 e.preventDefault();
                 e.stopPropagation();
             }
-    }
+    },[addError , addSuccess, response, prompt])
 
     const handleNameMouseClick = (e) => {
         e.target.contentEditable = true;
@@ -132,7 +132,7 @@ export default function Response({ prompt, removeResponse, onLoadComplete , resp
                 functionNameEls[i].removeEventListener('dblclick', handleNameMouseClick)
             }
         }
-    },[response])
+    },[response, handleNameChange])
 
     const handleInputKeyDown = (e) => {
         e.stopPropagation();

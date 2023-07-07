@@ -20,7 +20,7 @@ function Bottom({title= 'Output', content="", setContent,errorFlag =false,setErr
         } else {
             contentRef.current.innerHTML = content;
         }
-    },[content, errorFlag])
+    },[content, errorFlag, isJson])
 
   return (
     <div className={styles.Bottom}>

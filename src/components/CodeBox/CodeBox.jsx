@@ -86,14 +86,14 @@ function CodeBox() {
       onSend(text);
     }
   };
-
+  const mt = searchParams.get('mt');
   useEffect(()=>{
     if(searchParams.get('mt')){
       dispatch(setMetacallToken(searchParams.get('mt')))
       setDataAlreadySet(false)
       setDeployable(false)
     }
-  },[searchParams.get('mt')])
+  },[mt, dispatch, searchParams])
 
   return (
     <div className='h-full w-full flex flex-col gap-3 box-border pr-2 '>

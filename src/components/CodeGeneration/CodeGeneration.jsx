@@ -1,4 +1,4 @@
-import React,{useState,useRef , useEffect} from 'react'
+import React,{useState,useRef , useEffect, useCallback} from 'react'
 import Ask from '../../components/Ask/Ask'
 import Response from '../../components/Response/Response'
 import {useSelector , useDispatch} from 'react-redux'
@@ -19,13 +19,15 @@ function CodeGeneration() {
         }, 100)
     }
 
-    function setPrompts(prompt){
+    const setPrompts = useCallback((prompt)=>{
         dispatch(updatePrompts(prompt));
-    }
-    function saveAllPrompts(){
+    },[dispatch])
+    
+    const saveAllPrompts = useCallback(()=>{
        const db =  keyValueDB.current;
        return db.add(tableEnum.PROMPTS, prompts);
-    }
+    },[prompts])
+
     function getAllPrompts(){
         const db = keyValueDB.current;
         return db.get(tableEnum.PROMPTS);
@@ -37,7 +39,7 @@ function CodeGeneration() {
         else
             saveAllPrompts();
             
-    },[prompts]);
+    },[prompts, saveAllPrompts]);
 
     useEffect(()=>{
         getAllPrompts()
@@ -46,7 +48,7 @@ function CodeGeneration() {
                     setPrompts(res)
                 }
             }).catch(err=>console.error(err));
-    },[])
+    },[setPrompts])
     function onLoad(){
         goToLast();
     }

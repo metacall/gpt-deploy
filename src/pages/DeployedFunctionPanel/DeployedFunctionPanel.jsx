@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LoaderSpinner } from '../../components/Loader';
 import RightPanel from '../../components/RightPanel/RightPanel';
@@ -12,10 +12,13 @@ import Bottom from './components/Bottom/Bottom';
 import Deployment from './components/Deployment/Deployment';
 import Top from './components/Top/Top';
 import { useNavigate } from 'react-router-dom';
+import { setDeployments } from '../../redux/stores/deployments.store';
 function DeployedFunctionPanel() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { METACALL_TOKEN: metacallToken } = useSelector(state=> state.env)
-    const [funcs , setFuncs] = useState([]);
+    const [funcs, setFuncs] = useState([]);
+    const {deployments} = useSelector(state=> state.deployments);
     const [isOpen , setIsOpen] = useState(false);
     const [selectedIndex , setSelectedIndex] = useState(null);
     const [selectedFunc, setSelectedFunc] = useState(null);
@@ -32,6 +35,7 @@ function DeployedFunctionPanel() {
         setSelectedIndex(null);
         setSelectedFunc(null);
     },[])
+
 
     const onClickFunction = useCallback((packageNo , funcNo)=>{
         setSelectedIndex([packageNo , funcNo]);
@@ -55,13 +59,20 @@ function DeployedFunctionPanel() {
 
 
     useEffect(()=>{
-        inspect(null , {
-            onSuccess: (data) => {
-                setFuncs(data);
-            }
-        });
-    },[inspect])
+        if(deployments === null)
+            inspect(null , {
+                onSuccess: (data) => {
+                    dispatch(setDeployments(data));
+                }
+            });
+    },[inspect, setFuncs, deployments, dispatch])
 
+    useEffect(()=>{
+        if(deployments === null) return;
+        setFuncs(deployments);
+    },[deployments])
+
+    
     function getNoDeployment(){
         return (
             <div className={styles.NoDeployment}>

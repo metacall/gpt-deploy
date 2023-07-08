@@ -6,7 +6,7 @@ export default function useChatGPTAsker(openAIKey, model, language){
     async function query(prompt){
         return await asker(prompt)
     }
-    const {mutate:ask, data,isLoading, error} = useMutation(query,{
+    const {mutate:ask, data,isLoading, error, isError} = useMutation(query,{
         retry: 0,
         onError: (error) => {
             console.error(error)
@@ -16,6 +16,7 @@ export default function useChatGPTAsker(openAIKey, model, language){
             ask, 
             data, 
             isLoading, 
-            error
+            error,
+            isError
         }
 }

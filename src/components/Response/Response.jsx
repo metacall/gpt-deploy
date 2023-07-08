@@ -33,16 +33,16 @@ export default function Response({
   removeResponse,
   onLoadComplete,
   responseId,
-  lang = "js",
+  lang,
 }) {
   const [numDots, setNumDots] = useState(1);
   const { addError, addSuccess } = useContext(MessageContext);
-  const [selectedLanguage, setSelectedLanguage] = useState(programmingLanguages[0]);
+  const [selectedLanguage, setSelectedLanguage] = useState(lang);
   const { OPENAI_API_KEY: openAIKey, MODEL: model } = useSelector(
     (state) => state.env
   );
   const { stashedKeys } = useSelector((state) => state.stashes);
-  const { ask, error, isLoading: loading } = useChatGPTAsker(openAIKey, model, selectedLanguage);
+  const { ask, error, isLoading: loading, isError } = useChatGPTAsker(openAIKey, model, selectedLanguage);
   const [response, setResponse] = useState(null);
   const keyValueDB = useRef(getModel(tableEnum.RESPONSES));
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS));
@@ -51,6 +51,7 @@ export default function Response({
   const [editable, setEditable] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const codeRef = useRef(null);
+  const nameRef = useRef(null);
   const getResponse = useCallback(
     async (prompt) => {
       try {
@@ -85,12 +86,29 @@ export default function Response({
         .then((res) => {
           setResponse(res);
           onLoadComplete();
+          setSelectedLanguage(res?.language_id)
         })
         .catch((err) => {
-          addError(err?.message ?? "Unable to create response");
+          addError(err?.response?.message ?? "Unable to create response");
         });
     }
   }, [prompt, addError, onLoadComplete, getResponse]);
+
+  const regenerateResponse = useCallback(() => {
+    const db = keyValueDB.current;
+    ask(prompt, {
+      onError: (err) => {
+        addError(
+          err?.response?.message ??"Failed to regenerate response"
+        );
+      },
+      onSuccess: (data) => {
+        db.add(responseId, data)
+          .then(() => setResponse(data))
+          .catch(() => addError("Unable to get response"));
+      },
+    });
+  },[prompt, responseId, addError, ask]);
 
   useEffect(() => {
     if (!loading) {
@@ -131,58 +149,15 @@ export default function Response({
   };
 
   useEffect(() => {
+    if(isError || !response?.function_def || !codeRef.current) return
+    
     codeRef.current.innerHTML = highlight(
       response?.function_def ?? "",
-      languages[selectedLanguage === 'node' ? 'javascript' : selectedLanguage]
+      languages.js
     );
-  }, [response?.function_def, selectedLanguage]);
+  }, [response?.function_def, selectedLanguage, isError]);
 
 
-  const handleNameChange = useCallback(
-    (e) => {
-      if (["Enter", "Tab", "Escape", " "].includes(e.key)) {
-        e.preventDefault();
-        e.stopPropagation();
-        const db = keyValueDB.current;
-        response.name = e.target.innerText;
-        response.function_def = codeRef.current.innerText;
-        db.add(responseId, response)
-          .then(() => {
-            setResponse({ ...response });
-            addSuccess("Changed name to " + e.target.textContent);
-          })
-          .catch(() => addError("Unable to change response"));
-
-        e.target.contentEditable = false;
-      } else if (!/^[0-9a-zA-Z$_]$/.test(e.key) && e.key.length === 1) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    },
-    [addError, addSuccess, response, responseId]
-  );
-
-  const handleNameMouseClick = (e) => {
-    e.target.contentEditable = true;
-  };
-  useEffect(() => {
-    const functionNameEls =
-      codeRef.current.querySelectorAll(".function-variable");
-    for (let i = 0; i < functionNameEls.length; i++) {
-      functionNameEls[i].addEventListener("keydown", handleNameChange);
-      functionNameEls[i].addEventListener("dblclick", handleNameMouseClick);
-    }
-
-    return () => {
-      for (let i = 0; i < functionNameEls.length; i++) {
-        functionNameEls[i].removeEventListener("keydown", handleNameChange);
-        functionNameEls[i].removeEventListener(
-          "dblclick",
-          handleNameMouseClick
-        );
-      }
-    };
-  }, [response, handleNameChange]);
 
   const handleInputKeyDown = (e) => {
     e.stopPropagation();
@@ -209,6 +184,51 @@ export default function Response({
     }
   }, [stashedKeys, responseId])
 
+  const handleNameChange = useCallback(
+    (e) => {
+      if (["Enter", "Tab", "Escape", " "].includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+        const db = keyValueDB.current;
+        response.name = e.target.innerText;
+        db.add(responseId, response)
+          .then(() => {
+            setResponse({ ...response });
+            addSuccess("Changed name to " + e.target.textContent);
+          })
+          .catch(() => addError("Unable to change response"));
+
+        e.target.contentEditable = false;
+      } else if (!/^[0-9a-zA-Z$_]$/.test(e.key) && e.key.length === 1) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    },
+    [addError, addSuccess, response, responseId]
+  );
+
+  const handleNameMouseClick = (e) => {
+    e.target.contentEditable = true;
+  };
+
+  useEffect(() => {
+      if(isError || !nameRef.current)
+        return
+
+      const refElement = nameRef.current;
+      refElement.addEventListener("keydown", handleNameChange);
+      refElement.addEventListener("dblclick", handleNameMouseClick);
+
+      return () => {
+          refElement.removeEventListener("keydown", handleNameChange);
+          refElement.removeEventListener(
+            "dblclick",
+            handleNameMouseClick
+          );
+      };
+  });
+
+
   function getRenderedResponse() {
     return (
       <React.Fragment>
@@ -221,21 +241,7 @@ export default function Response({
               icon={faRefresh}
               className="font-thin font-serif primary-border p-1 cursor-pointer active:scale-110"
               title="regenerate"
-              onClick={() => {
-                const db = keyValueDB.current;
-                ask(prompt, {
-                  onError: (err) => {
-                    addError(
-                      err?.response?.message ?? "Failed to regenerate response"
-                    );
-                  },
-                  onSuccess: (data) => {
-                    db.add(responseId, data)
-                      .then(() => setResponse(data))
-                      .catch(() => addError("Unable to get response"));
-                  },
-                });
-              }}
+              onClick={regenerateResponse}
             />
             {response?.function_def && (
               <FontAwesomeIcon
@@ -273,8 +279,16 @@ export default function Response({
               />
             )}
 
+          <div
+            className="m-auto font-extrabold selection:bg-gray-200 text-slate-600 w-full text-center"
+          >
+            <span ref={nameRef} className=" selection:text-current pl-2 select-none focus:pr-2 focus:outline-1 focus:outline-dashed">{isError || loading ? '' : `${response?.name}`}</span>{isError || loading ? '' : `.${languageIdToExtensionMapping[response?.language_id]}`}
+          </div>
+
             <div className="ml-auto">
-                <DropdownMenu options = {programmingLanguages} selectedOption={selectedLanguage} setSelectedOption={setSelectedLanguage}/>
+                <DropdownMenu options = {programmingLanguages} selectedOption={selectedLanguage} setSelectedOption={(option)=>{
+                  setSelectedLanguage(option);
+                }}/>
             </div>
             <FontAwesomeIcon
               icon={faTimesCircle}

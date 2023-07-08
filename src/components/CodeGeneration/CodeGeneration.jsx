@@ -14,6 +14,8 @@ function CodeGeneration() {
     const firstTime = useRef(true);
     function goToLast(){
         setTimeout(()=>{
+            if(!chatBoxRef.current) 
+                return ;
             const messageBody = chatBoxRef.current;
             messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
         }, 100)
@@ -63,12 +65,12 @@ function CodeGeneration() {
         const element = (
             <React.Fragment key={id}>
                 <Ask query = {prompt} timestamp={metadata.timestamp}/>
-                <Response onLoadComplete={onLoad} prompt={prompt} removeResponse={()=>removeItems([id])} collection={collection} setCollection = {setCollection} responseId= {id}/>
+                <Response onLoadComplete={onLoad} lang = {metadata.language ?? 'node'} prompt={prompt} removeResponse={()=>removeItems([id])} collection={collection} setCollection = {setCollection} responseId= {id}/>
             </React.Fragment>
             )
         return element
     }
-
+    
     return (
         <React.Fragment>
             <div className='overflow-auto no-scrollbar' ref={chatBoxRef}>

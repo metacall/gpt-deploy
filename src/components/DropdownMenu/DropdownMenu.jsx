@@ -1,4 +1,4 @@
-import { faCaretDown, faCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
@@ -19,13 +19,13 @@ const DropdownMenu = ({ options, selectedOption, setSelectedOption }) => {
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className='align-middle flex place-content-center items-center'>{selectedOption ? selectedOption : 'Select an option'}</span>
-          <FontAwesomeIcon icon={isOpen?faCaretDown : faCaretLeft} className='ml-3 text-lg align-middle flex place-content-center items-center'/>
+          <FontAwesomeIcon icon={isOpen?faCaretDown : faCaretRight} className='ml-3 text-lg align-middle flex place-content-center items-center'/>
         </button>
       </div>
       {isOpen && (
-        <div className="primary-border origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="primary-border origin-top-right font-semibold absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div
-            className="py-1"
+            className="py-1 bg-gray-300"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="options-menu"
@@ -34,7 +34,7 @@ const DropdownMenu = ({ options, selectedOption, setSelectedOption }) => {
               <button
                 key={option}
                 onClick={() => handleOptionClick(option)}
-                className={`block w-full  px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900`}
+                className={`block w-full  px-4 py-2 text-sm text-gray-500 hover:text-black ` + (option === selectedOption ? 'bg-gray-200' : '')}
                 role="menuitem"
               >
                 {option}

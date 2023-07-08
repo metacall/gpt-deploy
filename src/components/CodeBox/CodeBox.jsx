@@ -2,7 +2,7 @@ import React,{useState, useContext} from 'react'
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faCaretDown, faCaretUp} from '@fortawesome/free-solid-svg-icons'
 import InputBoxOpenAIToken from '../InputBoxOpenAIToken/InputBoxInputBoxOpenAIToken'
 import InputOption from '../InputOption/InputOption'
 import { setMetacallToken, setModel, setOpenAIKey } from '../../redux/stores/env.store'
@@ -15,6 +15,9 @@ import { nanoid } from 'nanoid';
 import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
 import MetacallTokenInput from '../MetacallTokenInput/MetacallTokenInput';
 import { useEffect } from 'react';
+import languageIdToExtensionMapping from '../../constants/languageIdToExtensionMapping'
+
+const programmingLanguages = Object.keys(languageIdToExtensionMapping);
 function CodeBox() {
   const dispatch = useDispatch()
   const {prompts} = useSelector(state => state.prompts);
@@ -30,6 +33,8 @@ function CodeBox() {
   const [isOptionLoading , setIsOptionLoading] = useState(false)
   const [deployable, setDeployable] = useState(openAIKey && model && metacallToken)
   const [dataAlreadySet, setDataAlreadySet] = useState(deployable)
+  const [selectedLanguage, setSelectedLanguage] = useState(programmingLanguages[0])
+  const [chooseLangIsShown, setChooseLangIsShown] = useState(false)
   const saveData = ()=>{
     const data =`MODEL=${model}
     OPENAI_API_KEY=${openAIKey}
@@ -76,7 +81,8 @@ function CodeBox() {
     dispatch(updatePrompts([
       ...prompts, 
       [prompt ,id, {
-        timestamp : new Date()-0
+        timestamp : new Date()-0,
+        language: selectedLanguage,
       }]
     ]));
     setText("");
@@ -139,23 +145,49 @@ function CodeBox() {
         }
         
         <CodeGeneration/>
-
         <div className='flex flex-row w-full p-2 border border-gray-300 rounded'>
           <input type='text' className='flex w-full outline-none mr-2 text-gray-700' value={text} 
               placeholder='Write a function description'
               onChange={(e)=>setText(e.target.value)}
               onKeyPress={handleEnterPress}
-              />
-              <button className={
-               deployable && text? 'bg-black rounded text-white whitespace-nowrap p-1 pl-3 pr-3 active:bg-slate-700'
-               : 'bg-gray-300  text-white whitespace-nowrap p-1 pl-3 pr-3 rounded'
-              } 
-              onClick={()=>{
-                onSend(text)
-              }}
-              disabled={!deployable || !text}>
-                GENERATE FUNCTION
+          />
+
+            <div className='flex text-white relative'>
+            { 
+              chooseLangIsShown &&
+              <React.Fragment>
+                <div className={'flex items-center font-bold  w-full primary-border justify-center absolute z-10 right-0 bottom-full'}>
+                    <ul className="[&>*:nth-child(odd)]:bg-gray-800 bg-gray-700 w-full">
+                      {
+                          programmingLanguages.map((lang, index)=>{
+                            return <li key={index} className={'cursor-pointer text-center py-2 px-4 '+(selectedLanguage === lang ? 'text-white' : 'text-gray-400')} onClick={()=>{
+                              setSelectedLanguage(lang)
+                              setChooseLangIsShown(false)
+                            }}>{lang}</li>
+                          })
+                      }
+                    </ul>
+                </div>
+                  <hr/>
+              </React.Fragment>
+            }
+            <button 
+            className={'flex items-center justify-center w-full py-2 px-4 text-white rounded '+ (!(!deployable || !text) ? 'bg-black active:bg-slate-700': 'bg-gray-300 text-black')}
+            onClick={()=>{
+              onSend(text)
+            }}
+            disabled={!deployable || !text}
+            >
+                <span className='whitespace-nowrap '>GENERATE FUNCTION</span>
             </button>
+
+            <button 
+              className={'flex items-center w-20 bg-black justify-center active:bg-slate-700 w-1/4 py-2 px-4 rounded' }
+              onClick={()=>setChooseLangIsShown(!chooseLangIsShown)}
+            >
+            <span className='mr-2'> {selectedLanguage} </span>  <FontAwesomeIcon icon={ chooseLangIsShown ? faCaretDown : faCaretUp} />
+            </button>
+          </div>
         </div>
     </div>
   )

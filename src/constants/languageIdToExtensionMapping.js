@@ -1,4 +1,4 @@
 export default  Object.freeze({
-    'node': 'js',
-    'python': 'py'
+  'node': 'js',
+  'python': 'py',
   });

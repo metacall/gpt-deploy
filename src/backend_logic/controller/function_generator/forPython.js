@@ -8,15 +8,15 @@ export const getAsker = (apiKey, model) => {
     return async (query) => {
         const prompt = `
         convert the following text command as a python code with proper indentation without comments without  test cases and without explanation. you should follow each points carefully. 
-                    also give the name of the function , and dependencies in the below given format
+                    also give the name of the function and dependencies in the below given format
         -------------
                     -the code will be deployed on faas platform
                     -no extra spaces, new lines, or comments or tabs outside the function definition body
                     -do not explain the function
                     -no comments in function body or outside the function definition body
                     -never ever explain function  or code
-                    -no comments in function body
-                    -use camel_case for function name
+                    -use snake_case for function name
+                    -do not enclose json keys with single  quotes or double quotes
                     -should return a stringified object with function_def, function_name, dependencies as keys
                     -entry function name of python should be same as the function name in json
                     -only external dependencies must be included and dependencies provided by python need not be included 
@@ -45,9 +45,13 @@ export const getAsker = (apiKey, model) => {
                 temperature: 1,
             });
             const message = completions.data.choices[0].text;
-            const funcData = JSON.parse(message);
-            funcData.language_id = "node";
-            return funcData;
+            try{
+                const funcData = JSON.parse(message);
+                funcData.language_id = "python";
+                return funcData;
+            } catch(err){
+                throw new Error("Bad Response, Please Regenerate");
+            }
         }
         catch (err) {
             const error = err;

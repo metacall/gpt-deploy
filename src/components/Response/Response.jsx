@@ -15,7 +15,7 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCopy, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
-import useGetResponse from "../../customHooks/useGetResponse";
+import useChatGPTAsker from "../../customHooks/useChatGPTAsker";
 import { getModel, tableEnum } from "../../models";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -24,6 +24,10 @@ import "prismjs/themes/prism.css";
 import { addItem, removeItem } from "../../redux/stores/stashes.store";
 import Confirm from "../Confirm/Confirm";
 import { MessageContext } from "../MessageStack/MessageStack";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import languageIdToExtensionMapping from '../../constants/languageIdToExtensionMapping'
+
+const programmingLanguages = Object.keys(languageIdToExtensionMapping)
 export default function Response({
   prompt,
   removeResponse,
@@ -33,11 +37,12 @@ export default function Response({
 }) {
   const [numDots, setNumDots] = useState(1);
   const { addError, addSuccess } = useContext(MessageContext);
+  const [selectedLanguage, setSelectedLanguage] = useState(programmingLanguages[0]);
   const { OPENAI_API_KEY: openAIKey, MODEL: model } = useSelector(
     (state) => state.env
   );
   const { stashedKeys } = useSelector((state) => state.stashes);
-  const { ask, error, isLoading: loading } = useGetResponse(openAIKey, model);
+  const { ask, error, isLoading: loading } = useChatGPTAsker(openAIKey, model, selectedLanguage);
   const [response, setResponse] = useState(null);
   const keyValueDB = useRef(getModel(tableEnum.RESPONSES));
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS));
@@ -128,10 +133,9 @@ export default function Response({
   useEffect(() => {
     codeRef.current.innerHTML = highlight(
       response?.function_def ?? "",
-      languages[lang],
-      lang
+      languages[selectedLanguage === 'node' ? 'javascript' : selectedLanguage]
     );
-  }, [response?.function_def, lang]);
+  }, [response?.function_def, selectedLanguage]);
 
 
   const handleNameChange = useCallback(
@@ -268,9 +272,13 @@ export default function Response({
                 }}
               />
             )}
+
+            <div className="ml-auto">
+                <DropdownMenu options = {programmingLanguages} selectedOption={selectedLanguage} setSelectedOption={setSelectedLanguage}/>
+            </div>
             <FontAwesomeIcon
               icon={faTimesCircle}
-              className="font-thin font-serif primary-border p-1 ml-auto  cursor-pointer active:scale-110"
+              className="font-thin font-serif primary-border p-1  cursor-pointer active:scale-110"
               title="close"
               onClick={() => {
                 setShowConfirmation({

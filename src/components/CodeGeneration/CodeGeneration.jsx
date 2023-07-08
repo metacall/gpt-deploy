@@ -38,7 +38,7 @@ function CodeGeneration() {
             firstTime.current = false;
         else
             saveAllPrompts();
-            
+        goToLast()
     },[prompts, saveAllPrompts]);
 
     useEffect(()=>{

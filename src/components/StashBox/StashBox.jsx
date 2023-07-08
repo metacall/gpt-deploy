@@ -1,7 +1,6 @@
-import { faCaretDown, faCaretUp, faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { faCaretDown, faCaretUp, faFileZipper, faSpinner, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import protocol, { ResourceType } from '@metacall/protocol/protocol'
-import JSZip from 'jszip'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { metacallBaseUrl } from '../../constants/URLs'
@@ -11,6 +10,7 @@ import { setItems } from '../../redux/stores/stashes.store'
 import Confirm from '../Confirm/Confirm'
 import { MessageContext } from '../MessageStack/MessageStack'
 import StashList from '../StashList/StashList'
+import Bundle from "./utils/Bundler"
 function StashBox() {
   const dispatch = useDispatch()
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS))
@@ -49,53 +49,54 @@ function StashBox() {
       setSelectedPlan(plansAvailable?.[0])
   },[plansAvailable])
 
-  async function getBundle(collection){
-    const zip =new JSZip();
-    const filename = collection.map(([{name}])=>name.split('_').join('-')).join("-").slice(0, 8);
-    const file = new File([content], `${filename}.js`,{type: "text/plain"});
-    zip.file(file.name, file);
-    const metacall_json = JSON.stringify({
-        language_id : "node",
-        path:".",
-        scripts:[file.name]
-    })
-    const metacall_json_file = new File([metacall_json], "metacall.json",{type: "text/plain"})
-    zip.file(metacall_json_file.name, metacall_json_file );
-    
-    return new Promise((resolve)=>{
-      zip.generateAsync({type:"blob",
-                        mimeType: 'application/x-zip-compressed'
-                    }).then((generatedZipBlob)=>{
-        resolve({generatedZipBlob, filename, file})
-      })
-    })
+
+  async function downloadBundle(collection){
+    const [generatedZipBlob, prefix] = await Bundle({name: 'useFuse.js', language_id: 'node', path: 'node'})
+    const url = URL.createObjectURL(generatedZipBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${prefix}.zip`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   }
-  async function deployItems(collection){
+    
 
+  async function deployItems(collection, plan){
 
-      zip.generateAsync({type:"blob",
-                        mimeType: 'application/x-zip-compressed'
-                    }).then(async(generatedZipBlob)=>{
+    const [generatedZipBlob, prefix] = await Bundle(collection, {name: 'metacall', language_id: 'node', path: '.'})
         
       setIsDeploying(true)
       try{
-          const createData = await metacallApi.upload(filename, generatedZipBlob)
+          const createData = await metacallApi.upload( prefix, generatedZipBlob)
           const env = []
-          await metacallApi.deploy(createData.id, env, selectedPlan, ResourceType.Package)
-          addSuccess('deployed '+file.name+' successfully');
+          await metacallApi.deploy(createData.id, env, plan, ResourceType.Package)
+          addSuccess(`Deployed ${prefix} at ${plan} successfully`);
       }catch(err){
           addError(err?.response?.data ?? err.message)
       }
       setIsDeploying(false)
-    })
+  }
 
-}
+  function removeAll(){
+    stashedKeysDB.current.add('keys', []).then(()=>{
+      dispatch(setItems([]))
+    }).catch((err)=>{
+      addError(err?.message ?? 'Error clearing stash')
+    })
+  }
+
+  
   return (
     <React.Fragment>
       <div className={'h-full w-1/4 primary-border p-2 flex flex-col'}>
         <div className='text-base flex font-semibold text-gray-600'>
           <span>STASHED FUNCTIONS </span> 
-          <FontAwesomeIcon icon={faSpinner} className={'ml-auto mr-3 animate-spin '+(!isDeploying? 'hidden': '') }/>
+          <div className=" ml-auto flex gap-1 place-items-center">
+            <FontAwesomeIcon icon={faSpinner} className={'ml-auto mr-3 animate-spin opacity-0'+(isDeploying? 'opacity-100': '') }/>
+            <FontAwesomeIcon icon={faTrashAlt} className='ml-auto cursor-pointer' title="clear stash" onClick={()=>setShowConfirmation({message: 'Are you sure you want to clear stash?', onOk: removeAll, onCancel: ()=>{}})}/>
+            <FontAwesomeIcon icon = {faFileZipper} className='ml-auto cursor-pointer' title="download file in zip" onClick={() => {downloadBundle(collection)}}/>
+          </div>
         </div>
         {
           !deployable ? (
@@ -137,7 +138,7 @@ function StashBox() {
               setShowConfirmation({
                 message: 'Are you sure you want to deploy these functions?',
                 onOk: ()=>{
-                  deployItems();
+                  deployItems(collection, selectedPlan);
                   refetch();
                 },
                 onCancel: ()=>{}

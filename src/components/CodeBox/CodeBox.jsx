@@ -8,7 +8,8 @@ import InputOption from '../InputOption/InputOption'
 import { setMetacallToken, setModel, setOpenAIKey } from '../../redux/stores/env.store'
 import cog from './cog.svg'
 import {MessageContext} from '../../components/MessageStack/MessageStack'
-import { getModels } from '../../backend_logic/controller/function_generator'
+// import { getModels } from '../../backend_logic/controller/function_generator'
+import getModels from '../../backend_logic/utils/getModel';
 import CodeGeneration from '../CodeGeneration/CodeGeneration';
 import { nanoid } from 'nanoid';
 import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';

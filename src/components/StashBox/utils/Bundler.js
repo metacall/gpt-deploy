@@ -1,5 +1,8 @@
-import getNodeBundle, {generateNodePackageJSON} from "./Bundlers/NodeBundler"
 import JSZip from "jszip";
+import {generateNodePackageJSON} from "./packageGenerator/generateNodePackageJSON"
+import {generatePythonRequirementsTXT} from "./packageGenerator/generatePythonRequirementsTXT"
+import languageIdToExtensionMapping from "../../../constants/languageIdToExtensionMapping"
+
 function generatePackages(collection){
 
     const language_ids = [...new Set(collection.map(([{language_id}])=>language_id))]
@@ -10,12 +13,26 @@ function generatePackages(collection){
             case 'node':
                 packageFiles.push(generateNodePackageJSON(colls))
                 break;
+            case 'python':
+                packageFiles.push(generatePythonRequirementsTXT(colls))
+                break;
             default:
                 break;
         }
     }
     return packageFiles;
   }
+
+async function addFolderToZip(collection, zip){
+  if(collection.length === 0){
+    return ;
+  }
+
+  for(let [{name, language_id, function_def}] of collection){
+    const file = new File([function_def], `${name}.${languageIdToExtensionMapping[language_id]}`,{type: "text/plain"});
+    zip.file(file.name, file);
+  }
+}
 
 export default  async function Bundle(collection, metacallJSON){
     const zip =new JSZip();
@@ -27,7 +44,7 @@ export default  async function Bundle(collection, metacallJSON){
 
 
     for(let [lang_id, colls] of separatedCollections){
-        await getNodeBundle(colls, folders[lang_id])   
+        await addFolderToZip(colls, folders[lang_id])   
     }
 
     const entryFileName = metacallJSON.name;

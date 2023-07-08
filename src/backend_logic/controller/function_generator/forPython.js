@@ -28,7 +28,7 @@ export const getAsker = (apiKey, model) => {
         ----------------------
     
         
-    {"function_def":"import fuzzywuzzy\\nfrom fuzzywuzzy import process\\n\\ndef perform_search(search, choices):\\n\\tresults = process.extractOne(search or \\"teset\\", choices)\\n\\treturn results\\n","name": "perform_search" ,  "dependencies":{"fuzzywuzzy":  "^0.18.0"}}
+    {"function_def":"import fuzzywuzzy\\nfrom fuzzywuzzy import process\\n\\ndef perform_search(search, choices):\\n\\tresults = process.extractOne(search or \\"teset\\", choices)\\n\\treturn results\\n","name": "perform_search" ,  "dependencies":{"fuzzywuzzy":  "0.18.0"}}
         
         ------------------------
         Uncommented stringified code for:-

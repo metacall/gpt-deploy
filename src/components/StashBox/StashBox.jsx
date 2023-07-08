@@ -61,7 +61,7 @@ function StashBox() {
   }, [plansAvailable]);
 
   async function downloadBundle(collection) {
-    const [generatedZipBlob, prefix] = await Bundle({
+    const [generatedZipBlob, prefix] = await Bundle(collection,{
       name: "useFuse.js",
       language_id: "node",
       path: "node",

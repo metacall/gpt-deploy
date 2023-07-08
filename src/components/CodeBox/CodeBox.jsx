@@ -35,6 +35,7 @@ function CodeBox() {
   const [dataAlreadySet, setDataAlreadySet] = useState(deployable)
   const [selectedLanguage, setSelectedLanguage] = useState(programmingLanguages[0])
   const [chooseLangIsShown, setChooseLangIsShown] = useState(false)
+  const {isFullscreen} = useSelector(state=>state.fullscreen)
   const saveData = ()=>{
     const data =`MODEL=${model}
     OPENAI_API_KEY=${openAIKey}
@@ -44,7 +45,6 @@ function CodeBox() {
     setDeployable(true)
     addSuccess('Data saved successfully!')
   }
-
   const setting = ()=>{
     if(deployable ^ dataAlreadySet){
       setDeployable( false)
@@ -104,7 +104,11 @@ function CodeBox() {
 
   return (
     <div className='h-full w-full flex flex-col gap-3 box-border pr-2 '>
-        <img src={cog} className='mt-auto w-10 border border-gray-300 p-3 rounded outline-icon active:bg-slate-200 cursor-pointer' alt="cog" onClick={setting}/>
+      <div>
+        {
+          !isFullscreen &&
+          <img src={cog} className={'w-10 border border-gray-300 p-3 rounded outline-icon active:bg-slate-200 cursor-pointer ' } alt="cog" onClick={setting}/>
+        }  
         {
           !dataAlreadySet &&
         <div className={'w-full p-3 border border-gray-300 rounded '+(!deployable?'w-3/4':'')}>
@@ -136,16 +140,20 @@ function CodeBox() {
             }
           </React.Fragment>
           :
-          <p className='text-sm'>
+          <div className='text-sm'>
               <strong>All set! You can click on the <img src={cog} className='inline' alt="cog"/> to change settings.</strong> <br/>
-              Let's now unleash the power of MetaCall GPT and create something remarkable together!
-          </p>
+              <ul>
+               <span className='font-bold'>Shortcuts: </span>
+               <li> &gt; Escape: Toggling Between Deployments and Code Generation </li>
+                <li>&gt; Ctrl + Shift + f : Toggle Fullscreen </li>
+              </ul>
+          </div>
           }
         </div>
         }
-        
+        </div>
         <CodeGeneration/>
-        <div className='flex flex-row w-full p-2 border border-gray-300 rounded'>
+        <div className='flex mt-auto flex-row w-full p-2 border border-gray-300 rounded'>
           <input type='text' className='flex w-full outline-none mr-2 text-gray-700' value={text} 
               placeholder='Write a function description'
               onChange={(e)=>setText(e.target.value)}

@@ -4,6 +4,7 @@ import prompts from './stores/prompts.store';
 import env from './stores/env.store'
 import stashes from './stores/stashes.store';
 import deployments from './stores/deployments.store';
+import fullscreen from './stores/fullscreen.store';
 export default configureStore({
     reducer: {
         codes,
@@ -11,5 +12,6 @@ export default configureStore({
         env,
         stashes,
         deployments,
+        fullscreen,
     },
 });

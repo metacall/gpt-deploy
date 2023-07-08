@@ -217,12 +217,12 @@ export default function Response({
 
       const refElement = nameRef.current;
       refElement.addEventListener("keydown", handleNameChange);
-      refElement.addEventListener("dblclick", handleNameMouseClick);
+      refElement.addEventListener("click", handleNameMouseClick);
 
       return () => {
           refElement.removeEventListener("keydown", handleNameChange);
           refElement.removeEventListener(
-            "dblclick",
+            "click",
             handleNameMouseClick
           );
       };
@@ -253,6 +253,7 @@ export default function Response({
                 }}
               />
             )}
+
             {response?.function_def && (
               <FontAwesomeIcon
                 icon={editable ? faSave : faEdit}
@@ -282,7 +283,7 @@ export default function Response({
           <div
             className="m-auto font-extrabold selection:bg-gray-200 text-slate-600 w-full text-center"
           >
-            <span ref={nameRef} className=" selection:text-current pl-2 select-none focus:pr-2 focus:outline-1 focus:outline-dashed">{isError || loading ? '' : `${response?.name}`}</span>{isError || loading ? '' : `.${languageIdToExtensionMapping[response?.language_id]}`}
+            <span ref={nameRef} className=" selection:text-current pl-2 select-none focus:pr-2 focus:outline-1 focus:outline-dashed cursor-text">{isError || loading ? '' : `${response?.name}`}</span>{isError || loading ? '' : `.${languageIdToExtensionMapping[response?.language_id]}`}
           </div>
 
             <div className="ml-auto">

@@ -258,13 +258,13 @@ function StashBox() {
             >
               <FontAwesomeIcon
                 icon={
-                  isRefetching
+                  isPlanLoading || isRefetching
                     ? faSpinner
                     : plansAreShown
                     ? faCaretDown
                     : faCaretUp
                 }
-                className={isRefetching ? "animate-spin" : ""}
+                className={isPlanLoading || isRefetching ? "animate-spin" : ""}
               />
             </button>
           </div>

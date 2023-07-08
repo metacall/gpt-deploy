@@ -36,7 +36,6 @@ function DeployedFunctionPanel() {
         setSelectedFunc(null);
     },[])
 
-
     const onClickFunction = useCallback((packageNo , funcNo)=>{
         setSelectedIndex([packageNo , funcNo]);
         setIsOpen(true);

@@ -35,6 +35,7 @@ function CodeBox() {
   const [dataAlreadySet, setDataAlreadySet] = useState(deployable)
   const [selectedLanguage, setSelectedLanguage] = useState(programmingLanguages[0])
   const [chooseLangIsShown, setChooseLangIsShown] = useState(false)
+  const [loginByToken, setLoginByToken] = React.useState(false)
   const {isFullscreen} = useSelector(state=>state.fullscreen)
   const saveData = ()=>{
     const data =`MODEL=${model}
@@ -126,7 +127,7 @@ function CodeBox() {
             </span>
           </p>
 
-          <MetacallTokenInput placeholder='Metacall Token' text={metacallToken} setText={(value)=>dispatch(setMetacallToken(value))} disabled={searchParams.get('mt')}
+          <MetacallTokenInput loginByToken={loginByToken} setLoginByToken = {setLoginByToken} placeholder='Metacall Token' text={metacallToken} setText={(value)=>dispatch(setMetacallToken(value))} disabled={searchParams.get('mt')}
           />
           <InputBoxOpenAIToken placeholder='sk-...' text={openAIKey} setText={(value)=>dispatch(setOpenAIKey(value))} isLoading={isOptionLoading} setAvailableModels={retrieveModelOptions}/>
             {

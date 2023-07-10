@@ -28,6 +28,7 @@ function ZipExplorer({initZip}) {
   const [filesData, setFilesData] = useState([]);
 
   const extractZip = useCallback(async (files)=>{
+    
     let  fileDatas= await Promise.all(files.map(async (file) => {
       const zipsFiles =  await extractZipFile(file)
       return [file?.name,  zipsFiles]
@@ -58,7 +59,7 @@ function ZipExplorer({initZip}) {
     if(initZip){
       extractZip([initZip])
     }
-  },[initZip, extractZip])  
+  },[])   //eslint-disable-line
 
   useEffect(()=>{
     console.log(filesData)

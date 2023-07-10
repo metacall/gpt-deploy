@@ -32,7 +32,7 @@ function StashBox() {
   const deployable = stashedKeys.length > 0 && metacallToken !== "";
   const [isDeploying, setIsDeploying] = useState(false);
   const metacallApi = protocol(metacallToken, metacallBaseUrl);
-  const [model, setModel] = useState(null);
+  const [model, setModel] = useState(false);
   const [createdZipData, setCreatedZipData] = useState(null);
   const {
     data: plansAvailable,
@@ -129,11 +129,14 @@ function StashBox() {
               title="view generated file"
               onClick={() =>{
                 Bundle(collection,{
-                  name: "fuse.js",
+                  name: "Home",
                   language_id: "node",
                   path: "node",
                 }).then(([generatedZipBlob])=>{
-                  setCreatedZipData(generatedZipBlob)
+                  const generatedZipFile = new File([generatedZipBlob], "Package", {
+                    type: "application/x-zip-compressed",
+                  });
+                  setCreatedZipData(generatedZipFile)
                   setModel(true)
                 })
               }}

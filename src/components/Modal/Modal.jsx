@@ -5,10 +5,6 @@ import { useEffect } from 'react';
 function ModalCustom({children, modal ,setModal, title,style}) {
   const [isOpen, setIsOpen] = React.useState(modal);
   useEffect(()=>{
-    if(modal){
-      setIsOpen(modal);
-      return
-    }
 
     setTimeout(() => {
       setIsOpen(modal);

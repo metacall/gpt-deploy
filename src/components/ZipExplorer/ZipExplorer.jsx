@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import DragNDrop from '../DragNDrop/DragNDrop'
 import JSZip from 'jszip';
-import IndentedFileShower from '../FileExplorer/FileExplorer';
+import FileExplorer from '../FileExplorer/FileExplorer';
 
 const extractZipFile = async (file) => {
     return new Promise((resolve, reject) => {
@@ -64,13 +64,13 @@ function ZipExplorer({initZip}) {
     console.log(filesData)
   },[filesData])
   return (
-    <div className='bg-slate-900 overflow-auto no-scrollbar h-full primary-border'>
-      <div className='w-full  flex gap-4 overflow-hidden primary-border box-border place-content-center p-1'>
+    <div className='bg-slate-900 opacity-80 overflow-auto no-scrollbar h-full primary-border'>
+      <div className='w-full top-0  flex gap-4 overflow-hidden primary-border box-border place-content-center p-1'>
           <DragNDrop name = {'Drag or Upload Files'} onDrop={addSingleFile}/>
           <DragNDrop name = {'Drag or Upload Folder'} onDrop={addFolder} isFolder/>
           <DragNDrop name = {'Drag or Upload Zip'} onDrop={extractZip}/>
       </div>
-      <IndentedFileShower files={filesData}/>
+      <FileExplorer files={filesData}/>
     </div>
   )
 }

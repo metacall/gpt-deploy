@@ -33,11 +33,11 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
     const currentFolder = parentPath.split('/').filter((x) => x).pop();
     if(!isNotMinimized([parentPath]))
         return null
-    return <ul>
+    return <ul className='relative'>
         {
             
             parentPath &&
-            <span className='w-full rounded text-sm px-3 mb-2 cursor-default'>     
+            <span className='w-full sticky rounded text-sm px-3 mb-2 cursor-default'>     
                 { 
                     true ?
                     <React.Fragment>
@@ -68,7 +68,7 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
                             {   
 
                                 onlyFolders.length > 0 && 
-                                <li className='ml-5 rounded text-sm'>
+                                <li className='ml-5 sticky rounded text-sm'>
                                     {renderFiles(onlyFolders, folderPath)}
                                 </li>
                             }
@@ -89,9 +89,13 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
 
   };
 
-  return <div className=' p-4 shadow-md hover:shadow-lg text-gray-100 cursor-pointer'>
-    {renderFiles(files)}
-    </div>;
+  return (
+    <div className='h-full overflow-auto no-scrollbar p-2'>
+        <div className=' p-4 h-full relative no-scrollbar overflow-auto shadow-md hover:shadow-lg text-gray-100 cursor-pointer'>
+            {renderFiles(files)}
+        </div>
+    </div>
+  )
 };
 
 export default FileExplorer;

@@ -8,7 +8,7 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
   const renderFile = (files) => {
     return files.map((file) => <li key={file}>
         <span key={file}>
-            <FontAwesomeIcon icon={faFile} className='text-sm mr-2'/>
+            <FontAwesomeIcon icon={faFile} className='text-xs mr-2'/>
             {file.split('/').pop()}
         </span>
         </li>
@@ -37,21 +37,21 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
         {
             
             parentPath &&
-            <span className='w-full rounded px-3 mb-2 cursor-default'>     
+            <span className='w-full rounded text-sm px-3 mb-2 cursor-default'>     
                 { 
                     true ?
                     <React.Fragment>
-                        <FontAwesomeIcon icon={minimizedFolder.includes(parentPath) ? faCaretDown :faCaretRight}  className='text-sm mr-2 cursor-pointer' onClick={()=>{
+                        <FontAwesomeIcon icon={minimizedFolder.includes(parentPath) ? faCaretDown :faCaretRight}  className='text-xs mr-2 cursor-pointer' onClick={()=>{
                             if(minimizedFolder.includes(parentPath)){
                                 setMinimizedFolder(minimizedFolder.filter((x)=>x!==parentPath))
                             }
                             else
                                 setMinimizedFolder([...minimizedFolder,parentPath])
                         }}/>
-                        <FontAwesomeIcon icon={faFolderOpen} className='text-sm mr-2'/>
+                        <FontAwesomeIcon icon={faFolderOpen} className='text-xs mr-2'/>
                     </React.Fragment>
                             : 
-                        <FontAwesomeIcon icon={faFolder} className='text-sm mr-2'/>
+                        <FontAwesomeIcon icon={faFolder} className='text-xs mr-2'/>
                 }
                     {currentFolder} 
             </span>
@@ -68,13 +68,13 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
                             {   
 
                                 onlyFolders.length > 0 && 
-                                <li className='ml-5 rounded text-lg'>
+                                <li className='ml-5 rounded text-sm'>
                                     {renderFiles(onlyFolders, folderPath)}
                                 </li>
                             }
                             {
                             onlyFile.length > 0 && isNotMinimized(onlyFile) &&
-                            <li className='ml-5 py-1 text-lg active:brightness-110 hover:brightness-110 bg-slate-800 px-3 border-teal-100 first-of-type:rounded-t last-of-type:rounded-b first:mt-1 last:mb-1' style={{"borderBottomWidth":"0.5px" }}>
+                            <li className='ml-5 py-1 text-sm active:brightness-110 hover:brightness-110 bg-slate-800 px-3 border-teal-100 first-of-type:rounded-t last-of-type:rounded-b first:mt-1 last:mb-1' style={{"borderBottomWidth":"0.5px" }}>
                                 {renderFile(onlyFile)}
                             </li>
                             }
@@ -89,7 +89,7 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
 
   };
 
-  return <div className=' p-4 primary-border shadow-md hover:shadow-lg text-white cursor-pointer'>
+  return <div className=' p-4 shadow-md hover:shadow-lg text-gray-100 cursor-pointer'>
     {renderFiles(files)}
     </div>;
 };

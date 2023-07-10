@@ -1,12 +1,11 @@
-export default {
+export default Object.freeze({
     height: "50vh",
     aspectRatio: "1.4",
     position: "absolute",
     left:"50%",
     top:"50%",
-    transform: "translate(-50%,-50%)",
     padding: "5px"
-}
+})
 
 export const Header ={
     width: "100%",

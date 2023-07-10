@@ -1,6 +1,7 @@
 import {
   faCaretDown,
   faCaretUp,
+  faEye,
   faFileZipper,
   faSpinner,
   faTrashAlt,
@@ -17,6 +18,8 @@ import Confirm from "../Confirm/Confirm";
 import { MessageContext } from "../MessageStack/MessageStack";
 import StashList from "../StashList/StashList";
 import Bundle from "./utils/Bundler";
+import ZipExplorer from "../ZipExplorer/ZipExplorer";
+import ModalCustom from "../Modal/Modal";
 function StashBox() {
   const dispatch = useDispatch();
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS));
@@ -29,6 +32,8 @@ function StashBox() {
   const deployable = stashedKeys.length > 0 && metacallToken !== "";
   const [isDeploying, setIsDeploying] = useState(false);
   const metacallApi = protocol(metacallToken, metacallBaseUrl);
+  const [model, setModel] = useState(null);
+  const [createdZipData, setCreatedZipData] = useState(null);
   const {
     data: plansAvailable,
     isLoading: isPlanLoading,
@@ -117,6 +122,21 @@ function StashBox() {
                 "ml-auto mr-3 animate-spin opacity-0" +
                 (isDeploying ? "opacity-100" : "")
               }
+            />
+            <FontAwesomeIcon
+              icon={faEye}
+              className="ml-auto cursor-pointer"
+              title="view generated file"
+              onClick={() =>{
+                Bundle(collection,{
+                  name: "fuse.js",
+                  language_id: "node",
+                  path: "node",
+                }).then(([generatedZipBlob])=>{
+                  setCreatedZipData(generatedZipBlob)
+                  setModel(true)
+                })
+              }}
             />
             <FontAwesomeIcon
               icon={faTrashAlt}
@@ -274,6 +294,18 @@ function StashBox() {
         showPrompt={showConfirmation}
         setShowPrompt={setShowConfirmation}
       />
+      <ModalCustom modal={model} title={
+        <span className="text-slate-600 font-bold">
+          File Explorer
+        </span>
+      }
+        style={{'width':'50%', 'height': '70%'}}
+        setModal={setModel}
+      >
+        <div style={{"height":"100%"}}>
+          <ZipExplorer initZip={createdZipData}/>
+        </div>
+      </ModalCustom>
     </React.Fragment>
   );
 }

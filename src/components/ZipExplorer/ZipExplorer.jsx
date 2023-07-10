@@ -3,7 +3,7 @@ import DragNDrop from '../DragNDrop/DragNDrop'
 import JSZip from 'jszip';
 import IndentedFileShower from '../FileExplorer/FileExplorer';
 
-const extractZip = async (file) => {
+const extractZipFile = async (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = function () {
@@ -29,7 +29,7 @@ function ZipExplorer({initZip}) {
 
   const extractZip = useCallback(async (files)=>{
     let  fileDatas= await Promise.all(files.map(async (file) => {
-      const zipsFiles =  await extractZip(file)
+      const zipsFiles =  await extractZipFile(file)
       return [file?.name,  zipsFiles]
     }));
 
@@ -64,7 +64,7 @@ function ZipExplorer({initZip}) {
     console.log(filesData)
   },[filesData])
   return (
-    <div className='bg-slate-900 h-full'>
+    <div className='bg-slate-900 overflow-auto no-scrollbar h-full primary-border'>
       <div className='w-full  flex gap-4 overflow-hidden primary-border box-border place-content-center p-1'>
           <DragNDrop name = {'Drag or Upload Files'} onDrop={addSingleFile}/>
           <DragNDrop name = {'Drag or Upload Folder'} onDrop={addFolder} isFolder/>

@@ -20,7 +20,6 @@ import StashList from "../StashList/StashList";
 import Bundle from "./utils/Bundler";
 import ZipExplorer from "../ZipExplorer/ZipExplorer";
 import ModalCustom from "../Modal/Modal";
-import languageIdToExtensionMapping from "../../constants/languageIdToExtensionMapping";
 function StashBox() {
   const dispatch = useDispatch();
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS));

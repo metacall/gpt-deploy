@@ -2,11 +2,12 @@ import React,{ useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder, faFolderOpen, faFile, faCaretRight, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
-const FileExplorer = ({ files, onRemove, onRename }) => {
+const FileExplorer = ({ filesData, onRemove, onRename, onSelect }) => {
   const [minimizedFolder, setMinimizedFolder] = useState([]);
-
+  const fileToData = Object.fromEntries(filesData);
+const files = Object.keys(fileToData);
   const renderFile = (files) => {
-    return files.map((file) => <li key={file}>
+    return files.map((file) => <li key={file} onClick={()=>onSelect([file, fileToData[file]])}>
         <span key={file}>
             <FontAwesomeIcon icon={faFile} className='text-xs mr-2'/>
             {file.split('/').pop()}
@@ -37,7 +38,7 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
         {
             
             parentPath &&
-            <span className='w-full sticky rounded text-sm px-3 mb-2 cursor-default'>     
+            <span className={'w-full sticky rounded text-sm mb-2 cursor-default '}>     
                 { 
                     true ?
                     <React.Fragment>
@@ -68,13 +69,13 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
                             {   
 
                                 onlyFolders.length > 0 && 
-                                <li className='ml-5 sticky rounded text-sm'>
+                                <li className='ml-2 sticky rounded text-sm'>
                                     {renderFiles(onlyFolders, folderPath)}
                                 </li>
                             }
                             {
                             onlyFile.length > 0 && isNotMinimized(onlyFile) &&
-                            <li className='ml-5 py-1 text-sm active:brightness-110 hover:brightness-110 bg-slate-800 px-3 border-teal-100 first-of-type:rounded-t last-of-type:rounded-b first:mt-1 last:mb-1' style={{"borderBottomWidth":"0.5px" }}>
+                            <li className='ml-2 whitespace-nowrap py-1 text-sm overflow-auto no-scrollbar active:brightness-110 hover:brightness-110 bg-slate-800 px-2 border-teal-100 first-of-type:rounded-t last-of-type:rounded-b first:mt-1 last:mb-1' style={{"borderBottomWidth":"0.5px" }}>
                                 {renderFile(onlyFile)}
                             </li>
                             }
@@ -91,7 +92,7 @@ const FileExplorer = ({ files, onRemove, onRename }) => {
 
   return (
     <div className='h-full overflow-auto no-scrollbar p-2'>
-        <div className=' p-4 h-full relative no-scrollbar overflow-auto shadow-md hover:shadow-lg text-gray-100 cursor-pointer'>
+        <div className='h-full relative no-scrollbar overflow-auto shadow-md hover:shadow-lg text-gray-100 cursor-pointer'>
             {renderFiles(files)}
         </div>
     </div>

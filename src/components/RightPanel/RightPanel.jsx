@@ -25,7 +25,7 @@ const RightPanel = ({ children, title, loading , isOpen, onClose }) => {
     <>
       {isOpen && (
         <div
-          className={styles.overlay}
+          className={styles.overlay + ' bg-slate-800'}
           onClick={handleClose}
           data-testid="overlay">
           </div>

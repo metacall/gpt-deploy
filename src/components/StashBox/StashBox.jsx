@@ -20,6 +20,7 @@ import StashList from "../StashList/StashList";
 import Bundle from "./utils/Bundler";
 import ZipExplorer from "../ZipExplorer/ZipExplorer";
 import ModalCustom from "../Modal/Modal";
+import languageIdToExtensionMapping from "../../constants/languageIdToExtensionMapping";
 function StashBox() {
   const dispatch = useDispatch();
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS));
@@ -66,11 +67,7 @@ function StashBox() {
   }, [plansAvailable]);
 
   async function downloadBundle(collection) {
-    const [generatedZipBlob, prefix] = await Bundle(collection,{
-      name: "useFuse.js",
-      language_id: "node",
-      path: "node",
-    });
+    const [generatedZipBlob, prefix] = await Bundle(collection);
     const url = URL.createObjectURL(generatedZipBlob);
     const link = document.createElement("a");
     link.href = url;
@@ -128,11 +125,10 @@ function StashBox() {
               className="ml-auto cursor-pointer"
               title="view generated file"
               onClick={() =>{
-                Bundle(collection,{
-                  name: "Home",
-                  language_id: "node",
-                  path: "node",
-                }).then(([generatedZipBlob])=>{
+                if(collection.length === 0) 
+                  return addError("No stashed functions")
+
+                Bundle(collection).then(([generatedZipBlob])=>{
                   const generatedZipFile = new File([generatedZipBlob], "Package", {
                     type: "application/x-zip-compressed",
                   });

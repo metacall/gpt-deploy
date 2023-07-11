@@ -70,6 +70,7 @@ export const getAsker = (apiKey, model) => {
         -the code will be deployed on faas platform
         -use camelCase for function name
         -do not explain the function
+        -never use mathutils.py and safeAdd.js , they are just for demonstration purpose. I will give inside >>>>>>>> <<<<<<<<<< as function metadata , if one exists
         -do not explain or comments in function body or outside the function definition body or JSON object
         -entry function name of code should be same as the function name in json
         -only external dependencies must be included and dependencies provided in built by node.js need not be included 

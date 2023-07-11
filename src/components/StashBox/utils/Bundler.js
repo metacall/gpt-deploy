@@ -3,6 +3,8 @@ import {generateNodePackageJSON} from "./packageGenerator/generateNodePackageJSO
 import {generatePythonRequirementsTXT} from "./packageGenerator/generatePythonRequirementsTXT"
 import languageIdToExtensionMapping from "../../../constants/languageIdToExtensionMapping"
 import metacallerFileAsString from "./packageGenerator/metacallerFileAsString";
+import langIdToMetacallId from "../../../constants/langIdToMetacallId";
+
 function generatePackages(collection, extraFiles){
 
     const language_ids = [...new Set(collection.map(([{language_id}])=>language_id))]
@@ -45,6 +47,12 @@ function addFolderToZip(collection, zip){
 }
 
 export default  async function Bundle(collection, metacallJSON){
+    const entryFile = collection[collection.length - 1][0];
+    metacallJSON = metacallJSON || {
+      name: entryFile.name,
+      language_id: entryFile.language_id,
+      path: entryFile.language_id,
+    }
     const zip =new JSZip();
   
     const language_ids = [...new Set(collection.map(([{language_id}])=>language_id))]
@@ -60,12 +68,14 @@ export default  async function Bundle(collection, metacallJSON){
         }  
     }
 
-    const entryFileName = metacallJSON.name;
+    const entryFileName = metacallJSON.name+'.'+languageIdToExtensionMapping[metacallJSON.language_id];
+
     const metacall_json = JSON.stringify({
-        language_id : metacallJSON.language_id,
+        language_id : langIdToMetacallId[metacallJSON.language_id],
         path: metacallJSON.language_id,
         scripts:[entryFileName]
     })
+    console.log(metacall_json)
     const metacall_json_file = new File([metacall_json], "metacall.json",{type: "text/plain"})
     zip.file(metacall_json_file.name, metacall_json_file );
     

@@ -35,11 +35,11 @@ from path import funcName
 }
 else  if extension is .js{
 from metacaller import createFunction
-__funcName = createFunction('node', 'path.js')
+__funcName = createFunction('func_name','node', 'path.js')
 }
 else if extension is .rb{
 from metacaller import createFunction
-__funcName = createFunction('rb', 'path.rb')    
+__funcName = createFunction('func_name','rb', 'path.rb')    
 }
 ---------------------
 I will pass you some functions name and file path as function metadata, you have to import it and use it whenever necessary don't create one again
@@ -51,11 +51,11 @@ give sum of factorial of 2 numbers
 
 function metadata:- 
 {
-"calc_factorial": {"path": "calc_factorial.py", 
+"calc_fac": {"path": "some_calc_factorial.py", 
                     "parameters": [["n": "integer"]],
                     "returns": "integer"
                 },
-"safeAdd": {"path": "safeAdd.js", 
+"safeAdd": {"path": "someMaths.js", 
                     "parameters": [["a": "integer"], ["b", "integer"]],
                 "returns": "integer"
                 }
@@ -63,7 +63,7 @@ function metadata:-
 \`\`\`
 example output:-
 ----------------
-{"function_def":"from metacaller import createFunction\\nfrom calc_factorial import calc_factorial\\n__safe_add = createFunction('node','safeAdd.js')\\n\\ndef sum_of_factorial(a,b):\\n\\treturn __safe_add(__calc_factorial(a), __calc_factorial(b))","name": "sum_of_factorial" ,  "dependencies":{}, "parameters": [["a", "integer"], ["b", "integer"]], "returns": "integer", "createFunctionRequired": true}
+{"function_def":"from metacaller import createFunction\\nfrom calc_factorial import calc_fac as calc_factorial\\n__safe_add = createFunction('safeAdd','node','someMaths.js')\\n\\ndef sum_of_factorial(a,b):\\n\\treturn __safe_add(__calc_factorial(a), __calc_factorial(b))","name": "sum_of_factorial" ,  "dependencies":{}, "parameters": [["a", "integer"], ["b", "integer"]], "returns": "integer", "createFunctionRequired": true}
 ==========================
 
 example input 2:

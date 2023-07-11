@@ -6,10 +6,10 @@ langToExtensionMapping = {
 langToFolderMapping = {
     'node': '../node',
 }
-def createFunction(lang, funcName):
-    metacall.metacall_load_from_file(lang, [f'{langToFolderMapping[lang]}/{funcName}.{langToExtensionMapping[lang]}'])
+def createFunction(fn,lang, filename):
+    metacall.metacall_load_from_file(lang, [f'{langToFolderMapping[lang]}/{filename}'])
     def func(*args):
-        return metacall.metacall(funcName, *args)
+        return metacall.metacall(fn, *args)
     return func
 `
 export default file;

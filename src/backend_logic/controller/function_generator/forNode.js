@@ -61,7 +61,8 @@ export const getAsker = (apiKey, model) => {
         apiKey
     });
     const openai = new OpenAIApi(configuration);
-    return async (query) => {
+    return async (query, metadata) => {
+        console.log("metadata-node", metadata)
         const prompt = `
         convert the following text command as a node.js code with proper indentation without comments without  test cases and without explanation. you should follow each points carefully. 
         also give the name of the function, parameter, dependencies and return type in the below given format
@@ -123,9 +124,8 @@ export const getAsker = (apiKey, model) => {
     ${query}
     
     function metadata:-
-    {
-
-    }
+    
+    ${JSON.stringify(metadata)}
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         `;
         try {

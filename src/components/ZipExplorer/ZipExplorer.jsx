@@ -61,9 +61,6 @@ function ZipExplorer({initZip}) {
     }
   },[])   //eslint-disable-line
 
-  useEffect(()=>{
-    console.log(filesData)
-  },[filesData])
   return (
     <div className='bg-slate-900 opacity-80 overflow-auto no-scrollbar h-full primary-border'>
       <div className='w-full top-0  flex gap-4 overflow-hidden primary-border box-border place-content-center p-1'>

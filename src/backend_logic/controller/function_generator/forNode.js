@@ -74,6 +74,7 @@ export const getAsker = (apiKey, model) => {
         -entry function name of code should be same as the function name in json
         -only external dependencies must be included and dependencies provided in built by node.js need not be included 
         -always export the entry function at the end 
+        -names of required function and generated functions should never be same. if you want use const {a:b}= require("c") for required function name if a was the name of generated function
         -should only create code for prompt asked inside >>>>>>>>> and <<<<<<<<<
         -do not change file extension of import to .js , leave it same as provided in path key of functions metadata 
         -should return a stringified object with function_def, function_name, dependencies as keys such that it can be parsed using JSON.parse like use escape \\

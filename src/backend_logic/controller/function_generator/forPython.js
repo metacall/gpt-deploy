@@ -21,6 +21,7 @@ also give the name of the function, parameter, dependencies and return type in t
 -do not change file extension of import to .py , leave it same as provided in path key of functions metadata 
 -should return a stringified object with function_def, function_name, dependencies as keys such that it can be parsed using JSON.parse like use escape \\. 
 -Use single quotes as much as possible to avoid escape characters.
+-names of imports and generated functions should never be same. if you want use 'as' keyword to rename import
 -"createFunction" is an API through which we can use functions of other languages. you can import it like this: 
     from metacaller import createFunction
 -if you want to create function of other languages  use 

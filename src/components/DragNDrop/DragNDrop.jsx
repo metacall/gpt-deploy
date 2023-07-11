@@ -12,7 +12,7 @@ function DragNDrop({onDrop, name, className, isFolder=false }) {
         :
         <input {...getInputProps()} />
       }
-      <p className={'text-slate-500 '+(isDragActive || isFileDialogActive? 'font-bold':  '' )}>{name}</p>
+      <p className={'text-slate-500 text-xs md:text-sm whitespace-nowrap text-ellipsis'+(isDragActive || isFileDialogActive? 'font-bold':  '' )}>{name}</p>
     </div>
   )
 }

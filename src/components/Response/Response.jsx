@@ -233,7 +233,7 @@ export default function Response({
     return (
       <React.Fragment>
         <div
-          className={"primary-border p-4 my-2 " + (error && "bg-red-100")}
+          className={"primary-border p-4 my-2 overflow-hidden w-full " + (error && "bg-red-100")}
           style={{ maxWidth: "80%" }}
         >
           <div className="flex text-gray-400 font-thin gap-4">

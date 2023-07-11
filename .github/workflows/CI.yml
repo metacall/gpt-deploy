@@ -1,6 +1,7 @@
-name: Deploy to github pages
+name: CI
 
 on:
+    pull_request:
     push:
         branches:
             - master
@@ -8,7 +9,7 @@ on:
             - 'v*.*.*'
 
 jobs:
-    deploy:
+    ci:
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout

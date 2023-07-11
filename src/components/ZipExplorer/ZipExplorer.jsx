@@ -25,6 +25,16 @@ const extractZipFile = async (file) => {
   })
 };
 
+const readFile = async (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = function () {
+      resolve(reader.result);
+    };
+    reader.readAsText(file);
+  })
+};
+
 function ZipExplorer({initZip}) {
   const [filesData, setFilesData] = useState([]);
   const [textData, setTextData] = useState(null);
@@ -55,13 +65,15 @@ function ZipExplorer({initZip}) {
     setFilesData([...filesData, ...fileNames])
   },[filesData, setFilesData])
 
-  const addSingleFile = useCallback((files)=>{
-    const fileNames = files.map((file)=>file.name)
+
+  const addSingleFile = useCallback(async (files)=>{
+    
+    const fileNames = await Promise.all(files.map(async (file)=>[file.name, await readFile(file)]))
     setFilesData([...filesData, ...fileNames])
   },[filesData, setFilesData])
 
-  const addFolder = useCallback((files)=>{
-    const fileNames = files.map((file)=>file.path)
+  const addFolder = useCallback(async (files)=>{
+    const fileNames = await Promise.all(files.map(async (file)=>[file.path, await readFile(file)]))
     setFilesData([...filesData, ...fileNames])
   },[filesData, setFilesData])
 

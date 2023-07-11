@@ -75,7 +75,6 @@ export default  async function Bundle(collection, metacallJSON){
         path: metacallJSON.language_id,
         scripts:[entryFileName]
     })
-    console.log(metacall_json)
     const metacall_json_file = new File([metacall_json], "metacall.json",{type: "text/plain"})
     zip.file(metacall_json_file.name, metacall_json_file );
     

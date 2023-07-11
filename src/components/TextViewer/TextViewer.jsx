@@ -9,7 +9,6 @@ import 'prismjs/components/prism-json';
 import './TextViewer.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-// Import other language packages as needed
 
 const CodeDisplay = ({ text, fileName, onClose }) => {
   const codeRef = useRef(null);
@@ -23,20 +22,19 @@ const CodeDisplay = ({ text, fileName, onClose }) => {
     }
 
     if (codeRef.current) {
-      console.log(highlight(text, Prism.languages[language], language))
       codeRef.current.innerHTML = highlight(text, Prism.languages[language], language);
     }
   }, [text, fileName]);
 
   return (
-      <div className='h-full w-full primary-border border-separate overflow-hidden whitespace-break-spaces no-scrollbar bg-transparent'>
+      <div className='h-full w-full overflow-auto flex flex-col primary-border border-separate whitespace-break-spaces no-scrollbar bg-transparent'>
 
-        <div className='text-white text-xl font-bold flex p-2 h-15 bg-slate-800'>
-          <span>{fileName.split('/').at(-1)}</span>
-          <FontAwesomeIcon icon={faTimes} className='ml-auto items-center place-content-center box-border p-1' title = {'Close'} onClick={onClose}/>
-          </div>
+        <div className='text-white text-xl font-bold items-center place-content-center flex p-2 h-15 bg-slate-800'>
+          <span className=' p-1 box-border'>{fileName.split('/').at(-1)}</span>
+          <button className='ml-auto  box-border p-1'><FontAwesomeIcon icon={faTimes}  title = {'Close'} onClick={onClose}/></button>
+        </div>
 
-        <div ref={codeRef} className='p-2'></div>
+        <div ref={codeRef} className='p-2 overflow-auto thin-scrollbar'></div>
       </div>
   );
 };

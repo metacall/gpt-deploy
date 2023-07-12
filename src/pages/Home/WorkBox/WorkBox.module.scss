@@ -10,7 +10,7 @@
     &::-webkit-scrollbar {
         display: none;
     }
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
         flex-direction: column;
         overflow: auto;
     }

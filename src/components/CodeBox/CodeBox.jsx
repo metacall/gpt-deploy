@@ -181,7 +181,7 @@ function CodeBox() {
               </React.Fragment>
             }
             <button 
-            className={'flex items-center justify-center w-full py-2 px-4 text-white rounded '+ (!(!deployable || !text) ? 'bg-black active:bg-slate-700': 'bg-gray-300 text-black')}
+            className={'items-center justify-center  hidden md:flex w-full py-2 px-4 text-white rounded '+ (!(!deployable || !text) ? 'bg-black active:bg-slate-700': 'bg-gray-300 text-black')}
             onClick={()=>{
               onSend(text)
             }}
@@ -191,7 +191,7 @@ function CodeBox() {
             </button>
 
             <button 
-              className={'flex items-center w-20 bg-black justify-center active:bg-slate-700 w-1/4 py-2 px-4 rounded' }
+              className={'flex items-center w-20 bg-black justify-center active:bg-slate-700 py-2 px-4 rounded' }
               onClick={()=>setChooseLangIsShown(!chooseLangIsShown)}
             >
             <span className='mr-2'> {selectedLanguage} </span>  <FontAwesomeIcon icon={ chooseLangIsShown ? faCaretDown : faCaretUp} />

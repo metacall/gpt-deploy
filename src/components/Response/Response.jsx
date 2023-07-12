@@ -233,10 +233,9 @@ export default function Response({
     return (
       <React.Fragment>
         <div
-          className={"primary-border p-4 my-2 overflow-hidden w-full " + (error && "bg-red-100")}
-          style={{ maxWidth: "80%" }}
+          className={"primary-border p-4 my-2 overflow-hidden w-full max-w-full md:max-w-80 " + (error && "bg-red-100")}
         >
-          <div className="flex text-gray-400 font-thin gap-4">
+          <div className="flex text-gray-400 w-full font-thin gap-1 md:gap-4">
             <FontAwesomeIcon
               icon={faRefresh}
               className="font-thin font-serif primary-border p-1 cursor-pointer active:scale-110"
@@ -281,7 +280,7 @@ export default function Response({
             )}
 
           <div
-            className="m-auto font-extrabold selection:bg-gray-200 text-slate-600 w-full text-center"
+            className="m-auto font-bold md:font-extrabold text-sm md:text-lg max-w selection:bg-gray-200 text-slate-600 w-full text-center"
           >
             <span ref={nameRef} className=" selection:text-current pl-2 select-none focus:underline focus:pr-2 focus:outline-1 focus:bg-gray-300 focus:outline-dashed cursor-text">{isError || loading ? '' : `${response?.name}`}</span>{isError || loading ? '' : `.${languageIdToExtensionMapping[response?.language_id]}`}
           </div>
@@ -308,7 +307,7 @@ export default function Response({
           </div>
           <div className={"flex bg-gray-200 my-2 " + (error && "bg-red-600")}>
             <pre
-              className="ml-auto bg-gray-100 p-4 whitespace-break-spaces"
+              className="ml-auto bg-gray-100 overflow-auto no-scrollbar p-4 whitespace-break-spaces"
               style={{ width: "96%" }}
             >
               {error ? (

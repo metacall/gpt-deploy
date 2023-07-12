@@ -16,7 +16,7 @@ function ModalCustom({children, modal ,setModal, title,style}) {
         isOpen={isOpen}
         // onRequestClose={()=>setModal(false)}
         style={{content:{...styles,...style}}}
-        className={'-translate-x-1/2 -translate-y-1/2 outline-none transition-transform '+(modal? 'scale-100': 'scale-0')}
+        className={'-translate-x-1/2 w-full -translate-y-1/2 md:max-w-50 outline-none transition-transform '+(modal? 'scale-100': 'scale-0') }
     >
       <div style={Header} className='bg-slate-300 rounded px-4 rounded-b-none'>
         <div style={h2Style} >{title}</div>

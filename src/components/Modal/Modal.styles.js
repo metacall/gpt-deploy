@@ -1,5 +1,5 @@
 export default Object.freeze({
-    height: "50vh",
+    height: "80vh",
     aspectRatio: "1.4",
     position: "absolute",
     left:"50%",

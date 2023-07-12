@@ -13,7 +13,7 @@ export default function Ask({timestamp, query }) {
                     <FontAwesomeIcon icon={faClock}/>
                 </span>
             </div>
-            <div className='primary-border text-sm min-w-min ml-auto break-all p-4 whitespace-pre-wrap' style={{maxWidth: '40%', padding:''}}>
+            <div className='primary-border text-sm min-w-min ml-auto break-all p-4 whitespace-pre-wrap max-w-full md:max-w-40 '>
                 {query}
             </div>
         </div>

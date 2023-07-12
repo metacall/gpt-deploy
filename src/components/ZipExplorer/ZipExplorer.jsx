@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import DragNDrop from '../DragNDrop/DragNDrop'
 import JSZip from 'jszip';
 import FileExplorer from '../FileExplorer/FileExplorer';
-import TextViewer from '../TextViewer/TextViewer';
+import TextViewer from '../TextViewer/CodeDisplay';
 
 const extractZipFile = async (file) => {
     return new Promise((resolve, reject) => {

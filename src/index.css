@@ -33,11 +33,6 @@ body {
   height: 0;
 }
 
-/* .primary-border {
-  border-radius: 4px;
-  border: 1px solid #C2C2C2;
-} */
-
 .function-variable:focus{
   padding-left: 2px;
   padding-right: 2px;
@@ -49,5 +44,17 @@ body {
   .primary-border {
     border-radius: 4px;
     border: 1px solid #C2C2C2;
+  }
+
+  .max-w-80 {
+    max-width: 80%;
+  }
+  
+  .max-w-40 {
+    max-width: 40%;
+  }
+  
+  .max-w-50{
+    max-width: 50%;
   }
 }

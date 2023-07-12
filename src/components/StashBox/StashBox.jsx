@@ -108,33 +108,17 @@ function StashBox() {
 
   return (
     <React.Fragment>
-      <div className={"h-full w-1/4 primary-border p-2 flex flex-col"}>
-        <div className="text-base flex font-semibold text-gray-600">
-          <span>STASHED FUNCTIONS </span>
-          <div className=" ml-auto flex gap-1 place-items-center">
+        <hr className="my-2"/>
+      <div className={"w-full h-full md:w-1/4 md:mt-0 primary-border p-2 flex flex-col"}>
+        <div className="text-base overflow-auto no-scrollbar text-ellipsis whitespace-nowrap flex font-semibold text-gray-600">
+          <span className="max-w-40 md:max-w-80 grid place-content-center place-items-center items-center">STASHED FUNCTIONS </span>
+          <div className=" ml-auto  flex gap-1 place-items-center bg-white " >
             <FontAwesomeIcon
               icon={faSpinner}
               className={
                 "ml-auto mr-3 animate-spin opacity-0" +
                 (isDeploying ? "opacity-100" : "")
               }
-            />
-            <FontAwesomeIcon
-              icon={faEye}
-              className="ml-auto cursor-pointer"
-              title="view generated file"
-              onClick={() =>{
-                if(collection.length === 0) 
-                  return addError("No stashed functions")
-
-                Bundle(collection).then(([generatedZipBlob])=>{
-                  const generatedZipFile = new File([generatedZipBlob], "Package", {
-                    type: "application/x-zip-compressed",
-                  });
-                  setCreatedZipData(generatedZipFile)
-                  setModel(true)
-                })
-              }}
             />
             <FontAwesomeIcon
               icon={faTrashAlt}
@@ -148,6 +132,23 @@ function StashBox() {
                 })
               }
             />
+              <FontAwesomeIcon
+                icon={faEye}
+                className="ml-auto cursor-pointer"
+                title="view generated file"
+                onClick={() =>{
+                  if(collection.length === 0) 
+                    return addError("No stashed functions")
+  
+                  Bundle(collection).then(([generatedZipBlob])=>{
+                    const generatedZipFile = new File([generatedZipBlob], "Package", {
+                      type: "application/x-zip-compressed",
+                    });
+                    setCreatedZipData(generatedZipFile)
+                    setModel(true)
+                  })
+                }}
+              />
             <FontAwesomeIcon
               icon={faFileZipper}
               className="ml-auto cursor-pointer"
@@ -297,7 +298,7 @@ function StashBox() {
           File Explorer
         </span>
       }
-        style={{'width':'50%', 'height': '70%'}}
+      
         setModal={setModel}
       >
         <div style={{"height":"100%"}}>

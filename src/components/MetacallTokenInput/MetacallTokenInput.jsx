@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useContext} from 'react'
+import React, {useCallback, useContext} from 'react'
 import { faToggleOff, faToggleOn, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { metacallBaseUrl } from '../../constants/URLs'
@@ -15,9 +15,7 @@ function MetacallTokenInput({text, setText, loginByToken, setLoginByToken, place
     const setMetacallTokenByLogin = useCallback(async ()=>{
 
         try{
-            console.log('tokening')
             const token = await captchaRef.current.executeAsync()
-            console.log(token)
             axios.post(metacallBaseUrl + '/login', {
                     email: userName,
                     password: password,

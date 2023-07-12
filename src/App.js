@@ -18,6 +18,7 @@ const client  = new QueryClient({
 })
 
 function App() {
+  console.log(process.env)
   const basename = process.env.PUBLIC_URL;
   return (
     <BrowserRouter basename={basename}>

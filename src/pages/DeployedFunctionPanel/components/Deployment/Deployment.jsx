@@ -9,7 +9,7 @@ import {useSelector} from 'react-redux'
 import { MessageContext } from '../../../../components/MessageStack/MessageStack';
 import protocol from '@metacall/protocol/protocol'
 import { metacallBaseUrl } from '../../../../constants/URLs';
-function Deployment({ onClickFunction,className , funcData, funcUrl}) {
+function Deployment({ onClickFunction,className , funcData, afterRemove}) {
   const {
     METACALL_TOKEN: metacallToken
   } = useSelector(state=> state.env)
@@ -49,7 +49,7 @@ function Deployment({ onClickFunction,className , funcData, funcUrl}) {
                       funcData.suffix
                     ).then(()=>{
                       setRemovingPackage(false)
-                      window.location.reload();
+                      afterRemove()
                       addSuccess( "Undeploying successfully")
                     }).catch((error)=>{
                       setRemovingPackage(false)

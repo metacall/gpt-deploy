@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LoaderSpinner } from '../../components/Loader';
@@ -13,7 +13,25 @@ import Deployment from './components/Deployment/Deployment';
 import Top from './components/Top/Top';
 import { useNavigate } from 'react-router-dom';
 import { setDeployments } from '../../redux/stores/deployments.store';
+import { useDropzone } from 'react-dropzone';
+import protocol, {ResourceType} from '@metacall/protocol/protocol'
+import { metacallBaseUrl } from '../../constants/URLs';
+import { MessageContext } from '../../components/MessageStack/MessageStack';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import JSZip from 'jszip';
+
+const deployStatusEnum = {
+    IDLE: 'idle',
+    PACKAGES: 'getting packages',
+    UPLOADING: 'uploading',
+    DEPLOYING: 'deploying',
+    DEPLOYED: 'deployed',
+    FAILED: 'failed'
+}
+
 function DeployedFunctionPanel() {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { METACALL_TOKEN: metacallToken } = useSelector(state=> state.env)
@@ -30,17 +48,81 @@ function DeployedFunctionPanel() {
     const {inspect, isLoading:isDeploymentsLoading } = useInspect(metacallToken)
     const [fields , setFields] = useState(null);
     const [outputErrorFlag , setOutputErrorFlag] = useState(false);
+    const [deployStatus , setDeployStatus] = useState(deployStatusEnum.IDLE);
+    const metacallApi = protocol(metacallToken, metacallBaseUrl);
+    const {addError, addSuccess} = useContext(MessageContext);
+
     const onClose = useCallback(()=>{
         setIsOpen(false);
         setSelectedIndex(null);
         setSelectedFunc(null);
     },[])
 
+    const  deployZip = useCallback(async (zip) => {
+    
+        setDeployStatus(deployStatusEnum.UPLOADING);
+        try {
+          const prefix = zip.name.replace('.zip', '');
+          setDeployStatus(deployStatusEnum.PACKAGES);
+          const packagesAvailable = await metacallApi.listSubscriptions();
+          const Plans = Object.keys(packagesAvailable)
+          
+          if(Plans.length === 0) 
+            throw new Error('No Plans available');
+
+          const plan = Plans[0];
+          const createData = await metacallApi.upload(prefix, zip);
+          setDeployStatus(deployStatusEnum.DEPLOYING);
+          const env = [];
+          await metacallApi.deploy(createData.id, env, plan, ResourceType.Package);
+          addSuccess(`Deployed ${prefix} at ${plan} successfully`);
+          setDeployStatus(deployStatusEnum.DEPLOYED);
+          callInspect()
+        } catch (err) {
+          addError(err?.response?.data ?? err.message);
+         setDeployStatus(deployStatusEnum.FAILED);
+        }
+
+        setTimeout(() => {
+            setDeployStatus(deployStatusEnum.IDLE);
+            })
+      },[addError, addSuccess, metacallApi]) //eslint-disable-line
+
     const onClickFunction = useCallback((packageNo , funcNo)=>{
         setSelectedIndex([packageNo , funcNo]);
         setIsOpen(true);
     },[])
-     
+
+    const onDrop = useCallback(async (files)=>{
+        if(files.length === 0) return addError('No file selected');
+
+        const zipFirst = files[0];
+        if(zipFirst.type === "application/x-zip-compressed")
+            deployZip(zipFirst);
+        else if (zipFirst.path){
+            const packageName = zipFirst.path.split('/')[1];
+            const zip = new JSZip();
+            files.forEach((file)=>{
+                const filename = file.path.split('/').splice(2).join('/')
+                zip.file(filename , file);
+                })
+
+            zip.generateAsync({type:"blob"}).then((blob)=>{
+                const zip = new File([blob], `${packageName}.zip` , {type: 'application/x-zip-compressed'})
+                // const url = URL.createObjectURL(blob)
+                // let a= document.createElement('a')
+                // a.download = 'testing-zip.zip'
+                // a.href = url
+                // a.click()
+                deployZip(zip);
+            })
+        }
+    },[addError, deployZip])
+
+    const {getRootProps, getInputProps, isDragActive, isDragAccept} = useDropzone({onDrop})
+
+
+
     useEffect(()=>{
         if(selectedIndex === null) return;
 
@@ -56,35 +138,48 @@ function DeployedFunctionPanel() {
         setFuncUrl(`https://api.metacall.io/${funcs[selectedIndex[0]].prefix}/${funcs[selectedIndex[0]].suffix}/v1/call/${currentFunction.name}`);
     },[selectedIndex,funcs ])
 
+    const callInspect = useCallback(()=>{
+        inspect(null , {
+            onSuccess: (data) => {
+                dispatch(setDeployments(data));
+            }
+        });
+    },[inspect, dispatch])
 
     useEffect(()=>{
         if(deployments === null)
-            inspect(null , {
-                onSuccess: (data) => {
-                    dispatch(setDeployments(data));
-                }
-            });
-    },[inspect, setFuncs, deployments, dispatch])
+            callInspect()
+    },[callInspect,deployments])
 
     useEffect(()=>{
         if(deployments === null) return;
         setFuncs(deployments);
     },[deployments])
 
-    
     function getNoDeployment(){
         return (
             <div className={styles.NoDeployment}>
                 <div className={styles.NoDeploymentText }>
                     No Deployments Found
                 </div>
-                <div className={styles.suggestionsAI}>
-                    <span className={styles.try}
-                    >
-                        <Link to = '/'>
-                            Try
-                        </Link>
-                    </span> our intelligent deployment assistant to deploy your functions.
+                <div className={styles.suggestionsAI} >
+                    <div>
+                        <span className={styles.try}
+                        >
+                            <Link to = '/'>
+                                Try 
+                            </Link> 
+                        </span> our intelligent deployment assistant to deploy your functions.
+                    </div>
+                    <div className='text-center text-sm md:text-base md:m-5 md:p-5 cursor-pointer ' {...getRootProps()} style={{border: isDragActive? '5px dashed green':'5px dashed gray'}}>
+                        <input {...getInputProps()} />
+                        {
+                            isDragAccept?
+                             <FontAwesomeIcon icon={faPlus} size='3x' color='green' />
+                            :
+                            <p>Drop folder/zip or Click to deploy package</p>
+                        }
+                    </div>
                 </div>
             </div>
         )
@@ -124,7 +219,7 @@ function DeployedFunctionPanel() {
 
     return (
         <React.Fragment>
-          <LoaderSpinner loading={isDeploymentsLoading} className={styles.LoaderSpinner}/>
+          <LoaderSpinner loading={isDeploymentsLoading && (deployments === null)} className={styles.LoaderSpinner}/>
           {
             !isDeploymentsLoading && funcs.length === 0 
             ? getNoDeployment()
@@ -153,9 +248,18 @@ function DeployedFunctionPanel() {
                     
                     }
                 </RightPanel>
-                    <div className={styles.DeployedFunctionPanel}> 
-                    <div className='mr-auto md:text-3xl whitespace-nowrap md:text-center  text-white font-extrabold  px-6 py-4 rounded'>
-                        Metacall Deployments
+                    <div className={styles.DeployedFunctionPanel} style={{border: isDragActive? '5px dashed gray':'none'}}
+                    {...getRootProps()}
+                    > 
+                    <div className='mr-auto w-full flex md:text-3xl whitespace-nowrap md:text-center  text-white font-extrabold  px-6 py-4 rounded'>
+                        <div >Metacall Deployments</div>
+                        <div className={'ml-auto mr-3  opacity-0 '+(([deployStatusEnum.DEPLOYING, deployStatus.UPLOADING].includes(deployStatus)) ? "opacity-100" : "")}
+                        >
+                            <span> {deployStatus} </span>
+                            <FontAwesomeIcon icon={faSpinner}  className={
+                            " animate-spin " 
+                            
+                        }/> </div>
                     </div>
                     {
                         funcs.map((funcData , packageNo)=>{
@@ -164,6 +268,7 @@ function DeployedFunctionPanel() {
                                     key={packageNo}
                                     funcData={funcData}
                                     onClickFunction={(funcNo)=>onClickFunction(packageNo, funcNo)}
+                                    afterRemove={callInspect}
                                     />
                             )
                         })

@@ -75,7 +75,7 @@ function DeployedFunctionPanel() {
     function getNoDeployment(){
         return (
             <div className={styles.NoDeployment}>
-                <div className={styles.NoDeploymentText}>
+                <div className={styles.NoDeploymentText }>
                     No Deployments Found
                 </div>
                 <div className={styles.suggestionsAI}>
@@ -154,7 +154,7 @@ function DeployedFunctionPanel() {
                     }
                 </RightPanel>
                     <div className={styles.DeployedFunctionPanel}> 
-                    <div className='mr-auto text-3xl text-white font-extrabold  px-6 py-4 rounded'>
+                    <div className='mr-auto md:text-3xl whitespace-nowrap md:text-center  text-white font-extrabold  px-6 py-4 rounded'>
                         Metacall Deployments
                     </div>
                     {

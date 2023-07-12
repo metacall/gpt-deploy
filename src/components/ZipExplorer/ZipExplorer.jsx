@@ -104,7 +104,7 @@ function ZipExplorer({initZip}) {
         }
           <div className='overflow-hidden h-full'>
             <div className='overflow-hidden h-full'>
-            <FileExplorer filesData={filesData} onSelect={onSelect}/>
+            <FileExplorer filesData={filesData} onSelect={onSelect} selectedFile = {textData?.[0]}/>
             </div>
           </div>
       </div>

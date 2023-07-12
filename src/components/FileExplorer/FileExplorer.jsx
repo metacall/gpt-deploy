@@ -75,7 +75,7 @@ const files = Object.keys(fileToData);
                             }
                             {
                             onlyFile.length > 0 && isNotMinimized(onlyFile) &&
-                            <li className='ml-2 whitespace-nowrap py-1 text-sm overflow-auto no-scrollbar active:brightness-110 hover:brightness-110 bg-slate-800 px-2 border-teal-100 first-of-type:rounded-t last-of-type:rounded-b first:mt-1 last:mb-1' style={{"borderBottomWidth":"0.5px" }}>
+                            <li className={'ml-2 whitespace-nowrap py-1 text-sm overflow-auto no-scrollbar active:brightness-125 hover:brightness-110 bg-slate-800 px-2 border-teal-100 first-of-type:rounded-t last-of-type:rounded-b first:mt-1 last:mb-1 border-bottom-vsm' }>
                                 {renderFile(onlyFile)}
                             </li>
                             }

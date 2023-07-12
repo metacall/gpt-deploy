@@ -90,7 +90,11 @@ function CodeBox() {
   }
 
   const handleEnterPress = (event) => {
-    if (event.key === 'Enter') {
+
+    if(!text || !deployable)
+      return 
+
+    if (event.key === 'Enter' ) {
       onSend(text);
     }
   };

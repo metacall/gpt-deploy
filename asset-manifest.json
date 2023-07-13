@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/gpt-deploy/static/css/main.9ccfd7c6.css",
-    "main.js": "/gpt-deploy/static/js/main.1fad35dd.js",
+    "main.css": "/gpt-deploy/static/css/main.1b404c4a.css",
+    "main.js": "/gpt-deploy/static/js/main.e60306e9.js",
     "static/js/787.8631be77.chunk.js": "/gpt-deploy/static/js/787.8631be77.chunk.js",
     "static/media/logo.png": "/gpt-deploy/static/media/logo.f5e264a549e2e391bcb6.png",
     "static/media/logoSmall.png": "/gpt-deploy/static/media/logoSmall.f5e264a549e2e391bcb6.png",
     "static/media/cog.svg": "/gpt-deploy/static/media/cog.6aa85d2ebd08c365a7476b3e02c049b9.svg",
     "static/media/flask.svg": "/gpt-deploy/static/media/flask.c6a6566c8aaac98b26778ba26daa978d.svg",
     "index.html": "/gpt-deploy/index.html",
-    "main.9ccfd7c6.css.map": "/gpt-deploy/static/css/main.9ccfd7c6.css.map",
-    "main.1fad35dd.js.map": "/gpt-deploy/static/js/main.1fad35dd.js.map",
+    "main.1b404c4a.css.map": "/gpt-deploy/static/css/main.1b404c4a.css.map",
+    "main.e60306e9.js.map": "/gpt-deploy/static/js/main.e60306e9.js.map",
     "787.8631be77.chunk.js.map": "/gpt-deploy/static/js/787.8631be77.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9ccfd7c6.css",
-    "static/js/main.1fad35dd.js"
+    "static/css/main.1b404c4a.css",
+    "static/js/main.e60306e9.js"
   ]
 }

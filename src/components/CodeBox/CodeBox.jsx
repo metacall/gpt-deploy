@@ -96,6 +96,8 @@ function CodeBox() {
     if(!deployable){
       function handleEnterPress(event) {
         if (event.key === 'Enter' ) {
+          event.preventDefault();
+          event.stopPropagation();
           saveData();
           setting();
         }

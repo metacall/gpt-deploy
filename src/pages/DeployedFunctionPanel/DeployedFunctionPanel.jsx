@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { setDeployments } from '../../redux/stores/deployments.store';
 import { useDropzone } from 'react-dropzone';
 import protocol, {ResourceType} from '@metacall/protocol/protocol'
-import { metacallBaseUrl } from '../../constants/URLs';
+import { metacallBaseUrl } from '../../constants/env';
 import { MessageContext } from '../../components/MessageStack/MessageStack';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';

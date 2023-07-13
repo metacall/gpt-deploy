@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 import protocol from '@metacall/protocol/protocol'
-import { metacallBaseUrl } from "../constants/URLs"
+import { metacallBaseUrl } from "../constants/env"
 export default function usePLansAvailable(metacallToken){
     async function query(){
         const metacallAPI = protocol(metacallToken, metacallBaseUrl)

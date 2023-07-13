@@ -1,11 +1,11 @@
 import React, {useCallback, useContext} from 'react'
 import { faToggleOff, faToggleOn, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { metacallBaseUrl } from '../../constants/URLs'
+import { metacallBaseUrl } from '../../constants/env'
 import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
 import { MessageContext } from '../MessageStack/MessageStack'
-import { recaptchaSiteKey } from '../../constants/URLs'
+import { recaptchaSiteKey } from '../../constants/env'
 
 function MetacallTokenInput({text, setText, loginByToken, setLoginByToken, placeholder='', className='', ...props}) {
     const [userName, setUserName] = React.useState('')

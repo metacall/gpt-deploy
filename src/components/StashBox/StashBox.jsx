@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import protocol, { ResourceType } from "@metacall/protocol/protocol";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { metacallBaseUrl } from "../../constants/URLs";
+import { metacallBaseUrl } from "../../constants/env";
 import usePLansAvailable from "../../customHooks/usePlansAvailable";
 import { getModel, tableEnum } from "../../models";
 import { setItems } from "../../redux/stores/stashes.store";

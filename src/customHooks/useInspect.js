@@ -1,6 +1,6 @@
 import { useMutation } from "react-query"
 import protocol from '@metacall/protocol/protocol'
-import { metacallBaseUrl } from "../constants/URLs"
+import { metacallBaseUrl } from "../constants/env"
 export default function useInspect(metacallToken){
     async function query(){
         try{

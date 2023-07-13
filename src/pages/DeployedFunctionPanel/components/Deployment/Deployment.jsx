@@ -8,7 +8,7 @@ import logo from './logo.png'
 import {useSelector} from 'react-redux'
 import { MessageContext } from '../../../../components/MessageStack/MessageStack';
 import protocol from '@metacall/protocol/protocol'
-import { metacallBaseUrl } from '../../../../constants/URLs';
+import { metacallBaseUrl } from '../../../../constants/env';
 function Deployment({ onClickFunction,className , funcData, afterRemove}) {
   const {
     METACALL_TOKEN: metacallToken

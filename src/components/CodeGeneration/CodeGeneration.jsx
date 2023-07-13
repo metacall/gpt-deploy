@@ -65,7 +65,7 @@ function CodeGeneration() {
         const element = (
             <React.Fragment key={id}>
                 <Ask query = {prompt} timestamp={metadata.timestamp}/>
-                <Response onLoadComplete={onLoad} lang = {metadata.language ?? 'node'} prompt={prompt} removeResponse={()=>removeItems([id])} collection={collection} setCollection = {setCollection} responseId= {id}/>
+                <Response onLoadComplete={onLoad} lang = {metadata.language ?? 'node'} savedResp = {metadata.response} prompt={prompt} removeResponse={()=>removeItems([id])} collection={collection} setCollection = {setCollection} responseId= {id}/>
             </React.Fragment>
             )
         return element

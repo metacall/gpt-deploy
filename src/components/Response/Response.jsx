@@ -33,6 +33,7 @@ export default function Response({
   removeResponse,
   onLoadComplete,
   responseId,
+  savedResp,
   lang,
 }) {
   const [numDots, setNumDots] = useState(1);
@@ -43,7 +44,7 @@ export default function Response({
   );
   const { stashedKeys } = useSelector((state) => state.stashes);
   const { ask, error, isLoading: loading, isError } = useChatGPTAsker(openAIKey, model, selectedLanguage);
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState(savedResp ?? null);
   const keyValueDB = useRef(getModel(tableEnum.RESPONSES));
   const stashedKeysDB = useRef(getModel(tableEnum.STASHED_KEYS));
   const dispatch = useDispatch();

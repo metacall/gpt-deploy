@@ -1,4 +1,4 @@
-import React,{useState, useContext} from 'react'
+import React,{useState, useContext, useRef, useCallback} from 'react'
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,6 +16,10 @@ import { setPrompts as updatePrompts } from '../../redux/stores/prompts.store';
 import MetacallTokenInput from '../MetacallTokenInput/MetacallTokenInput';
 import { useEffect } from 'react';
 import languageIdToExtensionMapping from '../../constants/languageIdToExtensionMapping'
+import extensionToLanguageId from '../../constants/extensionsToLanguageId';
+import parseCode from '../../backend_logic/controller/function_parser';
+import { useDropzone } from 'react-dropzone';
+import { tableEnum, getModel } from '../../models';
 
 const programmingLanguages = Object.keys(languageIdToExtensionMapping);
 function CodeBox() {
@@ -30,6 +34,7 @@ function CodeBox() {
   } = useSelector(state=> state.env)
   const {addSuccess, addError} = useContext(MessageContext)
   const [options, setOptions] = useState(null)
+  const responseDB = useRef(getModel(tableEnum.RESPONSES))
   const [isOptionLoading , setIsOptionLoading] = useState(false)
   const [deployable, setDeployable] = useState(openAIKey && model && metacallToken)
   const [dataAlreadySet, setDataAlreadySet] = useState(deployable)
@@ -37,7 +42,7 @@ function CodeBox() {
   const [chooseLangIsShown, setChooseLangIsShown] = useState(false)
   const [loginByToken, setLoginByToken] = React.useState(false)
   const {isFullscreen} = useSelector(state=>state.fullscreen)
-  const saveData = ()=>{
+  const saveData = useCallback(()=>{
     const data =`MODEL=${model}
     OPENAI_API_KEY=${openAIKey}
     METACALL_TOKEN=${metacallToken}`
@@ -45,8 +50,9 @@ function CodeBox() {
     localStorage.setItem('env',data)
     setDeployable(true)
     addSuccess('Data saved successfully!')
-  }
-  const setting = ()=>{
+  }, [addSuccess, model, openAIKey, metacallToken]) 
+
+  const setting = useCallback(()=>{
     if(deployable ^ dataAlreadySet){
       setDeployable( false)
       setDataAlreadySet(false)
@@ -54,7 +60,52 @@ function CodeBox() {
       setDeployable(state => !state)
       setDataAlreadySet(state => !state)
     }
+  },[dataAlreadySet, deployable])
+  
+  async function onDrop(acceptedFiles){
+    acceptedFiles = acceptedFiles.filter(file=>file.name.split('.').length === 2)
+    const addPrompt = await Promise.all(acceptedFiles.map(file=>{
+      return new Promise((resolve, reject)=>{
+        const reader = new FileReader()
+        reader.onload = async () => {
+          const text = reader.result;
+          const filename = file.name;
+          const extension = filename.split('.')[1];
+          const language_id = extensionToLanguageId[extension];
+          const response = parseCode(text, language_id);
+          response.language_id = language_id;
+
+          const db = responseDB.current;
+          const promptId = nanoid();
+          await db.add(promptId , response)
+          
+          resolve([filename , promptId, {
+            timestamp : new Date()-0,
+            language: language_id,
+            filename: file.name,
+          }])
+        }
+        reader.readAsText(file)
+    })}))
+    dispatch(updatePrompts([...prompts, ...addPrompt]))
   }
+
+  const {getRootProps, isDragActive} = useDropzone({onDrop})
+
+  useEffect(()=>{
+    if(!deployable){
+      function handleEnterPress(event) {
+        if (event.key === 'Enter' ) {
+          saveData();
+          setting();
+        }
+      }
+      window.addEventListener('keydown', handleEnterPress);
+      return () => {
+        window.removeEventListener('keydown', handleEnterPress);
+      }
+    }
+  },[deployable, saveData, setting])
 
   const retrieveModelOptions = ()=>{
     setIsOptionLoading(true)
@@ -64,8 +115,8 @@ function CodeBox() {
       setOptions(models)
       if(models.length > 0)
         setModel(models[0])
-    })
-    .catch((err)=>{
+      })
+      .catch((err)=>{
       setIsOptionLoading(false)
       // if error stattus code is 401, then the key is invalid
       if(err.response.status === 401)
@@ -158,7 +209,7 @@ function CodeBox() {
         }
         </div>
         <CodeGeneration/>
-        <div className='flex mt-auto flex-row w-full p-2 border border-gray-300 rounded'>
+        <div className={'flex mt-auto flex-row w-full p-2 border border-gray-300 rounded ' + (isDragActive? 'border-dashed border-4':'')} {...getRootProps()}>
           <input type='text' className='flex w-full outline-none mr-2 text-gray-700' value={text} 
               placeholder='Write a function description'
               onChange={(e)=>setText(e.target.value)}

@@ -90,10 +90,13 @@ export default function Response({
           setSelectedLanguage(res?.language_id)
         })
         .catch((err) => {
-          addError(err?.response?.message ?? "Unable to create response");
+          setSelectedLanguage(selectedLanguage)
+          setResponse("Unable to create response")
+          onLoadComplete();
+          setResponse(err?.response?.message ?? "Unable to create response")
         });
     }
-  }, [prompt, addError, onLoadComplete, getResponse]);
+  }, [prompt, addError, onLoadComplete, getResponse, selectedLanguage]);
 
   const regenerateResponse = useCallback(() => {
     const db = keyValueDB.current;
@@ -101,15 +104,21 @@ export default function Response({
       onError: (err) => {
         addError(
           err?.response?.message ??"Failed to regenerate response"
-        );
+          );
+          setResponse("Failed to regenerate response")
+          onLoadComplete();
       },
       onSuccess: (data) => {
         db.add(responseId, data)
           .then(() => setResponse(data))
-          .catch(() => addError("Unable to get response"));
+          .catch(() => {
+            addError("Unable to get response")
+            setResponse("Unable to get response")
+            onLoadComplete();
+          });
       },
     });
-  },[prompt, responseId, addError, ask]);
+  },[prompt, responseId, addError, ask, onLoadComplete]);
 
   useEffect(() => {
     if (!loading) {

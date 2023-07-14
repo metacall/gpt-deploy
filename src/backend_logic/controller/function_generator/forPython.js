@@ -13,7 +13,6 @@ also give the name of the function, parameter, dependencies and return type in t
 -the code will be deployed on faas platform
 -use snake_case for function name
 -do not explain the function
--nothing should 
 -do not explain or comments in function body or outside the function definition body or JSON object
 -entry function name of code should be same as the function name in json
 -only external dependencies must be included and dependencies provided in built by python need not be included 

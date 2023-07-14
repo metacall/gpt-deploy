@@ -32,6 +32,7 @@ function addFolderToZip(collection, zip){
   }
 
   let isMetacallerFileRequired = false;
+  console.log(collection)
   for(let [{name, language_id, function_def, createFunctionRequired = false}] of collection){
     const file = new File([function_def], `${name}.${languageIdToExtensionMapping[language_id]}`,{type: "text/plain"});
     zip.file(file.name, file);

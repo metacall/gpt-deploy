@@ -1,10 +1,10 @@
 import getJSMetadata from './forNode'
+import getPythonMetadata from './forPython'
 
+const languageToAskerMapping = {
+    node: getJSMetadata,
+    python: getPythonMetadata
+}
 export default function parseCode(code, language_id) {
-    switch(language_id){
-        case "node":
-            return getJSMetadata(code);
-        default:
-            return null
-    }
+    return languageToAskerMapping[language_id](code)
 }

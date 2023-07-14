@@ -64,7 +64,7 @@ function CodeGeneration() {
     function getChatReponse([prompt ,id, metadata] ){
         const element = (
             <React.Fragment key={id}>
-                <Ask query = {prompt} timestamp={metadata.timestamp}/>
+                <Ask query = {prompt} isFile={metadata.filename} timestamp={metadata.timestamp}/>
                 <Response onLoadComplete={onLoad} lang = {metadata.language ?? 'node'} savedResp = {metadata.response} prompt={prompt} removeResponse={()=>removeItems([id])} collection={collection} setCollection = {setCollection} responseId= {id}/>
             </React.Fragment>
             )

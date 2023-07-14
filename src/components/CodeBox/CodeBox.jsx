@@ -20,6 +20,7 @@ import extensionToLanguageId from '../../constants/extensionsToLanguageId';
 import parseCode from '../../backend_logic/controller/function_parser';
 import { useDropzone } from 'react-dropzone';
 import { tableEnum, getModel } from '../../models';
+import extensionsToLanguageId from '../../constants/extensionsToLanguageId';
 
 const programmingLanguages = Object.keys(languageIdToExtensionMapping);
 function CodeBox() {
@@ -63,13 +64,15 @@ function CodeBox() {
   },[dataAlreadySet, deployable])
   
   async function onDrop(acceptedFiles){
-    acceptedFiles = acceptedFiles.filter(file=>file.name.split('.').length === 2)
+    const extensionSupported = Object.keys(extensionsToLanguageId)
+    acceptedFiles = acceptedFiles.filter(file=>extensionSupported.includes(file.name.split('.').at(-1)) && !(/node_modules/.test(file.path)))
+    console.log(acceptedFiles)
     const addPrompt = await Promise.all(acceptedFiles.map(file=>{
       return new Promise((resolve, reject)=>{
         const reader = new FileReader()
         reader.onload = async () => {
           const text = reader.result;
-          const filename = file.name;
+          const filename = file.path;
           const extension = filename.split('.')[1];
           const language_id = extensionToLanguageId[extension];
           const response = parseCode(text, language_id);

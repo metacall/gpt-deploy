@@ -72,7 +72,7 @@ export default function getMetadata(code){
     const metadata = {
         function_def: code,
         name: exportedFunction?.[0] ?? null,
-        parameters: exportedFunction[1],
+        parameters: exportedFunction?.[1],
         returns: "any",
         dependencies
     }

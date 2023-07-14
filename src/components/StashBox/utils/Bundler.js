@@ -10,6 +10,7 @@ function generatePackages(collection, extraFiles){
     const language_ids = [...new Set(collection.map(([{language_id}])=>language_id))]
     const separatedCollections = language_ids.map(lang_id => [lang_id, collection.filter(([{language_id}])=>language_id === lang_id)])
     const packageFiles = []
+    console.log(extraFiles)
     for(let [lang_id, colls] of separatedCollections){
         switch(lang_id){
             case 'node':

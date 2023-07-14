@@ -1,6 +1,6 @@
 export function generatePythonRequirementsTXT(collection, extraFiles){
     const dependencies = {}
-    if(extraFiles.includes('metacaller.py')){
+    if(extraFiles?.includes('metacaller.py')){
         dependencies['metacall'] = '0.5.0'
     }
     for(let [funcData] of collection){

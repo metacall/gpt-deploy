@@ -237,12 +237,15 @@ export default function Response({
           className={"primary-border p-4 my-2 overflow-hidden w-full max-w-full md:max-w-80 " + (error && "bg-red-100")}
         >
           <div className="flex text-gray-400 w-full font-thin gap-1 md:gap-4">
+          {
+            !savedResp &&
             <FontAwesomeIcon
               icon={faRefresh}
               className="font-thin font-serif primary-border p-1 cursor-pointer active:scale-110"
               title="regenerate"
               onClick={regenerateResponse}
             />
+          }
             {response?.function_def && (
               <FontAwesomeIcon
                 icon={faCopy}

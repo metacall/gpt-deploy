@@ -13,10 +13,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v4
 
             -   name: Setup Node.js
-                uses: actions/setup-node@v1
+                uses: actions/setup-node@v4
                 with:
                     node-version: 16.17.0
             
@@ -27,7 +27,7 @@ jobs:
                 run: npm run build
             
             -   name: Deploy
-                uses: JamesIves/github-pages-deploy-action@4.1.1
+                uses: JamesIves/github-pages-deploy-action@4.6.3
                 if: startsWith(github.ref, 'refs/tags/')
                 with:
                     branch: gh-pages
